@@ -346,29 +346,34 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         debug("propertyChange: " + propertyName);
 
         if (source == help) {
-            if (propertyName.equals("helpModel")) {
-                rebuild();
-            } else if (propertyName.equals("font")) {
-                debug("Font change");
-                Font newFont = (Font)event.getNewValue();
-                help.getContentViewer().setFont(newFont);
-                help.getContentViewer().invalidate();
-                Enumeration entries = help.getHelpNavigators();
-                while (entries.hasMoreElements()) {
-                    JHelpNavigator nav = (JHelpNavigator)entries.nextElement();
-                    nav.setFont(newFont);
-                }
-            } else if (propertyName.equals("navigatorDisplayed")) {
-		boolean display = ((Boolean)event.getNewValue()).booleanValue();
-		if (display) {
-		    // assume we're not displayed
-		    help.add("Center", splitPane);
-		} else {
-		    help.add("Center", help.getContentViewer());
-		}
-            } else if (propertyName.equals("toolbarDisplayed")) {
-		toolbar.setVisible(((Boolean)event.getNewValue()).booleanValue());
-	    }
+            switch (propertyName) {
+                case "helpModel":
+                    rebuild();
+                    break;
+                case "font":
+                    debug("Font change");
+                    Font newFont = (Font)event.getNewValue();
+                    help.getContentViewer().setFont(newFont);
+                    help.getContentViewer().invalidate();
+                    Enumeration entries = help.getHelpNavigators();
+                    while (entries.hasMoreElements()) {
+                        JHelpNavigator nav = (JHelpNavigator)entries.nextElement();
+                        nav.setFont(newFont);
+                    }   break;
+                case "navigatorDisplayed":
+                    boolean display = ((Boolean)event.getNewValue()).booleanValue();
+                    if (display) {
+                        // assume we're not displayed
+                        help.add("Center", splitPane);
+                    } else {
+                        help.add("Center", help.getContentViewer());
+                    }   break;
+                case "toolbarDisplayed":
+                    toolbar.setVisible(((Boolean)event.getNewValue()).booleanValue());
+                    break;
+                default:
+                    break;
+            }
         }
         
     }

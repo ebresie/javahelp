@@ -757,21 +757,28 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 
 	if (event.getSource() == toc) {
 	    String changeName = event.getPropertyName();
-	    if (changeName.equals("helpModel")) {
-                reloadData((HelpModel)event.getNewValue());             
-      	    } else  if (changeName.equals("font")) {
-		debug ("Font change");
-		Font newFont = (Font)event.getNewValue();
-		tree.setFont(newFont);
-		RepaintManager.currentManager(tree).markCompletelyDirty(tree);
-            } else if(changeName.equals("expand")){
-                debug("Expand change");
-                expand((String)event.getNewValue());
-            } else if(changeName.equals("collapse")){
-                debug("Collapse change");
-                collapse((String)event.getNewValue());
+            switch (changeName) {
+                case "helpModel":
+                    reloadData((HelpModel)event.getNewValue());
+                    break;
+            // changes to UI property?
+                case "font":
+                    debug ("Font change");
+                    Font newFont = (Font)event.getNewValue();
+                    tree.setFont(newFont);
+                    RepaintManager.currentManager(tree).markCompletelyDirty(tree);
+                    break;
+                case "expand":
+                    debug("Expand change");
+                    expand((String)event.getNewValue());
+                    break;
+                case "collapse":
+                    debug("Collapse change");
+                    collapse((String)event.getNewValue());
+                    break;
+                default:
+                    break;
             }
-	    // changes to UI property?
 	}
         
     }

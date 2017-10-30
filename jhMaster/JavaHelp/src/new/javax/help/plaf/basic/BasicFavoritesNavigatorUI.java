@@ -776,27 +776,33 @@ PropertyChangeListener, TreeModelListener, Serializable {
         
         if (event.getSource() == favorites) {
             String changeName = event.getPropertyName();
-            if (changeName.equals("helpModel")) {
-                debug("model changed");
-                reloadData();
-                
-            } else  if (changeName.equals("font")) {
-                debug("Font change");
-                Font newFont = (Font)event.getNewValue();
-                tree.setFont(newFont);
-                RepaintManager.currentManager(tree).markCompletelyDirty(tree);
-            } else if(changeName.equals("expand")){
-                debug("Expand change");
-                expand((String)event.getNewValue());
-            } else if(changeName.equals("collapse")){
-                debug("Collapse change");
-                collapse((String)event.getNewValue());
-            } else if(changeName.equals("navigatorChange")){
-                debug("Navigator change");
-                tree.clearSelection();
-            }
-            
+            switch (changeName) {
+                case "helpModel":
+                    debug("model changed");
+                    reloadData();
+                    break;
             // changes to UI property?
+                case "font":
+                    debug("Font change");
+                    Font newFont = (Font)event.getNewValue();
+                    tree.setFont(newFont);
+                    RepaintManager.currentManager(tree).markCompletelyDirty(tree);
+                    break;
+                case "expand":
+                    debug("Expand change");
+                    expand((String)event.getNewValue());
+                    break;
+                case "collapse":
+                    debug("Collapse change");
+                    collapse((String)event.getNewValue());
+                    break;
+                case "navigatorChange":
+                    debug("Navigator change");
+                    tree.clearSelection();
+                    break;
+                default:
+                    break;
+            }
             
         }else if (favorites != null){
             if (event.getSource() == favorites.getModel()) {

@@ -124,16 +124,21 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	debug("installLookAndFeelDefaults - " + lnf);
 
         if ((lnf != null) && (table != null)) {
-	    if (lnf.getID().equals("Motif")) {
-		installMotifDefaults(table);
-	    } else if (lnf.getID().equals("Windows")) {
-		installWindowsDefaults(table);
-	    } else if (lnf.getID().equals("GTK")) {
-		installGTKDefaults(table);
-	    } else {
-		// Default
-		installMetalDefaults(table);
-	    }
+            switch (lnf.getID()) {
+                case "Motif":
+                    installMotifDefaults(table);
+                    break;
+                case "Windows":
+                    installWindowsDefaults(table);
+                    break;
+                case "GTK":
+                    installGTKDefaults(table);
+                    break;
+                default:
+                    // Default
+                    installMetalDefaults(table);
+                    break;
+            }
 	}
 	debug ("verifing UIDefaults; HelpUI=" + table.getString("HelpUI"));
 

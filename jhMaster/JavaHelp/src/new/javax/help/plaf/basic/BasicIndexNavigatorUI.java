@@ -757,24 +757,31 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 
 	if (event.getSource() == index) {
 	    String changeName = event.getPropertyName();
-	    if (changeName.equals("helpModel")) {
-                debug("model changed");
-		reloadData((HelpModel)event.getNewValue());
-            } else  if (changeName.equals("font")) {
-		debug ("Font change");
-		Font newFont = (Font)event.getNewValue();
-		searchField.setFont(newFont);
-		RepaintManager.currentManager(searchField).markCompletelyDirty(searchField);
-		tree.setFont(newFont);
-		RepaintManager.currentManager(tree).markCompletelyDirty(tree);
-	    } else if(changeName.equals("expand")){
-                debug("Expand change");
-                expand((String)event.getNewValue());
-            } else if(changeName.equals("collapse")){
-                debug("Collapse change");
-                collapse((String)event.getNewValue());
+            switch (changeName) {
+                case "helpModel":
+                    debug("model changed");
+                    reloadData((HelpModel)event.getNewValue());
+                    break;
+            // changes to UI property?
+                case "font":
+                    debug ("Font change");
+                    Font newFont = (Font)event.getNewValue();
+                    searchField.setFont(newFont);
+                    RepaintManager.currentManager(searchField).markCompletelyDirty(searchField);
+                    tree.setFont(newFont);
+                    RepaintManager.currentManager(tree).markCompletelyDirty(tree);
+                    break;
+                case "expand":
+                    debug("Expand change");
+                    expand((String)event.getNewValue());
+                    break;
+                case "collapse":
+                    debug("Collapse change");
+                    collapse((String)event.getNewValue());
+                    break;
+                default:
+                    break;
             }
-	    // changes to UI property?
 	}
     }
 

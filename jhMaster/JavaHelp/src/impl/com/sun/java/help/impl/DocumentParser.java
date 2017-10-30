@@ -362,52 +362,53 @@ public abstract class DocumentParser {
 	String publicId = null;
 	String systemId = null;
 
-	if (name.equals("SYSTEM")) {
-	    c = skipWhite(c);
-
-	    offset = buffer.length();
-	    c = scanQuotedString(c);
-	    systemId = buffer.extract(offset);
-
-	    doctype(root, null, systemId);
-
-	    if (c != DocPConst.RANGLE) {
-		findCloseAngleForComment(c);
-	    }
-	    buffer.clear();
-	    return readChar();
-	} else if (name.equals("PUBLIC")) {
-	    c = skipWhite(c);
-
-	    offset = buffer.length();
-	    c = scanQuotedString(c);
-	    publicId = buffer.extract(offset);
-
-	    c = skipWhite(c);
-
-	    offset = buffer.length();
-	    c = scanQuotedString(c);
-	    systemId = buffer.extract(offset);
-
-	    doctype(root, publicId, systemId);
-
-	    if (c != DocPConst.RANGLE) {
-		findCloseAngleForComment(c);
-	    }
-	    buffer.clear();
-	    return readChar();
-	} else {
-	    // we ignore this; altough it is likely an internal DTD subset
-	    if (c != DocPConst.RANGLE) {
-		findCloseAngleForComment(c);
-	    }
-	    findCloseAngleForComment(c);
-
-	    doctype(root, null, null);
-
-	    buffer.clear();
-	    return readChar();
-	}
+        switch (name) {
+            case "SYSTEM":
+                c = skipWhite(c);
+                
+                offset = buffer.length();
+                c = scanQuotedString(c);
+                systemId = buffer.extract(offset);
+                
+                doctype(root, null, systemId);
+                
+                if (c != DocPConst.RANGLE) {
+                    findCloseAngleForComment(c);
+                }
+                buffer.clear();
+                return readChar();
+            case "PUBLIC":
+                c = skipWhite(c);
+                
+                offset = buffer.length();
+                c = scanQuotedString(c);
+                publicId = buffer.extract(offset);
+                
+                c = skipWhite(c);
+                
+                offset = buffer.length();
+                c = scanQuotedString(c);
+                systemId = buffer.extract(offset);
+                
+                doctype(root, publicId, systemId);
+                
+                if (c != DocPConst.RANGLE) {
+                    findCloseAngleForComment(c);
+                }
+                buffer.clear();
+                return readChar();
+            default:
+                // we ignore this; altough it is likely an internal DTD subset
+                if (c != DocPConst.RANGLE) {
+                    findCloseAngleForComment(c);
+                }
+                findCloseAngleForComment(c);
+                
+                doctype(root, null, null);
+                
+                buffer.clear();
+                return readChar();
+        }
     }
 
 

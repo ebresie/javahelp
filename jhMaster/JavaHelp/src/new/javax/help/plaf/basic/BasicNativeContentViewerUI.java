@@ -209,33 +209,37 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         
         if (event.getSource() == theViewer) {
             String changeName = event.getPropertyName();
-            if (changeName.equals("helpModel")) {
-                TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
-                TextHelpModel newModel = (TextHelpModel) event.getNewValue();
-                if (oldModel != null) {
-                    oldModel.removeHelpModelListener(this);
-                    oldModel.removeTextHelpModelListener(this);
-                }
-                if (newModel != null) {
-                    newModel.addHelpModelListener(this);
-                    newModel.addTextHelpModelListener(this);
-                }
-                rebuild();
-            } else if (changeName.equals("font")) {
-                debug("font changed");
-                Font newFont = (Font)event.getNewValue();
-		/**
-		 * ~~
-		 * Put font change handling code here
-		 */
-            }else if (changeName.equals("clear")) {
-		/**
-		 * html future additions
-		 * do not know how to do this at the current time
-		 */
-                // a~~ html.setText("");
-            }else if (changeName.equals("reload")) {
-		html.refresh();
+            switch (changeName) {
+                case "helpModel":
+                    TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
+                    TextHelpModel newModel = (TextHelpModel) event.getNewValue();
+                    if (oldModel != null) {
+                        oldModel.removeHelpModelListener(this);
+                        oldModel.removeTextHelpModelListener(this);
+                    }   if (newModel != null) {
+                        newModel.addHelpModelListener(this);
+                        newModel.addTextHelpModelListener(this);
+                    }   rebuild();
+                    break;
+                case "font":
+                    debug("font changed");
+                    Font newFont = (Font)event.getNewValue();
+                    /**
+                     * ~~
+                     * Put font change handling code here
+                     */ break;
+            /**
+             * html future additions
+             * do not know how to do this at the current time
+             */
+            // a~~ html.setText("");
+                case "clear":
+                    break;
+                case "reload":
+                    html.refresh();
+                    break;
+                default:
+                    break;
             }
         }
     }

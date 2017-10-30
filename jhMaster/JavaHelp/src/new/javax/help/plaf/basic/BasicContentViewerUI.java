@@ -281,61 +281,64 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         
         if (event.getSource() == theViewer) {
             String changeName = event.getPropertyName();
-            if (changeName.equals("helpModel")) {
-                TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
-                TextHelpModel newModel = (TextHelpModel) event.getNewValue();
-                if (oldModel != null) {
-                    oldModel.removeHelpModelListener(this);
-                    oldModel.removeTextHelpModelListener(this);
-                }
-                if (newModel != null) {
-                    newModel.addHelpModelListener(this);
-                    newModel.addTextHelpModelListener(this);
-                }
-                rebuild();
-            } else if (changeName.equals("font")) {
-                debug("font changed");
-                Font newFont = (Font)event.getNewValue();
-                EditorKit ek = html.getEditorKit();
-                if (ek instanceof HTMLEditorKit) {
-                    
-                    StringBuffer buf = new StringBuffer(60);
-                    buf.append("body { font: ");
-                    buf.append(newFont.getSize()).append("pt ");
-                    if (newFont.isBold()) {
-                        buf.append("bold ");
-                    }
-                    if (newFont.isItalic()) {
-                        buf.append("italic ");
-                    }
-                    buf.append('"').append(newFont.getFamily()).append('"');
-                    buf.append(" }");
-                    String cssData = buf.toString();
+            switch (changeName) {
+                case "helpModel":
+                    TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
+                    TextHelpModel newModel = (TextHelpModel) event.getNewValue();
+                    if (oldModel != null) {
+                        oldModel.removeHelpModelListener(this);
+                        oldModel.removeTextHelpModelListener(this);
+                    }   if (newModel != null) {
+                        newModel.addHelpModelListener(this);
+                        newModel.addTextHelpModelListener(this);
+                    }   rebuild();
+                    break;
+                case "font":
+                    debug("font changed");
+                    Font newFont = (Font)event.getNewValue();
+                    EditorKit ek = html.getEditorKit();
+                    if (ek instanceof HTMLEditorKit) {
                         
-                    StyleSheet styleSheet;
-                    
-                    /* Update the default style sheet: */
-                    styleSheet = ((HTMLEditorKit) ek).getStyleSheet();
-                    styleSheet.addRule(cssData);
-                    
-                    /*
-                     * Update the current document's style sheet, thus forcing
-                     * the view to be refreshed:
-                     */
-                    styleSheet = ((HTMLDocument) html.getDocument()).getStyleSheet();
-                    styleSheet.addRule(cssData);
-                }
-            }else if (changeName.equals("clear")) {
-                html.setText("");
-            }else if (changeName.equals("reload")) {
-		URL url = html.getPage();
-		if (url != null) {
-		    try {
-			html.setPage(url);
-		    } catch (IOException ex) {
-			// just igonore it
-		    }
-		}
+                        StringBuffer buf = new StringBuffer(60);
+                        buf.append("body { font: ");
+                        buf.append(newFont.getSize()).append("pt ");
+                        if (newFont.isBold()) {
+                            buf.append("bold ");
+                        }
+                        if (newFont.isItalic()) {
+                            buf.append("italic ");
+                        }
+                        buf.append('"').append(newFont.getFamily()).append('"');
+                        buf.append(" }");
+                        String cssData = buf.toString();
+                        
+                        StyleSheet styleSheet;
+                        
+                        /* Update the default style sheet: */
+                        styleSheet = ((HTMLEditorKit) ek).getStyleSheet();
+                        styleSheet.addRule(cssData);
+                        
+                        /*
+                        * Update the current document's style sheet, thus forcing
+                        * the view to be refreshed:
+                        */
+                        styleSheet = ((HTMLDocument) html.getDocument()).getStyleSheet();
+                        styleSheet.addRule(cssData);
+                    }   break;
+                case "clear":
+                    html.setText("");
+                    break;
+                case "reload":
+                    URL url = html.getPage();
+                    if (url != null) {
+                        try {
+                            html.setPage(url);
+                        } catch (IOException ex) {
+                            // just igonore it
+                        }
+                    }   break;
+                default:
+                    break;
             }
         } else if (event.getSource() == html) {
             String changeName = event.getPropertyName();

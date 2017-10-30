@@ -160,12 +160,19 @@ class BtreeDictParameters extends BlockManagerParameters
     while (tokens.hasMoreTokens())
       {
 	String token = tokens.nextToken();
-	if (token.equals("bs"))
-	  blockSize = Integer.parseInt(tokens.nextToken());
-	else if (token.equals("rt"))
-	  rootPosition = Integer.parseInt(tokens.nextToken());
-	else if (token.equals("id1"))
-	  freeID = Integer.parseInt(tokens.nextToken());
+        switch (token) {
+            case "bs":
+                blockSize = Integer.parseInt(tokens.nextToken());
+                break;
+            case "rt":
+                rootPosition = Integer.parseInt(tokens.nextToken());
+                break;
+            case "id1":
+                freeID = Integer.parseInt(tokens.nextToken());
+                break;
+            default:
+                break;
+        }
       }
 
     if (hsBase != null) {

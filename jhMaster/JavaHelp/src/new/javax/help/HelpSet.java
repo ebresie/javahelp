@@ -1398,326 +1398,328 @@ public class HelpSet implements Serializable{
 	    // Get the parents name
 	    le = (LangElement) tagStack.peek();
 	    String pname = ((Tag) le.getTag()).name; // the parent
-
-	    if (name.equals("title")) {
-		// TITLE tag
-		if (tag.isEnd) {
-		    removeTag(tag);		// processing was done in textFound()
-		} else {
-		    if ((! pname.equals("helpset")) &&
-			(! pname.equals("presentation"))){
-			wrongParent(name, pname);
-		    }
- 		    if (! locale.equals(defaultLocale) &&
-			! locale.equals(myHSLocale)) {
-			wrongLocale(locale, defaultLocale, myHSLocale);
-		    }
-		    addTag(tag, locale);
-		}
-	    } else if (name.equals("homeID")) {
-		// HOMEID tags
-		if (tag.isEnd) {
-		    removeTag(tag);		// processing was done in textFound()
-		} else {
-		    if (! pname.equals("maps")) {
-			wrongParent(name, pname);
-		    }
-		    addTag(tag, locale);
-		}
-	    } else if (name.equals("mapref")) {
-		// MAPREF tags
-
-		// Remove from stack if an empty tag
-		if (tag.isEnd && !tag.isEmpty) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("maps")) {
-			wrongParent(name, pname);
-		    }
-		    // add the tag if not an empty tag
-		    if (! tag.isEmpty) {
-			addTag(tag, locale);
-		    }
-		    // Process the tag
-		    factory.processMapRef(myHS,
-					  ht);
-		}
-	    } else if (name.equals("data")) {
-		// DATA tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("view")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		    htData = ht;
-		}
-	    } else if (name.equals("name") ||
-		       name.equals("type") ||
-		       name.equals("image")){                           
-		// NAME, TYPE, IMAGE tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-		} else {
-		    if ((! pname.equals("view")) && 
-			(! pname.equals("presentation"))) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("label")) {
-		// LABEL tag
-		// Special processing to check the locale attribute.
-		if (tag.isEnd) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("view")) {
-			wrongParent(name, pname);
-		    } else {
-			if (! locale.equals(defaultLocale) &&
-			    ! locale.equals(myHSLocale)) {
-			    wrongLocale(locale, defaultLocale, myHSLocale);
-			}
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("view")) {
-		// VIEW tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-
-                    if (tagImage != null) {
-                        if (htData == null) {
-                            htData = new Hashtable();
-			}
-                        htData.put("imageID", tagImage);
-                    }
+            switch (name) {
+                case "title":
+                    // TITLE tag
+                    if (tag.isEnd) {
+                        removeTag(tag);		// processing was done in textFound()
+                    } else {
+                        if ((! pname.equals("helpset")) &&
+                                (! pname.equals("presentation"))){
+                            wrongParent(name, pname);
+                        }
+                        if (! locale.equals(defaultLocale) &&
+                                ! locale.equals(myHSLocale)) {
+                            wrongLocale(locale, defaultLocale, myHSLocale);
+                        }
+                        addTag(tag, locale);
+                    }   break;
+                case "homeID":
+                    // HOMEID tags
+                    if (tag.isEnd) {
+                        removeTag(tag);		// processing was done in textFound()
+                    } else {
+                        if (! pname.equals("maps")) {
+                            wrongParent(name, pname);
+                        }
+                        addTag(tag, locale);
+                    }   break;
+                case "mapref":
+                    // MAPREF tags
                     
-                    if (viewMergeType != null) {
-                        if(htData == null) {
-                            htData = new Hashtable();
-			}
-                        htData.put("mergetype",viewMergeType);
-                    }
-
-		    factory.processView(myHS,
-					tagName,
-					viewLabel,
-					viewType,
-					ht,
-					viewData,
-					htData,
-					locale);
-                    tagName = null;
-                    viewLabel = null;
-                    viewType = null;
-                    tagImage = null;
-                    viewData = null;
-                    htData = null;
-                    viewMergeType = null;
-
-		} else {
-		    if (! pname.equals("helpset")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("presentation")) {
-		// Presentation tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-
-		    factory.processPresentation(myHS,
-						tagName,
-						defaultPresentation,
-						displayViews,
-						displayViewImages,
-						size,
-						location,
-						presentationTitle,
-						tagImage,
-						toolbar,
-						helpActions);
-
-                    tagName = null;
-                    defaultPresentation = false;
-                    displayViews = true;
-                    displayViewImages = true;
-                    size = null;
-                    location = null;
-                    presentationTitle = null;
-		    tagImage = null;
-		    toolbar = false;
-		    helpActions = null;
-
-		} else {
-		    if (! pname.equals("helpset")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("size")) {
-		// DATA tag
-		if (tag.isEnd) {
-		    if (size == null) {
-			size = new Dimension(width, height);
-		    } else {
-			size.setSize(width, height);
-		    }
-		    width = 0;
-		    height = 0;
-		    if (!tag.isEmpty) {
-			removeTag(tag);
-		    }
-		} else {
-		    if (! pname.equals("presentation")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-			size = new Dimension();
-		    }
-		}
-	    } else if (name.equals("location")) {
-		// DATA tag
-		if (tag.isEnd) {
-		    if (location == null) {
-			location = new Point(x, y);
-		    } else {
-			location.setLocation(x, y);
-		    }
-		    x = 0;
-		    y = 0;
-		    if (!tag.isEmpty) {
-			removeTag(tag);
-		    }
-		} else {
-		    if (! pname.equals("presentation")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-			location = new Point();
-		    }
-		}
-	    } else if (name.equals("toolbar")) {
-		// DATA tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("presentation")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-			helpActions = new Vector();
-			toolbar = true;
-		    }
-		}
-	    } else if (name.equals("helpaction")) {
-		// DATA tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-		    if (helpAction != null) {
-			Hashtable tmp = new Hashtable();		      
-			helpActions.add(new HelpSetFactory.HelpAction(helpAction, tmp));
-			if (helpActionImage != null) {
-			    tmp.put("image", helpActionImage);
-			    helpActionImage = null;
-			}
-			helpAction = null;
-		    }
-		} else {
-		    if (! pname.equals("toolbar")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("maps")) {
-		// MAPS tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("helpset")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("subhelpset")) {
-		// SUBHELPSET tag
-		
-		// Remove from stack if an empty tag
-		if (tag.isEnd && !tag.isEmpty) {
-		    removeTag(tag);
-		} else {
-		    // Add the tag if it isn't an inline tag
-		    if (!tag.isEmpty) {
-			addTag(tag, locale);
-		    }
-		    // Process the tag
-		    factory.processSubHelpSet(myHS, ht);
-		}
-	    } else if (name.equals("impl")) {
-		// Presentation tag
-		if (tag.isEnd) {
-		    removeTag(tag);
-		    // Nothing to do here. Everything is done while
-		    // processing the sub tags
-		} else {
-		    if (! pname.equals("helpset")) {
-			wrongParent(name, pname);
-		    } else {
-			addTag(tag, locale);
-		    }
-		}
-	    } else if (name.equals("helpsetregistry")) {
-		if (tag.isEnd && !tag.isEmpty) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("impl")) {
-			wrongParent(name, pname);
-		    } else {
-			if (!tag.isEnd) {
-			    addTag(tag, locale);
-			}
-			if (attr != null) {
-			    String hbClass = attr.getProperty("helpbrokerclass");
-			    if (hbClass != null) {
-				myHS.setKeyData(implRegistry,
-						helpBrokerClass, 
-						hbClass);
-			    }
-			}
-		    }
-		}
-	    } else if (name.equals("viewerregistry")) {
-		if (tag.isEnd && !tag.isEmpty) {
-		    removeTag(tag);
-		} else {
-		    if (! pname.equals("impl")) {
-			wrongParent(name, pname);
-		    } else {
-			if (!tag.isEnd) {
-			    addTag(tag, locale);
-			}
-			if (attr != null) {
-			    String viewerType = attr.getProperty("viewertype");
-			    String viewerClass = attr.getProperty("viewerclass");
-			    if (viewerType != null && viewerClass != null) {
-				ClassLoader cl = HelpSet.class.getClassLoader();
-				myHS.setKeyData(kitTypeRegistry,
-						viewerType, viewerClass);
-				myHS.setKeyData(kitLoaderRegistry,
-						viewerType, cl);
-			    }
-			}
-		    }
-		}
-	    }
+                    // Remove from stack if an empty tag
+                    if (tag.isEnd && !tag.isEmpty) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("maps")) {
+                            wrongParent(name, pname);
+                        }
+                        // add the tag if not an empty tag
+                        if (! tag.isEmpty) {
+                            addTag(tag, locale);
+                        }
+                        // Process the tag
+                        factory.processMapRef(myHS,
+                                ht);
+                    }   break;
+                case "data":
+                    // DATA tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("view")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                        htData = ht;
+                    }   break;
+                case "name":
+                case "type":
+                case "image":
+                    // NAME, TYPE, IMAGE tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                    } else {
+                        if ((! pname.equals("view")) &&
+                                (! pname.equals("presentation"))) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "label":
+                    // LABEL tag
+                    // Special processing to check the locale attribute.
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("view")) {
+                            wrongParent(name, pname);
+                        } else {
+                            if (! locale.equals(defaultLocale) &&
+                                    ! locale.equals(myHSLocale)) {
+                                wrongLocale(locale, defaultLocale, myHSLocale);
+                            }
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "view":
+                    // VIEW tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                        
+                        if (tagImage != null) {
+                            if (htData == null) {
+                                htData = new Hashtable();
+                            }
+                            htData.put("imageID", tagImage);
+                        }
+                        
+                        if (viewMergeType != null) {
+                            if(htData == null) {
+                                htData = new Hashtable();
+                            }
+                            htData.put("mergetype",viewMergeType);
+                        }
+                        
+                        factory.processView(myHS,
+                                tagName,
+                                viewLabel,
+                                viewType,
+                                ht,
+                                viewData,
+                                htData,
+                                locale);
+                        tagName = null;
+                        viewLabel = null;
+                        viewType = null;
+                        tagImage = null;
+                        viewData = null;
+                        htData = null;
+                        viewMergeType = null;
+                        
+                    } else {
+                        if (! pname.equals("helpset")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "presentation":
+                    // Presentation tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                        
+                        factory.processPresentation(myHS,
+                                tagName,
+                                defaultPresentation,
+                                displayViews,
+                                displayViewImages,
+                                size,
+                                location,
+                                presentationTitle,
+                                tagImage,
+                                toolbar,
+                                helpActions);
+                        
+                        tagName = null;
+                        defaultPresentation = false;
+                        displayViews = true;
+                        displayViewImages = true;
+                        size = null;
+                        location = null;
+                        presentationTitle = null;
+                        tagImage = null;
+                        toolbar = false;
+                        helpActions = null;
+                        
+                    } else {
+                        if (! pname.equals("helpset")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "size":
+                    // DATA tag
+                    if (tag.isEnd) {
+                        if (size == null) {
+                            size = new Dimension(width, height);
+                        } else {
+                            size.setSize(width, height);
+                        }
+                        width = 0;
+                        height = 0;
+                        if (!tag.isEmpty) {
+                            removeTag(tag);
+                        }
+                    } else {
+                        if (! pname.equals("presentation")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                            size = new Dimension();
+                        }
+                    }   break;
+                case "location":
+                    // DATA tag
+                    if (tag.isEnd) {
+                        if (location == null) {
+                            location = new Point(x, y);
+                        } else {
+                            location.setLocation(x, y);
+                        }
+                        x = 0;
+                        y = 0;
+                        if (!tag.isEmpty) {
+                            removeTag(tag);
+                        }
+                    } else {
+                        if (! pname.equals("presentation")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                            location = new Point();
+                        }
+                    }   break;
+                case "toolbar":
+                    // DATA tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("presentation")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                            helpActions = new Vector();
+                            toolbar = true;
+                        }
+                    }   break;
+                case "helpaction":
+                    // DATA tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                        if (helpAction != null) {
+                            Hashtable tmp = new Hashtable();
+                            helpActions.add(new HelpSetFactory.HelpAction(helpAction, tmp));
+                            if (helpActionImage != null) {
+                                tmp.put("image", helpActionImage);
+                                helpActionImage = null;
+                            }
+                            helpAction = null;
+                        }
+                    } else {
+                        if (! pname.equals("toolbar")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "maps":
+                    // MAPS tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("helpset")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "subhelpset":
+                    // SUBHELPSET tag
+                    
+                    // Remove from stack if an empty tag
+                    if (tag.isEnd && !tag.isEmpty) {
+                        removeTag(tag);
+                    } else {
+                        // Add the tag if it isn't an inline tag
+                        if (!tag.isEmpty) {
+                            addTag(tag, locale);
+                        }
+                        // Process the tag
+                        factory.processSubHelpSet(myHS, ht);
+                    }   break;
+                case "impl":
+                    // Presentation tag
+                    if (tag.isEnd) {
+                        removeTag(tag);
+                        // Nothing to do here. Everything is done while
+                        // processing the sub tags
+                    } else {
+                        if (! pname.equals("helpset")) {
+                            wrongParent(name, pname);
+                        } else {
+                            addTag(tag, locale);
+                        }
+                    }   break;
+                case "helpsetregistry":
+                    if (tag.isEnd && !tag.isEmpty) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("impl")) {
+                            wrongParent(name, pname);
+                        } else {
+                            if (!tag.isEnd) {
+                                addTag(tag, locale);
+                            }
+                            if (attr != null) {
+                                String hbClass = attr.getProperty("helpbrokerclass");
+                                if (hbClass != null) {
+                                    myHS.setKeyData(implRegistry,
+                                            helpBrokerClass,
+                                            hbClass);
+                                }
+                            }
+                        }
+                    }   break;
+                case "viewerregistry":
+                    if (tag.isEnd && !tag.isEmpty) {
+                        removeTag(tag);
+                    } else {
+                        if (! pname.equals("impl")) {
+                            wrongParent(name, pname);
+                        } else {
+                            if (!tag.isEnd) {
+                                addTag(tag, locale);
+                            }
+                            if (attr != null) {
+                                String viewerType = attr.getProperty("viewertype");
+                                String viewerClass = attr.getProperty("viewerclass");
+                                if (viewerType != null && viewerClass != null) {
+                                    ClassLoader cl = HelpSet.class.getClassLoader();
+                                    myHS.setKeyData(kitTypeRegistry,
+                                            viewerType, viewerClass);
+                                    myHS.setKeyData(kitLoaderRegistry,
+                                            viewerType, cl);
+                                }
+                            }
+                        }
+                    }   break;
+                default:
+                    break;
+            }
 	}
 
         @Override
@@ -1763,46 +1765,61 @@ public class HelpSet implements Serializable{
 		pname = ((Tag) le.getTag()).name; // the parent
 	    }
 
-	    if (name.equals("title")) {
-		// TITLE tag
-		if (pname.equals("helpset")) {
-		    factory.processTitle(myHS, text);
-		} else {
-		    presentationTitle = text.trim();
-		}
-	    } else if (name.equals("homeID")) {
-		// HOMEID tag
-		factory.processHomeID(myHS, text);
-	    } else if (name.equals("mapref")) {
-		checkNull("mapref", text);
-	    } else if (name.equals("subhelpset")) {
-		checkNull("subhelpset", text);
-	    } else if (name.equals("data")) {
-		// DATA tag -- this is in a view
-		viewData = text.trim();
-	    } else if (name.equals("label")) {
-		// LABEL tag -- this is in a view
-		viewLabel = text.trim();
-	    } else if (name.equals("name")) {
-		// NAME tag -- this is in a view
-		tagName = text.trim();
-	    } else if (name.equals("helpaction")) {
-		// NAME tag -- this is in a view
-		helpAction = text.trim();
-	    } else if (name.equals("type")) {
-		// TYPE tag -- this is in a view
-		viewType = text.trim();
-            } else if (name.equals("image")) {
-                // IMAGE tag -- this is in the view
-                tagImage = text.trim();
-	    } else if (name.equals("view")) {
-		// VIEW tag
-		checkNull("view", text);
-	    } else if (name.equals("maps")) {
-		// MAP tag
-		checkNull("maps", text);
-            } else if (name.equals("mergetype")) {
-                 checkNull("mergetype",text);
+            switch (name) {
+                case "title":
+                    // TITLE tag
+                    if (pname.equals("helpset")) {
+                        factory.processTitle(myHS, text);
+                    } else {
+                        presentationTitle = text.trim();
+                    }   break;
+                case "homeID":
+                    // HOMEID tag
+                    factory.processHomeID(myHS, text);
+                    break;
+                case "mapref":
+                    checkNull("mapref", text);
+                    break;
+                case "subhelpset":
+                    checkNull("subhelpset", text);
+                    break;
+                case "data":
+                    // DATA tag -- this is in a view
+                    viewData = text.trim();
+                    break;
+                case "label":
+                    // LABEL tag -- this is in a view
+                    viewLabel = text.trim();
+                    break;
+                case "name":
+                    // NAME tag -- this is in a view
+                    tagName = text.trim();
+                    break;
+                case "helpaction":
+                    // NAME tag -- this is in a view
+                    helpAction = text.trim();
+                    break;
+                case "type":
+                    // TYPE tag -- this is in a view
+                    viewType = text.trim();
+                    break;
+                case "image":
+                    // IMAGE tag -- this is in the view
+                    tagImage = text.trim();
+                    break;
+                case "view":
+                    // VIEW tag
+                    checkNull("view", text);
+                    break;
+                case "maps":
+                    // MAP tag
+                    checkNull("maps", text);
+                    break;
+                case "mergetype":
+                    checkNull("mergetype",text);
+                    break;
+                default:
+                    break;
             }
 	}
 
