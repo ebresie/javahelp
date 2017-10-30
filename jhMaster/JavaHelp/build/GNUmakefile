@@ -50,7 +50,7 @@ endif
 JAVAC=javac
 CP=/bin/cp -f
 
-JAVADOCFLAGS=-J-mx64m -J-ms64m
+JAVADOCFLAGS=-J-mx64m -J-ms64m -nohelp
 
 APIDOC=../doc/api
 TARGETPKG= \
