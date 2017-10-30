@@ -28,3 +28,6 @@ classes/
 build/
 bin/
 .DS_Store
+/javahelp_nbproject/nbproject/private/
+/JSearchClient_nbproject/dist/
+/JSearchIndexer_nbproject/dist/
