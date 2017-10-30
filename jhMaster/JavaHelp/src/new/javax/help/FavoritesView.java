@@ -27,19 +27,16 @@
 
 package javax.help;
 
-import java.awt.Component;
-import java.net.*;
-import java.io.*;
-import java.util.Hashtable;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Vector;
-import java.util.Stack;
-import java.util.Enumeration;
-import javax.help.Map.ID;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.DefaultMutableTreeNode;
 import com.sun.java.help.impl.*;
+import java.awt.Component;
+import java.io.*;
+import java.net.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Stack;
+import java.util.Vector;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 
 /**

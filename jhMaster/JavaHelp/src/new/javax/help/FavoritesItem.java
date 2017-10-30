@@ -27,14 +27,13 @@
 
 package javax.help;
 
-import java.util.Vector;
-import java.util.Locale;
-import javax.help.Map.ID;
 import java.awt.datatransfer.*;
 import java.io.IOException;
 import java.io.Serializable;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Locale;
+import java.util.Vector;
 
 /**
  * A class for individual favorites items.

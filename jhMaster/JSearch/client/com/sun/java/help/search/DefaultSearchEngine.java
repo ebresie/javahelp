@@ -31,16 +31,10 @@
 
 package com.sun.java.help.search;
 
-import java.io.*;
 import java.net.*;
-import java.text.*;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.EventListener;
-import java.util.Locale;
-import javax.help.search.*;
-import com.sun.java.help.search.*;
 import java.security.InvalidParameterException;
+import java.util.Hashtable;
+import javax.help.search.*;
 
 /**
  * DefaultSearchEngine is the default search engine. 

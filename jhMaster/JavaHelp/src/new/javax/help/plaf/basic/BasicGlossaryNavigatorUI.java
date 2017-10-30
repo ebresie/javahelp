@@ -27,34 +27,25 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.plaf.HelpNavigatorUI;
-import javax.help.plaf.HelpUI;
-import javax.help.plaf.basic.BasicHelpUI;
-import javax.help.plaf.basic.BasicIndexCellRenderer;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
-import java.util.EventObject;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.tree.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.Reader;
-import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.help.Map.ID;
+import java.io.Serializable;
 import java.text.Collator;
 import java.text.RuleBasedCollator;
+import java.util.Enumeration;
 import java.util.Locale;
-import java.util.Stack;
+import java.util.Vector;
+import javax.help.*;
+import javax.help.Map.ID;
+import javax.help.event.HelpModelEvent;
+import javax.help.event.HelpModelListener;
+import javax.help.plaf.HelpNavigatorUI;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.tree.*;
 
 /**
  * The default UI for JHelpNavigator of type Glossary.

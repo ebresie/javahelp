@@ -28,13 +28,11 @@
 
 package javax.help;
 
-import java.beans.*;
-import java.util.Vector;
-import javax.help.event.*;
-import javax.help.Map.ID;
-import java.util.Enumeration;
 import java.net.URL;
-import java.util.Stack;
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.help.Map.ID;
+import javax.help.event.*;
 /**
  * DefaultHelpHistoryModel is default implementation of HelpHistoryModel interface
  *

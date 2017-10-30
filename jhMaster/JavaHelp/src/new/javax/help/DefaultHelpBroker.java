@@ -27,18 +27,13 @@
 
 package javax.help;
 
-import javax.swing.*;
-import javax.help.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.net.URL;
 import java.awt.*;
 import java.awt.event.*;
-import javax.help.Map.ID;
-import java.util.Locale;
-import java.awt.Font;
-import java.awt.Dimension;
 import java.lang.reflect.*;
+import java.net.URL;
+import java.util.Locale;
+import javax.help.Map.ID;
+import javax.swing.*;
 
 /**
  * An implmentation of the HelpBroker interface

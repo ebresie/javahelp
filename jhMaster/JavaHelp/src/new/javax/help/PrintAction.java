@@ -27,6 +27,7 @@
 
 package javax.help;
 
+import com.sun.java.help.impl.JHelpPrintHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -34,7 +35,6 @@ import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.Locale;
 import javax.swing.UIManager;
-import com.sun.java.help.impl.JHelpPrintHandler;
 
 /**
  *

@@ -31,11 +31,10 @@
 
 package com.sun.java.help.search;
 
-import java.io.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
 
 /**
  * This class will generate an array of morphological variants of a word

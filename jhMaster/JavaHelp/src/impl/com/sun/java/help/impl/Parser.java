@@ -38,9 +38,8 @@ package com.sun.java.help.impl;
  * @author Eduardo Pelegri-Llopart
  * @version	1.13	10/30/06
  */
-import java.util.Vector;
-import java.io.Reader;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.EventListener;
 
 public class Parser extends DocumentParser {

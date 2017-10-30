@@ -32,12 +32,12 @@
 
 package com.sun.java.help.search;
 
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.*;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 public class Schema
 {

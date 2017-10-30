@@ -28,18 +28,15 @@
 package javax.help;
 
 import java.net.URL;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.LookAndFeel;
-import javax.swing.JEditorPane;
-import javax.accessibility.*;
 import java.util.Hashtable;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import javax.accessibility.*;
+import javax.help.Map.ID;
 import javax.help.event.*;
 import javax.help.plaf.HelpContentViewerUI;
+import javax.swing.JComponent;
+import javax.swing.JEditorPane;
+import javax.swing.UIManager;
 import javax.swing.text.EditorKit;
-import javax.help.Map.ID;
 
 /**
  * A component to represent the Help viewer that can be embedded if desired.

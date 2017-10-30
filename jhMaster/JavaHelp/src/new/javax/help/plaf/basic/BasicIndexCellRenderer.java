@@ -27,11 +27,11 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.swing.tree.*;
-import javax.swing.JTree;
 import java.awt.Component;
 import java.util.Locale;
+import javax.help.*;
+import javax.swing.JTree;
+import javax.swing.tree.*;
 
 /**
  * Cell Renderer for the index UI.

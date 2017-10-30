@@ -28,8 +28,8 @@
 package javax.help;
 
 import java.net.URL;
-import javax.help.search.SearchEngine;
 import javax.help.search.MergingSearchEngine;
+import javax.help.search.SearchEngine;
 
 /**
  * A JHelpNavigator for search data.

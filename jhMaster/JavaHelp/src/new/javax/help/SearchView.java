@@ -27,8 +27,8 @@
 
 package javax.help;
 
-import java.util.Hashtable;
 import java.awt.Component;
+import java.util.Hashtable;
 import java.util.Locale;
 
 /**

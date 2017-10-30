@@ -27,20 +27,16 @@
 
 package javax.help.search;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Vector;
 import javax.help.HelpSet;
 import javax.help.HelpUtilities;
 import javax.help.NavigatorView;
-import javax.help.search.SearchListener;
-import javax.help.search.SearchEvent;
-import javax.help.search.SearchEngine;
-import javax.help.search.SearchQuery;
 
 /*
  * A class that provides a merging/removing layer for the search.

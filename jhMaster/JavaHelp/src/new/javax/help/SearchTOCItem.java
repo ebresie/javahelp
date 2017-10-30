@@ -30,12 +30,12 @@
 
 package javax.help;
 
-import java.net.URL;
 import java.net.MalformedURLException;
-import java.util.Vector;
+import java.net.URL;
 import java.util.Enumeration;
-import java.util.NoSuchElementException;
 import java.util.Locale;
+import java.util.NoSuchElementException;
+import java.util.Vector;
 import javax.help.Map.ID;
 import javax.help.search.SearchItem;
 

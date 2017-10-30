@@ -33,9 +33,9 @@ package javax.help.search;
 
 import java.io.*;
 import java.text.*;
-import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
 /**
  * Describes and parses the configuration file for

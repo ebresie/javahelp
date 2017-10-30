@@ -39,21 +39,17 @@ package javax.help.plaf.basic;
  */
 
 import java.awt.*;
-import java.net.URL;
 import java.util.Locale;
+import javax.accessibility.AccessibleContext;
+import javax.accessibility.AccessibleValue;
+import javax.help.HelpUtilities;
+import javax.help.Map;
+import javax.help.SearchTOCItem;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
-import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.help.Map;
-import javax.help.Map.ID;
-import javax.help.SearchTOCItem;
-import javax.help.SearchHit;
-import javax.help.HelpUtilities;
-import javax.accessibility.AccessibleValue;
-import javax.accessibility.AccessibleContext;
+import javax.swing.tree.TreeCellRenderer;
 
 /**
  * Displays an search entry in a tree.

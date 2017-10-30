@@ -31,17 +31,13 @@
 
 package com.sun.java.help.search;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.*;
+import javax.help.search.ConfigFile;
+import javax.help.search.IndexBuilder;
+import javax.help.search.IndexerKit;
 import javax.swing.text.*;
 import javax.swing.text.html.*;
-import java.util.*;
-import javax.help.search.IndexerKit;
-import javax.help.search.IndexBuilder;
-import javax.help.search.ConfigFile;
 
 /**
  * This is the default implementation of html parsing.

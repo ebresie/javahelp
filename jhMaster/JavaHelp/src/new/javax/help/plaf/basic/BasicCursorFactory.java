@@ -27,17 +27,17 @@
 
 package javax.help.plaf.basic;
 
-import java.io.*;
-import javax.swing.ImageIcon;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.util.ResourceBundle;
+import java.io.*;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import javax.swing.ImageIcon;
 
 /**
  * Factory object that can vend cursors appropriate for the basic L & F.

@@ -28,8 +28,6 @@
 package javax.help;
 
 import java.net.URL;
-import java.util.Vector;
-import java.util.Enumeration;
 
 
 /**

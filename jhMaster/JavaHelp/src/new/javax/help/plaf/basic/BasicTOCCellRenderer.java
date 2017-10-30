@@ -30,18 +30,16 @@
 
 package javax.help.plaf.basic;
 
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
 import java.net.URL;
 import java.util.Locale;
+import javax.help.Map;
+import javax.help.Map.ID;
 import javax.help.TOCItem;
 import javax.help.TOCView;
-import javax.help.Map;
-import javax.help.HelpUtilities;
-import javax.help.Map.ID;
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
  * Basic cell renderer for TOC UI.

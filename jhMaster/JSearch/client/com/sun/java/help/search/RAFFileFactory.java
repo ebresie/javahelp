@@ -32,8 +32,8 @@
 package com.sun.java.help.search;
 
 import java.io.*;
-import java.net.*;
 import java.lang.reflect.*;
+import java.net.*;
 
 /**
  * A factory for files that can be accessed as Random Access file from a URL. 

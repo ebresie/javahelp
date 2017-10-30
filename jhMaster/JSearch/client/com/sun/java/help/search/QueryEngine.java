@@ -31,17 +31,16 @@
 
 package com.sun.java.help.search;
 
-import java.text.BreakIterator;
-import java.util.Vector;
-import java.util.Locale;
-import java.util.Enumeration;
-import java.lang.reflect.Method;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.File;
+import java.lang.reflect.Method;
 import java.net.URL;
-import javax.help.search.SearchQuery;
+import java.text.BreakIterator;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Vector;
 import javax.help.HelpUtilities;
+import javax.help.search.SearchQuery;
 
 /**
  * This class is the initial interface into the search engine. It can be 

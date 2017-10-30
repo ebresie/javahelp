@@ -29,14 +29,12 @@ package javax.help.tagext;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletException;
-import javax.servlet.jsp.tagext.TagSupport;
-import javax.servlet.jsp.tagext.Tag;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.help.InvalidHelpSetContextException;
+import javax.servlet.ServletRequest;
+import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * Validates a HelpSet file and an Map.ID thourgh either a Request Parameter

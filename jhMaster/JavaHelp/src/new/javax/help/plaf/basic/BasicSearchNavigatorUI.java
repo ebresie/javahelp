@@ -39,30 +39,26 @@ package javax.help.plaf.basic;
  * @author Richard Gregor
  * @version   1.86     10/30/06
  */
-import javax.help.*;
-import javax.help.search.*;
-import javax.help.plaf.HelpNavigatorUI;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
-import javax.help.search.SearchListener;
-import javax.help.search.SearchEvent;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.net.URL;
-import javax.swing.*;
-import javax.swing.tree.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Vector;
+import javax.help.*;
 import javax.help.DefaultHelpModel.DefaultHighlight;
 import javax.help.Map.ID;
+import javax.help.event.HelpModelEvent;
+import javax.help.event.HelpModelListener;
+import javax.help.plaf.HelpNavigatorUI;
+import javax.help.search.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.tree.*;
 
 public class BasicSearchNavigatorUI extends HelpNavigatorUI 
              implements HelpModelListener, SearchListener, 

@@ -27,11 +27,11 @@
 
 package javax.help;
 
-import java.util.Locale;
-import java.awt.Font;
 import java.awt.Dimension;
-import javax.help.Map.ID;
+import java.awt.Font;
 import java.net.URL;
+import java.util.Locale;
+import javax.help.Map.ID;
 
 
 /**

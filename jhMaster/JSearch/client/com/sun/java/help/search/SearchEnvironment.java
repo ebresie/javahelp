@@ -31,15 +31,13 @@
 
 package com.sun.java.help.search;
 
-import javax.help.search.SearchItem;
 import java.io.*;
-import java.util.Vector;		// consider removal
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.MalformedURLException;
 import java.util.Locale;
-import java.awt.datatransfer.DataFlavor;
-import java.lang.reflect.Method;
+import java.util.Vector;
+import javax.help.search.SearchItem;
 
 /**
  * This class established a SearchEnvironment for JavaHelp classes

@@ -27,9 +27,6 @@
 
 package javax.help;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import java.awt.Component;
 import java.awt.Dialog;
 import java.awt.Dimension;
@@ -53,6 +50,9 @@ import java.net.URL;
 import java.util.Enumeration;
 import java.util.Locale;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 /**
  * Window Presentation is an abstract class providing a generic interface for

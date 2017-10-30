@@ -27,18 +27,16 @@
 
 package com.sun.java.help.impl;
 
-import java.util.Enumeration;
-import java.util.Vector;
 import java.awt.*;
-import java.net.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.beans.*;
 import java.lang.reflect.*;
+import java.net.*;
+import java.util.Vector;
+import javax.swing.*;
+import javax.swing.text.*;
 import javax.swing.text.html.*;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseEvent;
 
 /**
  * Subclass of HTMLEditorKit from Swing to adds better functionality

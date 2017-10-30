@@ -35,7 +35,7 @@ have any questions.
     <property name="jsp-jar" value="${basedir}/lib/jsp-api.jar"/>
     <available property="jsp-jar-present" file="${jsp-jar}"/>
     
-    <property name="tomcat-zip" value="${java.io.tmpdir}/apache-tomcat-5.5.20.zip"/>
+    <property name="tomcat-zip" value="${java.io.tmpdir}/apache-tomcat-7.0.82.zip"/>
     <available property="tomcat-zip-present" file="${tomcat-zip}"/>
 
     <target name="-pre-init" 
@@ -83,19 +83,19 @@ have any questions.
     <target name="unpack-servlet-jar" unless="servlet-jar-present" depends="download-tomcat-zip">
         <echo message="Unpacking ${tomcat-zip}"/>
         <unzip src="${tomcat-zip}" dest="${java.io.tmpdir}/"/>
-        <copy failonerror="true" file="${java.io.tmpdir}/apache-tomcat-5.5.20/common/lib/servlet-api.jar"
+        <copy failonerror="true" file="${java.io.tmpdir}/apache-tomcat-7.0.82/lib/servlet-api.jar"
             tofile="${servlet-jar}"/>
     </target>
     
     <target name="unpack-jsp-jar" depends="download-tomcat-zip" unless="jsp-jar-present">
         <echo message="Copying ${jsp-jar}"/>
-        <copy failonerror="true" file="${java.io.tmpdir}/apache-tomcat-5.5.20/common/lib/jsp-api.jar"
+        <copy failonerror="true" file="${java.io.tmpdir}/apache-tomcat-7.0.82/lib/jsp-api.jar"
             tofile="${jsp-jar}"/>
     </target>
     
     <target name="download-tomcat-zip" unless="tomcat-zip-present">
         <echo message="Downloading Apache Tomcat for servlet-api.jar and jsp-api.jar"/>
-        <get src="http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.20/bin/apache-tomcat-5.5.20.zip"
+        <get src="http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.82/bin/apache-tomcat-7.0.82.zip"
             dest="${tomcat-zip}"/>
     </target>
     

@@ -27,16 +27,11 @@
 
 package javax.help;
 
-import javax.swing.tree.*;
-import java.beans.*;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.IOException;
 import java.util.Enumeration;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import javax.swing.tree.*;
 
 /**
  * A class for Favorites node. This class forces none-folders to have children.

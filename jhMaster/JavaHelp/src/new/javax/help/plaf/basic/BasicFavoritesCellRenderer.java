@@ -34,18 +34,12 @@ package javax.help.plaf.basic;
  * @author Richard Gregor
  * @version	1.4	10/30/06
  */
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
-import java.net.URL;
 import java.util.Locale;
-import javax.help.TOCItem;
-import javax.help.Map;
-import javax.help.HelpUtilities;
-import javax.help.Map.ID;
 import javax.help.FavoritesItem;
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class BasicFavoritesCellRenderer extends DefaultTreeCellRenderer {
     

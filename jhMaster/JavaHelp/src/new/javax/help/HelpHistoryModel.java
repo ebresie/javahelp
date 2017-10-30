@@ -34,13 +34,9 @@ package javax.help;
  * @version   1.3     10/30/06
  */
 
-import java.awt.event.ActionListener;
-import javax.help.event.*;
 import java.io.Serializable;
-import java.beans.*;
 import java.util.Vector;
-import javax.help.Map.ID;
-import java.util.Enumeration;
+import javax.help.event.*;
 
 /**
  * The interface to the history model.

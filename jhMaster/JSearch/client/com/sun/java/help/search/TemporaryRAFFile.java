@@ -31,26 +31,9 @@
 
 package com.sun.java.help.search;
 
-import java.io.IOException;
-
-/**
- * This class can be used to read/write the contents of a RAF type files
- * (i.e. DICT (Dictionary) & POSITIONS (Positions))
- * file as part of JavaHelp Search Database. It uses RandamAccessFile for 
- * quick access to dictionary blocks (DictBlock). 
- * </p>
- * Extension of this class serve include memory resident  or unwriteable  
- * RAFFile.
- *
- * @author Roger D. Brinkley
- * @author Eduardo Pelegri-Llopart
- * @version	1.4	10/30/06
- */
-
-import java.net.URL;
-import java.io.RandomAccessFile;
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.security.Permission;
 
 final public class TemporaryRAFFile extends RAFFile {

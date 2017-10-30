@@ -29,7 +29,6 @@ package javax.help;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import java.util.Locale;
 /**
  * Unite-append merge type
  *

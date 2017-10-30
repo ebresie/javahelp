@@ -27,27 +27,25 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.Map;
 import javax.help.Map.ID;
 import javax.help.NavigatorView;
+import javax.help.SearchHit;
 import javax.help.SearchTOCItem;
 import javax.help.SearchView;
-import javax.help.SearchHit;
 import javax.help.search.MergingSearchEngine;
-import javax.help.search.SearchQuery;
-import javax.help.search.SearchListener;
 import javax.help.search.SearchEvent;
 import javax.help.search.SearchItem;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
+import javax.help.search.SearchListener;
+import javax.help.search.SearchQuery;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 
 /**
  * The JSP tag extra info class for an SearchTOCItem

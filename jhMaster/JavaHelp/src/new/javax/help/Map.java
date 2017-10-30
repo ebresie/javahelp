@@ -27,10 +27,10 @@
 
 package javax.help;
 
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.*;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * A Map is the interface to ID<->URL mapping.

@@ -28,8 +28,6 @@
 package javax.help;
 
 import javax.swing.tree.*;
-import java.util.*;
-import java.text.*;
 
 /**
  * Append merge type

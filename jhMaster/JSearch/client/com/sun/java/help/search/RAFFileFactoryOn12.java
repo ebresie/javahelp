@@ -33,11 +33,10 @@ package com.sun.java.help.search;
 
 import java.io.*;
 import java.net.URLConnection;
-import java.security.Permission;
 import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
+import java.security.Permission;
 import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * This Factory assumes we are on JDK 1.2

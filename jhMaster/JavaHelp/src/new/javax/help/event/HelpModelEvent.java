@@ -28,11 +28,8 @@
 package javax.help.event;
 
 import java.net.URL;
-import java.util.Vector;
-import java.util.Enumeration;
-import javax.help.HelpSet;
-import javax.help.Map.ID;
 import javax.help.JHelpNavigator;
+import javax.help.Map.ID;
 
 
 /**

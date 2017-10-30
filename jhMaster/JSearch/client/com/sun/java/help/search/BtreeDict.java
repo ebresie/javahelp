@@ -31,8 +31,6 @@
 
 package com.sun.java.help.search;
 
-import java.io.*;
-
 /**
  * @version	1.5	03/18/98
  * @author Jacek R. Ambroziak

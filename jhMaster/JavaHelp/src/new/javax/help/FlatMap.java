@@ -27,15 +27,13 @@
 
 package javax.help;
 
+import com.sun.java.help.impl.*;
+import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.MalformedURLException;
 import java.util.*;
-import java.io.*;
-import java.beans.*;
-import javax.help.event.*;
 import javax.help.Map.ID;
-import com.sun.java.help.impl.*;
 
 /**
  * A FlatMap is a simple implementation of a Map.  It is used to represent a

@@ -31,10 +31,10 @@
 
 package com.sun.java.help.search;
 
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.StringTokenizer;
-import java.io.*;
 
 /**
  *

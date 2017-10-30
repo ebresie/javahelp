@@ -27,10 +27,9 @@
 
 package javax.help;
 
-import java.lang.reflect.*;
-import javax.help.Map.ID;
-import java.awt.ActiveEvent;
+import java.applet.Applet;
 import java.awt.AWTEvent;
+import java.awt.ActiveEvent;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -47,10 +46,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.*;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.WeakHashMap;
+import javax.help.Map.ID;
 import javax.swing.CellRendererPane;
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JLayeredPane;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -59,19 +65,11 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.tree.TreePath;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import java.applet.Applet;
-import java.net.URL;
-import java.util.Stack;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.WeakHashMap;
-import java.lang.ref.WeakReference;
+import javax.swing.tree.TreePath;
 
 /**
  * A convenience class that provides simple

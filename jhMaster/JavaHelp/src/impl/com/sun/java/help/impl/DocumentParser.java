@@ -63,10 +63,8 @@ package com.sun.java.help.impl;
  *	   the macro name has a value.
  */
 
-import java.io.CharConversionException;
 import java.io.*;
 import java.util.Hashtable;
-import java.net.*;
 
 public abstract class DocumentParser {
     static final char EOF = (char)-1;

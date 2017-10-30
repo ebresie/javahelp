@@ -27,18 +27,13 @@
 
 package javax.help;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.accessibility.*;
 import java.net.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
 import java.util.Hashtable;
-import java.beans.*;
+import java.util.Locale;
+import javax.accessibility.*;
 import javax.help.event.*;
 import javax.help.plaf.HelpNavigatorUI;
-import javax.help.Map.ID;
+import javax.swing.*;
 
 /**
  * A JHelpNavigator is a control that presents navigational help data.

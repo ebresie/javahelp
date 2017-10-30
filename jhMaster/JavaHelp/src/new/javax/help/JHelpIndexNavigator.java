@@ -28,7 +28,6 @@
 package javax.help;
 
 import java.net.URL;
-import javax.help.plaf.HelpNavigatorUI;
 
 /**
  * JHelpIndexNavigator is a JHelpNavigator for an Index.

@@ -27,27 +27,22 @@
 
 package javax.help;
 
-import java.net.URL;
-
+import java.awt.Component;
+import java.awt.IllegalComponentStateException;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
 import java.io.InputStream;
-
+import java.net.URL;
+import java.text.CollationElementIterator;
+import java.text.Collator;
+import java.text.MessageFormat;
+import java.text.RuleBasedCollator;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Vector;
-
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-
-import java.text.CollationElementIterator;
-import java.text.Collator;
-import java.text.MessageFormat;
-import java.text.RuleBasedCollator;
-
-import java.awt.Component;
-import java.awt.IllegalComponentStateException;
 
 
 /**

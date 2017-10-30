@@ -27,39 +27,34 @@
 
 package com.sun.java.help.impl;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.awt.Color;
-import java.awt.FontMetrics;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.*;
+import java.net.*;
+import javax.help.*;
+import javax.help.Map.ID;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.View;
-import javax.swing.text.Element;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.StyleSheet;
-import javax.help.*;
-import javax.help.Map.ID;
-import java.awt.event.*;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.net.*;
-import java.util.Hashtable;
-import java.beans.PropertyChangeEvent;
-import java.util.Enumeration;
-import java.awt.Cursor;
 
 /**
  * This class is a secondary viewer to be included in HTML content within

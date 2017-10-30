@@ -28,8 +28,6 @@
 package javax.help;
 
 import java.net.URL;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.Action;
 
 /**

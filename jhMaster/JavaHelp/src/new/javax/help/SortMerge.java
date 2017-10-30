@@ -27,10 +27,10 @@
 
 package javax.help;
 
+import java.text.*;
+import java.util.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import java.util.*;
-import java.text.*;
 
 /**
  * Sort merge type

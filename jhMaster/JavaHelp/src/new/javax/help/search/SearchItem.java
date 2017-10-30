@@ -27,9 +27,9 @@
 
 package javax.help.search;
 
-import java.util.Vector;
-import java.util.Enumeration;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * A SearchItem corresponds to one specific item found in a search query.

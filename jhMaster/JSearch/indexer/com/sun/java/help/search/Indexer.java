@@ -31,15 +31,14 @@
 
 package com.sun.java.help.search;
 
+import com.sun.java.help.impl.HeaderParser;
 import java.io.*;
-import java.text.*;
 import java.net.*;
-import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Locale;
-import javax.help.search.IndexerKit;
+import java.util.Vector;
 import javax.help.search.ConfigFile;
-import com.sun.java.help.impl.HeaderParser;
+import javax.help.search.IndexerKit;
 
 /**
  * This class provides ...

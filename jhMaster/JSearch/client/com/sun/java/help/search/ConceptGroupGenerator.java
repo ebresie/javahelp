@@ -33,8 +33,6 @@
 
 package com.sun.java.help.search;
 
-import java.io.InputStream;
-
 class ConceptGroupGenerator implements CompressorIterator
 {
   private static final int NConceptsInGroup =

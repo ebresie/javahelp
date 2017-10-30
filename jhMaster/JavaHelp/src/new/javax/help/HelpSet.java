@@ -27,30 +27,26 @@
 
 package javax.help;
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.util.*;
-import java.io.*;
-import java.awt.Dimension;
-import java.awt.Point;
-import javax.help.event.EventListenerList;
-import javax.help.DefaultHelpBroker;
-import javax.help.event.HelpSetListener;
-import javax.help.event.HelpSetEvent;
-import javax.help.Map.ID;
-
-// implementation-specific
+import com.sun.java.help.impl.LangElement;
 import com.sun.java.help.impl.Parser;
-import com.sun.java.help.impl.ParserListener;
 import com.sun.java.help.impl.ParserEvent;
+import com.sun.java.help.impl.ParserListener;
 import com.sun.java.help.impl.Tag;
 import com.sun.java.help.impl.TagProperties;
 import com.sun.java.help.impl.XmlReader;
-import com.sun.java.help.impl.LangElement;
-import javax.help.Map.ID;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.beans.PropertyChangeSupport;
+import java.io.*;
 import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.*;
+import javax.help.Map.ID;
+import javax.help.event.EventListenerList;
+import javax.help.event.HelpSetEvent;
+import javax.help.event.HelpSetListener;
 /**
  * A HelpSet  is a collection of help information consisting of a HelpSet
  * file, table of contents (TOC), index, topic files, and Map file.

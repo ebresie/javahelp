@@ -27,13 +27,11 @@
 
 package javax.help;
 
-import java.awt.*;
 import java.awt.event.*;
-import javax.help.*;
-import javax.help.event.*;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Stack;
+import javax.help.event.*;
 import javax.swing.*;
 
 /**

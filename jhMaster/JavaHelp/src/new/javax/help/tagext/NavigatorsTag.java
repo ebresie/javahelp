@@ -27,18 +27,17 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.ServletRequest;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.Map;
 import javax.help.Map.ID;
 import javax.help.NavigatorView;
+import javax.servlet.ServletRequest;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 
 /**
  * The JSP tag class for a Navigators

@@ -29,21 +29,15 @@
 package javax.help;
 
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.accessibility.*;
+import javax.help.Map.ID;
+import javax.help.event.HelpSetEvent;
+import javax.help.event.HelpSetListener;
+import javax.help.plaf.HelpUI;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
-import javax.swing.LookAndFeel;
-import javax.accessibility.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.Locale;
-import java.io.InputStream;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.help.plaf.HelpUI;
-import javax.help.event.HelpSetListener;
-import javax.help.event.HelpSetEvent;
-import javax.help.Map.ID;
 
 /**
  * Displays HelpSet data with navigators and a content viewer.

@@ -26,20 +26,10 @@
  */
 package javax.help;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.awt.*;
-import java.awt.event.*;
-import javax.help.Map.ID;
+import java.net.URL;
 import java.util.Locale;
-import java.awt.Font;
-import java.awt.Dimension;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.jsp.JspWriter;
-import javax.swing.tree.DefaultMutableTreeNode;
-import java.io.IOException;
+import javax.help.Map.ID;
 
 /**
  * An implmentation of the HelpBroker interface for Servlets

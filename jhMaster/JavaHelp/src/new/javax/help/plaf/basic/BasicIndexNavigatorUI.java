@@ -30,17 +30,23 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.plaf.HelpNavigatorUI;
-import javax.help.plaf.HelpUI;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
 import com.sun.java.help.impl.SwingWorker;
-import java.util.EventObject;
+import java.awt.*;
+import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.Serializable;
+import java.lang.reflect.Method;
+import java.text.Collator;
+import java.text.RuleBasedCollator;
 import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
 import java.util.Locale;
+import java.util.Vector;
+import javax.help.*;
+import javax.help.Map.ID;
+import javax.help.event.HelpModelEvent;
+import javax.help.event.HelpModelListener;
+import javax.help.plaf.HelpNavigatorUI;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -50,25 +56,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.RepaintManager;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.event.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.tree.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.Reader;
-import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import javax.help.Map.ID;
-import java.text.Collator;
-import java.text.RuleBasedCollator;
-import java.lang.reflect.Method;
 
 /**
  * The default UI for JHelpNavigator of type Index.

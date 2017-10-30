@@ -27,10 +27,10 @@
 
 package javax.help;
 
-import java.util.Locale;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.lang.reflect.Constructor;
+import java.util.Locale;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 /**
  * Common superclass for all merge types

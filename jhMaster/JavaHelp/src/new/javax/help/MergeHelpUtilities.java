@@ -27,10 +27,10 @@
 
 package javax.help;
 
-import javax.swing.tree.*;
-import java.util.*;
-import java.text.*;
 import java.lang.reflect.Method;
+import java.text.*;
+import java.util.*;
+import javax.swing.tree.*;
 
 /**
  * Common utilities for merge types

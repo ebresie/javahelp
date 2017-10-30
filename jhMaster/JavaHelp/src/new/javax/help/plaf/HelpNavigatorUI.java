@@ -27,18 +27,13 @@
 
 package javax.help.plaf;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.*;
+import java.net.URL;
+import javax.help.Map;
+import javax.help.NavigatorView;
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.help.HelpModel;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
-import javax.help.NavigatorView;
-import javax.help.Map;
-import java.net.URL;
-import javax.swing.Action;
-import javax.swing.AbstractAction;
+import javax.swing.plaf.ComponentUI;
 
 /**
  * UI factory interface for JHelpNavigator.

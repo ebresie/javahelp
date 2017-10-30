@@ -27,22 +27,21 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
+import javax.help.IndexItem;
+import javax.help.IndexView;
 import javax.help.Map;
 import javax.help.Map.ID;
 import javax.help.Merge;
 import javax.help.MergeHelpUtilities;
 import javax.help.NavigatorView;
-import javax.help.IndexItem;
-import javax.help.IndexView;
-import javax.help.SortMerge;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 

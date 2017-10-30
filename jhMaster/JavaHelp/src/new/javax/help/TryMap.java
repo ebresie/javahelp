@@ -27,12 +27,10 @@
 
 package javax.help;
 
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.util.*;
 import java.io.*;
-import java.beans.*;
-import javax.help.event.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 import javax.help.Map.ID;
 
 /**

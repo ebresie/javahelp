@@ -27,7 +27,6 @@
 
 package javax.help;
 
-import java.util.Vector;
 import java.util.Locale;
 import javax.help.Map.ID;
 

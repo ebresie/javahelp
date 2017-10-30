@@ -33,7 +33,6 @@
 
 package com.sun.java.help.search;
 
-import java.io.*;
 import javax.help.search.SearchQuery;
 
 class Search

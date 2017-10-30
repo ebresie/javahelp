@@ -38,13 +38,13 @@ package com.sun.java.help.search;
  * @version	1.12	10/30/06
  */
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class MemoryRAFFile extends RAFFile {
 

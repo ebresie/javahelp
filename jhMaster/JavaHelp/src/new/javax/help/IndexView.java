@@ -27,21 +27,19 @@
 
 package javax.help;
 
+import com.sun.java.help.impl.*;
 import java.awt.Component;
+import java.io.IOException;
+import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.Reader;
-import java.io.IOException;
-import java.util.Stack;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Stack;
 import java.util.Vector;
-import java.util.Enumeration;
 import javax.help.Map.ID;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import com.sun.java.help.impl.*;
 
 
 /**

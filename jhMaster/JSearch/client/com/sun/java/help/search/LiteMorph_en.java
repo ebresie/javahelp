@@ -32,9 +32,6 @@
 package com.sun.java.help.search;
 
 
-import java.io.*;
-import java.util.StringTokenizer;
-import java.util.Vector;
 import java.util.Hashtable;
 
 /**

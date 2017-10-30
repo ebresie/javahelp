@@ -30,32 +30,21 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.Map.ID;
-import javax.help.plaf.HelpUI;
-import javax.help.event.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Stack;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.border.*;
-import javax.swing.event.*;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.event.*;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
-import com.sun.java.help.impl.JHelpPrintHandler;
-import java.awt.datatransfer.DataFlavor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Constructor;
-import javax.swing.Timer;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Vector;
+import javax.help.*;
+import javax.help.plaf.HelpUI;
+import javax.swing.*;
+import javax.swing.plaf.ComponentUI;
 
 /**
  * The default UI for JHelp.

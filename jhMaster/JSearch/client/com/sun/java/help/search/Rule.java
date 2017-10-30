@@ -31,8 +31,8 @@
 
 package com.sun.java.help.search;
 
-import java.util.Vector;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * A Rule matches a pattern at the right ends of a word, removes an indicated

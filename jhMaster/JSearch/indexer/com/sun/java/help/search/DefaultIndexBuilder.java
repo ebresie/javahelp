@@ -33,10 +33,10 @@
 
 package com.sun.java.help.search;
 
-import java.net.URL;
 import java.io.*;
-import java.util.Hashtable;
+import java.net.URL;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import javax.help.search.IndexBuilder;
 
 public class DefaultIndexBuilder extends IndexBuilder

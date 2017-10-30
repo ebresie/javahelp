@@ -27,21 +27,19 @@
 
 package com.sun.java.help.impl;
 
-import javax.help.*;
-import javax.help.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.print.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
-import java.net.MalformedURLException;
 import java.util.Vector;
 import java.util.WeakHashMap;
+import javax.help.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.text.*;
 
 /**
  * Print handler for JavaHelp. Because JDK1.1 is not supported since JavaHelp

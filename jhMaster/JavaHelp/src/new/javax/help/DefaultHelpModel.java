@@ -27,15 +27,13 @@
 
 package javax.help;
 
+import java.beans.*;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.Vector;
-import java.util.Enumeration;
-import java.io.Serializable;
-import javax.help.event.EventListenerList;
-import javax.help.event.*;
 import javax.help.Map.ID;
 import javax.help.TextHelpModel.Highlight;
-import java.beans.*;
+import javax.help.event.*;
 
 /**
  * This class implements the javax.help.HelpModel API and 

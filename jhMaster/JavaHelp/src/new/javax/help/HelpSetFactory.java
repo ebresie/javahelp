@@ -27,13 +27,13 @@
 
 package javax.help;
 
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.Enumeration;
-import java.util.Vector;
-import java.net.URL;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Vector;
 
 /**
  * A factory for creating HelpSets.  This can be used to reuse our parser.

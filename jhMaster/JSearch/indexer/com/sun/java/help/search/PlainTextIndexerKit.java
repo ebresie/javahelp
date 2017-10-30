@@ -33,10 +33,8 @@ package com.sun.java.help.search;
 
 import java.io.*;
 import java.util.Locale;
-import java.text.*;
-import javax.help.search.IndexerKit;
-import javax.help.search.IndexBuilder;
 import javax.help.search.ConfigFile;
+import javax.help.search.IndexBuilder;
 
 /**
  * This is the set of things needed by an indexing object

@@ -27,14 +27,6 @@
 
 package javax.help;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.help.*;
-import javax.help.event.*;
-import java.util.Enumeration;
-import java.util.Stack;
-import javax.swing.*;
-
 /**
  *
  * @author Stepan Marek

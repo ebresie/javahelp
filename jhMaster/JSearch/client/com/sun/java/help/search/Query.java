@@ -35,7 +35,6 @@ package com.sun.java.help.search;
 
 import java.util.*;
 import javax.help.search.SearchQuery;
-import javax.help.search.SearchItem;
 
 class Query
 {
