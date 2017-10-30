@@ -71,37 +71,12 @@ public class MergeHelpUtilities extends Object {
 	    klass = Class.forName(mergeType);
 	    m = klass.getDeclaredMethod("mergeNodes", types);
 	    m.invoke(null, args);
-	} catch (ClassNotFoundException ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    ex.printStackTrace();
 	    throw new RuntimeException
 		("Could not find or execute mergeNodes for " +
 		 mergeType);
-	} catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodes for " +
-                                mergeType);
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodes for " +
-                                mergeType);
-        } catch (NoSuchMethodException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodes for " +
-                                mergeType);
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodes for " +
-                                mergeType);
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodes for " +
-                                mergeType);
-        }
+	}
     }
 
     /**
@@ -127,37 +102,12 @@ public class MergeHelpUtilities extends Object {
 	    klass = Class.forName(mergeType);
 	    m = klass.getDeclaredMethod("mergeNodeChildren", types);
 	    m.invoke(null, args);
-	} catch (ClassNotFoundException ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    ex.printStackTrace();
 	    throw new RuntimeException
 		("Could not find or execute mergeNodeChildren for " +
 		 mergeType);
-	} catch (IllegalAccessException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodeChildren for " +
-                                mergeType);
-        } catch (IllegalArgumentException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodeChildren for " +
-                                mergeType);
-        } catch (NoSuchMethodException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodeChildren for " +
-                                mergeType);
-        } catch (SecurityException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodeChildren for " +
-                                mergeType);
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-            throw new RuntimeException
-                        ("Could not find or execute mergeNodeChildren for " +
-                                mergeType);
-        }
+	}
     }
 
     /**

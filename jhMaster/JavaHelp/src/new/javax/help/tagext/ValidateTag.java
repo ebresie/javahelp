@@ -111,13 +111,12 @@ public class ValidateTag extends TagSupport {
 	if (tesths == null && hsName == null) {
 	    try {
 		pageContext.forward(invalidURLPath);
-	    } catch (IOException e) {
+	    } catch (IOException | ServletException e) {
 		// ignore it
 		return;
-	    } catch (ServletException e) {
-                // ignore it
-                return;
-            }
+	    }
+            // ignore it
+
 	} 
 
 

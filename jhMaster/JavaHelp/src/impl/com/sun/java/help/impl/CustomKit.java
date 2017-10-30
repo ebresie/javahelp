@@ -297,14 +297,12 @@ public class CustomKit extends HTMLEditorKit {
 			}
 		    }
 		}
-	    } catch (ClassNotFoundException e) {
+	    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 		// couldn't create a component... fall through to the 
 		// couldn't load representation.
-	    } catch (IllegalAccessException e) {
-                // couldn't create a component... fall through to the
-                // couldn't load representation.
-            } catch (InstantiationException e) {
-            }
+	    }
+            // couldn't create a component... fall through to the
+            // couldn't load representation.
 	    
 	    return getUnloadableRepresentation();
 	}
@@ -380,16 +378,10 @@ public class CustomKit extends HTMLEditorKit {
 		    try {
 			writer.invoke(comp, (java.lang.Object[]) args);
 			debug("Invocation succeeded");
-		    } catch (IllegalAccessException ex) {
+		    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
 			debug("Invocation failed");
 			// invocation code
-		    } catch (IllegalArgumentException ex) {
-                        debug("Invocation failed");
-                        // invocation code
-                    } catch (InvocationTargetException ex) {
-                        debug("Invocation failed");
-                        // invocation code
-                    }
+		    }
 		}
 	    }
 	}

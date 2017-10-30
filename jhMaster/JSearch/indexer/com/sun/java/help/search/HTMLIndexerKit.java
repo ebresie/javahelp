@@ -149,13 +149,9 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    try {
                 Class c = Class.forName("javax.swing.text.html.parser.ParserDelegator");
                 defaultParser = (HTMLEditorKit.Parser) c.newInstance();
-	    } catch (ClassNotFoundException e) {
+	    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 		e.printStackTrace();
-	    } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            }
+	    }
 	}
 	return defaultParser;
     }

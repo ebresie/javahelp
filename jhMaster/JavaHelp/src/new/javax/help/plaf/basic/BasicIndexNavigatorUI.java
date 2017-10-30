@@ -718,19 +718,9 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 			}
 			Method m = klass.getMethod("getPresentation", types);
 			pres = (Presentation)m.invoke(null, args);
-		    } catch (ClassNotFoundException ex) {
+		    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 			throw new RuntimeException("error invoking presentation" );
-		    } catch (IllegalAccessException ex) {
-                        throw new RuntimeException("error invoking presentation" );
-                    } catch (IllegalArgumentException ex) {
-                        throw new RuntimeException("error invoking presentation" );
-                    } catch (NoSuchMethodException ex) {
-                        throw new RuntimeException("error invoking presentation" );
-                    } catch (SecurityException ex) {
-                        throw new RuntimeException("error invoking presentation" );
-                    } catch (InvocationTargetException ex) {
-                        throw new RuntimeException("error invoking presentation" );
-                    }
+		    }
 
 		    if (pres == null) {
 			return;

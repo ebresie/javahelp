@@ -140,11 +140,10 @@ class RAFFileFactory {
 	    Class types[] = {};
 	    Method m = URLConnection.class.getMethod("getPermission", types);
 	    result = RAFFileFactoryOn12.get(connection);
-	} catch (NoSuchMethodError ex) {
-	    // as in JDK1.1
-	} catch (NoSuchMethodException ex) {
+	} catch (NoSuchMethodError | NoSuchMethodException ex) {
 	    // as in JDK1.1
 	}
+        // as in JDK1.1
 
 	if (result == null) {
 	    // on 1.1 all we can do is create a memory file

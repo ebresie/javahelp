@@ -175,19 +175,9 @@ public class QueryEngine
 						 (java.lang.Class[]) null);
 		return (LiteMorph) method.invoke(null, 
 						 (java.lang.Object[]) null);
-	    } catch (ClassNotFoundException e) {
+	    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
 		continue;
-	    } catch (IllegalAccessException e) {
-                continue;
-            } catch (IllegalArgumentException e) {
-                continue;
-            } catch (NoSuchMethodException e) {
-                continue;
-            } catch (SecurityException e) {
-                continue;
-            } catch (InvocationTargetException e) {
-                continue;
-            }
+	    }
 	}
 	// couldn't find a match 
 	return null;

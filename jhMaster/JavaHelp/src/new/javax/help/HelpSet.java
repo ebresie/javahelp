@@ -266,13 +266,9 @@ public class HelpSet implements Serializable{
 		c = Class.forName(classname);
 	    }
 	    back = (HelpBroker) c.newInstance();
-	} catch (ClassNotFoundException e) {
+	} catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 	    back = null;
-	} catch (IllegalAccessException e) {
-            back = null;
-        } catch (InstantiationException e) {
-            back = null;
-        }
+	}
 
         if (back != null) {
             back.setHelpSet(this);
@@ -1103,33 +1099,14 @@ public class HelpSet implements Serializable{
 			    URL url = map.getURLFromID(id);
 			    icon = new javax.swing.ImageIcon(url);
 			    action.putValue("icon", icon);
-			} catch (MalformedURLException ex) {
-			} catch (BadIDException ex) {
-                        }
+			} catch (MalformedURLException | BadIDException ex) {
+			}
 		    }
 		    actions.add(action);
-		} catch (ClassNotFoundException ex) {
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 		    throw new RuntimeException("Could not create HelpAction " +
 					       act.className);
-		} catch (IllegalAccessException ex) {
-                    throw new RuntimeException("Could not create HelpAction " +
-                            act.className);
-                } catch (IllegalArgumentException ex) {
-                    throw new RuntimeException("Could not create HelpAction " +
-                            act.className);
-                } catch (InstantiationException ex) {
-                    throw new RuntimeException("Could not create HelpAction " +
-                            act.className);
-                } catch (NoSuchMethodException ex) {
-                    throw new RuntimeException("Could not create HelpAction " +
-                            act.className);
-                } catch (SecurityException ex) {
-                    throw new RuntimeException("Could not create HelpAction " +
-                            act.className);
-                } catch (InvocationTargetException ex) {
-                    throw new RuntimeException("Could not create HelpAction " +
-                            act.className);
-                }
+		}
 	    }
 	    
 	    return actions.elements();

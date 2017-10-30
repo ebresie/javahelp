@@ -250,15 +250,11 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 	try {
 	    url = new URL(spec);
 	    hs = new HelpSet(loader, url);
-	} catch (MalformedURLException ex) {
+	} catch (MalformedURLException | HelpSetException ex) {
 	    System.err.println("Trouble setting HelpSetSpec to spec |"+spec+"|");
 	    System.err.println("  ex: "+ex);
 	    hs = null;
-	} catch (HelpSetException ex) {
-            System.err.println("Trouble setting HelpSetSpec to spec |"+spec+"|");
-            System.err.println("  ex: "+ex);
-            hs = null;
-        }
+	}
 	contentViewer.setModel(new DefaultHelpModel(hs));
 	setModel(contentViewer.getModel());
 	updateUI();

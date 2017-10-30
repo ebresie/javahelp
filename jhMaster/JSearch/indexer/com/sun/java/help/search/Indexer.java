@@ -408,12 +408,11 @@ public class Indexer {
 		}
 	    }
 	}
-	catch (IndexOutOfBoundsException e) {
+	catch (IndexOutOfBoundsException | NullPointerException e) {
 	    // malformed parameter list, use charset we have
 	}
-	catch (NullPointerException e) {
-	    // malformed parameter list, use charset we have
-	}
+        // malformed parameter list, use charset we have
+
 	catch (Exception e) {
 	    // malformed parameter list, use charset we have; but complain
 	    System.err.println("Indexer.getCharsetFromContentTypeParameters failed on: " + paramlist);
@@ -497,13 +496,7 @@ public class Indexer {
 		}
                 k = (IndexerKit) c.newInstance();
                 kitRegistry.put(type, k);
-            } catch (ClassNotFoundException e) {
-                if (debugFlag) e.printStackTrace();
-                k = null;
-            } catch (IllegalAccessException e) {
-                if (debugFlag) e.printStackTrace();
-                k = null;
-            } catch (InstantiationException e) {
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                 if (debugFlag) e.printStackTrace();
                 k = null;
             }

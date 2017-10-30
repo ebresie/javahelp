@@ -381,15 +381,13 @@ public abstract class WindowPresentation extends Presentation {
 		    Object args[] = {new Integer(0)}; // Frame.NORMAL
 		    m.invoke(frame, args);
 		}
-	    } catch (NoSuchMethodError ex) {
+	    } catch (NoSuchMethodError | NoSuchMethodException | java.lang.reflect.InvocationTargetException | java.lang.IllegalAccessException ex) {
 		// as in JDK1.1
-	    } catch (NoSuchMethodException ex) {
-		// as in JDK1.1
-	    } catch (java.lang.reflect.InvocationTargetException ex) {
-		//
-	    } catch (java.lang.IllegalAccessException ex) {
-		//
 	    }
+            // as in JDK1.1
+            //
+            //
+            
 	}
     }
 
@@ -435,14 +433,8 @@ public abstract class WindowPresentation extends Presentation {
 				return false;
 
 			}
-		    } catch (NoSuchMethodError ex) {
+		    } catch (NoSuchMethodError | NoSuchMethodException | java.lang.reflect.InvocationTargetException | java.lang.IllegalAccessException ex) {
 			// as in JDK1.1
-		    } catch (NoSuchMethodException ex) {
-			// as in JDK1.1
-		    } catch (java.lang.reflect.InvocationTargetException ex) {
-			//
-		    } catch (java.lang.IllegalAccessException ex) {
-			//
 		    }
 		    // On 1.1 I can't tell if it's raised or not.
 		    // It's on the screen so true.
@@ -920,14 +912,8 @@ public abstract class WindowPresentation extends Presentation {
 		    owner = (Window) m.invoke(dialog, 
 					      (java.lang.Class[]) null);
 		}
-	    } catch (NoSuchMethodError ex) {
+	    } catch (NoSuchMethodError | NoSuchMethodException | java.lang.reflect.InvocationTargetException | java.lang.IllegalAccessException ex) {
 		// as in JDK1.1
-	    } catch (NoSuchMethodException ex) {
-		// as in JDK1.1
-	    } catch (java.lang.reflect.InvocationTargetException ex) {
-		//
-	    } catch (java.lang.IllegalAccessException ex) {
-		//
 	    }
 	    
 	    if (dialog == null || owner != ownerWindow || modalDeactivated) {

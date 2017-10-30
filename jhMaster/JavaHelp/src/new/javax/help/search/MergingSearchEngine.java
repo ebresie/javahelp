@@ -155,23 +155,17 @@ public class MergingSearchEngine extends SearchEngine {
 	}
 	try {
 	    konstructor = klass.getConstructor(types);
-	} catch (NoSuchMethodException t) {
+	} catch (NoSuchMethodException | SecurityException t) {
 	    throw new Error("Could not find constructor for "+engineName+". For view: "+view);
-	} catch (SecurityException t) {
-            throw new Error("Could not find constructor for "+engineName+". For view: "+view);
-        }
+	}
 	try {
 	    back = (SearchEngine) konstructor.newInstance(args);
 	} catch (InvocationTargetException e) {
             System.err.println("Exception while creating engine named "+engineName+" for view: "+view);
             e.printStackTrace();
-	} catch (IllegalAccessException t) {
+	} catch (IllegalAccessException | IllegalArgumentException | InstantiationException t) {
 	    throw new Error("Could not create engine named "+engineName+" for view: "+view);
-	} catch (IllegalArgumentException t) {
-            throw new Error("Could not create engine named "+engineName+" for view: "+view);
-        } catch (InstantiationException t) {
-            throw new Error("Could not create engine named "+engineName+" for view: "+view);
-        }
+	}
 	return back;
     }
 

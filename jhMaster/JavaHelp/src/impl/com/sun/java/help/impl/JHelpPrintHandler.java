@@ -400,13 +400,7 @@ public class JHelpPrintHandler implements ActionListener {
             }
             k = (EditorKit) c.newInstance();
             // kitRegistry.put(type, k);
-        } catch (ClassNotFoundException e) {
-            System.err.println(e);
-            k = null;
-        } catch (IllegalAccessException e) {
-            System.err.println(e);
-            k = null;
-        } catch (InstantiationException e) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             System.err.println(e);
             k = null;
         }
@@ -539,9 +533,7 @@ public class JHelpPrintHandler implements ActionListener {
             try {
                 editor.setPage(url);
                 wait();
-            } catch (IOException e) {
-                processException(e);
-            } catch (InterruptedException e) {
+            } catch (IOException | InterruptedException e) {
                 processException(e);
             }
             editor.removePropertyChangeListener("page", this);

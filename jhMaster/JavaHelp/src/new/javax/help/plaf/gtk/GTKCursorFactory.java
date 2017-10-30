@@ -98,11 +98,7 @@ public class GTKCursorFactory {
 	    ResourceBundle resource = new PropertyResourceBundle(is);
 	    gifFile = resource.getString("Cursor.File");
 	    hotspot = resource.getString("Cursor.HotSpot");
-	} catch (MissingResourceException e) {
-	    debug(getClass().getName() + "/" + 
-			       "images/" + name + ".properties" + " invalid.");
-	    return null;
-	} catch (IOException e2) {
+	} catch (MissingResourceException | IOException e) {
 	    debug(getClass().getName() + "/" + 
 			       "images/" + name + ".properties" + " invalid.");
 	    return null;

@@ -196,9 +196,8 @@ public class FlatMap implements Map, Serializable {
 		if (urlString.compareTo(tmpString) == 0) {
 		    return ID.create(key, helpset);
 		}
-	    } catch (MalformedURLException ex) {
-	    } catch (BadIDException ex) {
-            }
+	    } catch (MalformedURLException | BadIDException ex) {
+	    }
 	}
 	return null;
     }

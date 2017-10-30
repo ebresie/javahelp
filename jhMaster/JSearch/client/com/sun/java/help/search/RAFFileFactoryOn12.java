@@ -96,9 +96,7 @@ final public class RAFFileFactoryOn12 {
 			return back;
 		    }
 		});
-	} catch (PrivilegedActionException pae) {
-	    topBack = new MemoryRAFFile(connection);
-	} catch (SecurityException se) {
+	} catch (PrivilegedActionException | SecurityException pae) {
 	    topBack = new MemoryRAFFile(connection);
 	}
 	return topBack;

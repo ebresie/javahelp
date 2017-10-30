@@ -299,13 +299,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
 		}
                 k = (EditorKit) c.newInstance();
                 kitRegistry.put(type, k);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                k = null;
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-                k = null;
-            } catch (InstantiationException e) {
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
                 k = null;
             }

@@ -257,11 +257,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
                 Object args[] = { "enabled",  this };
                 m.invoke(action, args);
                 back = true;
-            } catch (IllegalAccessException ex) {
-            } catch (IllegalArgumentException ex) {
-            } catch (NoSuchMethodException ex) {
-            } catch (SecurityException ex) {
-            } catch (InvocationTargetException ex) {
+            } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
             }
             return back;
         }
@@ -274,11 +270,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
                 Object args[] = { this };
                 m.invoke(action, args);
                 back = true;
-            } catch (IllegalAccessException ex) {
-            } catch (IllegalArgumentException ex) {
-            } catch (NoSuchMethodException ex) {
-            } catch (SecurityException ex) {
-            } catch (InvocationTargetException ex) {
+            } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
             }
             return back;
         }

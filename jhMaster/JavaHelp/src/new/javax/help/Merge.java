@@ -145,35 +145,11 @@ public abstract class Merge {
 		    }
 		    konstructor = klass.getConstructor(types);
 		    mergeObject = (Merge) konstructor.newInstance(args);
-		} catch (ClassNotFoundException ex) {
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 		    ex.printStackTrace();
 		    throw new RuntimeException("Could not create Merge type " +
 					       mergeType);
-		} catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Could not create Merge type " +
-                            mergeType);
-                } catch (IllegalArgumentException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Could not create Merge type " +
-                            mergeType);
-                } catch (InstantiationException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Could not create Merge type " +
-                            mergeType);
-                } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Could not create Merge type " +
-                            mergeType);
-                } catch (SecurityException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Could not create Merge type " +
-                            mergeType);
-                } catch (InvocationTargetException ex) {
-                    ex.printStackTrace();
-                    throw new RuntimeException("Could not create Merge type " +
-                            mergeType);
-                }
+		}
 	    } else {
 		mergeObject = new AppendMerge(masterView, slaveView);
 	    }

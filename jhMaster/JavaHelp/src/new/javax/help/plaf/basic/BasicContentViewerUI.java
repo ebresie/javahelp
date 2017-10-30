@@ -266,11 +266,11 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                 String name = HelpUtilities.getString(locale, "history.homePage");
                 model.setCurrentID(homeID, name, (JHelpNavigator)null);
                 html.setPage(model.getCurrentURL());
-            } catch (IOException e) {
-                // ignore
-            } catch (InvalidHelpSetContextException e) {
+            } catch (IOException | InvalidHelpSetContextException e) {
                 // ignore
             }
+            // ignore
+            
         }
         debug("rebuild-end");
     }

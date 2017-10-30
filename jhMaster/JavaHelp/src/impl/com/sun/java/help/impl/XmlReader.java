@@ -168,12 +168,11 @@ final public class XmlReader extends Reader
 		return charset;
 	    }
 	}
-	catch (IndexOutOfBoundsException e) {
+	catch (IndexOutOfBoundsException | NullPointerException e) {
 	    // malformed parameter list, use charset we have
 	}
-	catch (NullPointerException e) {
-	    // malformed parameter list, use charset we have
-	}
+        // malformed parameter list, use charset we have
+
 	catch (Exception e) {
 	    // malformed parameter list, use charset we have; but complain
 	    System.err.println("Indexer.getCharsetFromContentTypeParameters failed on: " + paramlist);

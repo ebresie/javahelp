@@ -158,19 +158,9 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	    Method m = klass.getMethod(method, types);
 	    Object back = m.invoke(null, args);
 	    return back;
-	} catch (ClassNotFoundException ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    return null;
-	} catch (IllegalAccessException ex) {
-            return null;
-        } catch (IllegalArgumentException ex) {
-            return null;
-        } catch (NoSuchMethodException ex) {
-            return null;
-        } catch (SecurityException ex) {
-            return null;
-        } catch (InvocationTargetException ex) {
-            return null;
-        }
+	}
     }
 
     static Object basicOnItemCursor = new UIDefaults.LazyValue() {
@@ -394,11 +384,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
             Class types[] = { PropertyChangeListener.class };
             Object args[] = { listener };
             object.getClass().getMethod("addPropertyChangeListener", types).invoke(object, args);
-        } catch (IllegalAccessException ex) {
-        } catch (IllegalArgumentException ex) {
-        } catch (NoSuchMethodException ex) {
-        } catch (SecurityException ex) {
-        } catch (InvocationTargetException ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
         }
     }
 
