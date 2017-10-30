@@ -133,6 +133,7 @@ public class SecondaryWindow extends WindowPresentation {
      * Destroy the SecondaryWindowPresentatin. Specifically remove it from
      * the list of SecondaryWindows.
      */
+    @Override
     public void destroy() {
 	super.destroy();
 	windows.remove(name);

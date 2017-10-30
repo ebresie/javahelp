@@ -286,6 +286,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     /**
      * Returns the HelpUI that is providing the current look and feel.
      */
+    @Override
     public HelpUI getUI() {
 	return (HelpUI)ui;
     }
@@ -296,6 +297,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
      *
      * @overrides updateUI in class JComponent
      */
+    @Override
     public void updateUI() {
         SwingHelpUtilities.installUIDefaults();
         setUI((HelpUI)UIManager.getUI(this));
@@ -305,6 +307,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     /**
      * @return "HelpUI"
      */
+    @Override
     public String getUIClassID()
     {
         return "HelpUI";
@@ -334,6 +337,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
      * @see javax.help.event.HelpSetEvent
      * @see javax.help.event.HelpSetListener
      */
+    @Override
     public void helpSetAdded(HelpSetEvent e) {
 	debug("helpSetAdded("+e+")");
 	HelpSet ehs = e.getHelpSet();
@@ -385,6 +389,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     /**
      * Removes a HelpSet from "our" HelpSet.
      */
+    @Override
     public void helpSetRemoved(HelpSetEvent e) {
 	debug("helpSetRemoved("+e+")");
 	HelpSet ehs = e.getHelpSet();
@@ -639,6 +644,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
      *
      * @return The AccessibleContext of this JComponent
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJHelp();
@@ -664,6 +670,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

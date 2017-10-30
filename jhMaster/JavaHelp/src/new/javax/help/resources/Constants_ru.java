@@ -44,6 +44,7 @@ public class Constants_ru extends ListResourceBundle {
     /**
      * Overrides ListResourceBundle
      */
+    @Override
     public Object[][] getContents() {
         return new Object[][] {
 

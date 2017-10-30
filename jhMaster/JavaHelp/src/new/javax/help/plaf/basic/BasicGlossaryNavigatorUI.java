@@ -84,6 +84,7 @@ PropertyChangeListener, ActionListener, Serializable {
 	}
     }
     
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         
@@ -149,6 +150,7 @@ PropertyChangeListener, ActionListener, Serializable {
     /**
      * Uninstalls UI
      */
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         HelpModel model = glossary.getModel();
@@ -167,16 +169,19 @@ PropertyChangeListener, ActionListener, Serializable {
     }
     
  
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         
         return new Dimension(200,100);
         
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return new Dimension(100,100);
     }
  
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -385,6 +390,7 @@ PropertyChangeListener, ActionListener, Serializable {
      * so it replaces the correct NavigatorUI method.
      */
     
+    @Override
     public void merge(NavigatorView view) {
         debug("merging data");
 	doMerge(view);
@@ -401,6 +407,7 @@ PropertyChangeListener, ActionListener, Serializable {
      * so it replaces the correct NavigatorUI method.
      */
     
+    @Override
     public void remove(NavigatorView view) {
         debug("removing "+view);
         
@@ -502,6 +509,7 @@ PropertyChangeListener, ActionListener, Serializable {
 
     // Process and idChanged event
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         ID id = e.getID();
         HelpModel helpModel = glossary.getModel();
@@ -589,6 +597,7 @@ PropertyChangeListener, ActionListener, Serializable {
         return glossary;
     }
 
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -625,6 +634,7 @@ PropertyChangeListener, ActionListener, Serializable {
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getSource() + " "  +
         event.getPropertyName());
@@ -653,6 +663,7 @@ PropertyChangeListener, ActionListener, Serializable {
     /**
      *  Handles Action from the JTextField component for searching.
      */
+    @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource()==searchField) {
             

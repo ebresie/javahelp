@@ -107,6 +107,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         debug("createUI - sort of");
     }
     
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         help = (JHelp)c;
@@ -240,6 +241,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
          * @param evt A PropertyChangeEvent object describing the event source
          *  	and the property that has changed.
          */
+        @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
                 setEnabled(((Boolean)evt.getNewValue()).booleanValue());
@@ -274,6 +276,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
 
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         
@@ -290,14 +293,17 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         toolbar = null;
     }
     
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return PREF_SIZE;
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return MIN_SIZE;
     }
     
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // This doesn't seem right. But I'm not sure what to do for now
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
@@ -331,6 +337,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         }
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         Object source = event.getSource();
         String propertyName = event.getPropertyName();
@@ -386,6 +393,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         }
     }
     
+    @Override
     public void addNavigator(JHelpNavigator nav) {
         debug("addNavigator");
         navs.addElement(nav);
@@ -415,6 +423,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         
         help.invalidate();
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 // The first time, arrange for the split size...
                 // This should be customizable
@@ -437,6 +446,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         });
     }
     
+    @Override
     public void removeNavigator(JHelpNavigator nav) {
         debug("removeNavigator");
         navs.removeElement(nav);
@@ -455,6 +465,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
      * @exception throws InvalidNavigatorException if not one of the HELPUI
      * navigators.
      */
+    @Override
     public void setCurrentNavigator(JHelpNavigator nav) {
         try {
             tabbedPane.setSelectedComponent(nav);
@@ -463,6 +474,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         }
     }
     
+    @Override
     public JHelpNavigator getCurrentNavigator() {
         return (JHelpNavigator) tabbedPane.getSelectedComponent();
     }

@@ -84,6 +84,7 @@ class ConceptGroupGenerator implements CompressorIterator
     return _last;
   }
   
+  @Override
   public void value(int value) {
     _last += value;
   }

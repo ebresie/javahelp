@@ -74,6 +74,7 @@ public class FavoritesNode extends DefaultMutableTreeNode  {
     /**
      * Returns wheter node is allowed to have children or not.
      */
+    @Override
     public boolean getAllowsChildren() {
         return ((FavoritesItem) getUserObject()).isFolder();
     }

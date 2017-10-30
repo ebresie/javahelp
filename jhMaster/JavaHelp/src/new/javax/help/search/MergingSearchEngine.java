@@ -68,6 +68,7 @@ public class MergingSearchEngine extends SearchEngine {
     /**
      * Creates the query for this helpset.
      */
+    @Override
     public SearchQuery createQuery() {
 	return new MergingSearchQuery(this);
     }
@@ -183,6 +184,7 @@ public class MergingSearchEngine extends SearchEngine {
 	}
 
 	// Start all the search engines
+        @Override
 	public synchronized void start(String searchparams, Locale l)
 	    throws IllegalArgumentException, IllegalStateException
 	{
@@ -220,6 +222,7 @@ public class MergingSearchEngine extends SearchEngine {
 	// This is an override of the SearchQuery.stop
 	// Donnot call super.stop in this method as an
 	// extra fireSearchStopped will be genertated
+        @Override
 	public synchronized void stop() throws IllegalStateException {
 	    // Can't stop what is already stopped silly
 	    if (queries == null) {
@@ -260,6 +263,7 @@ public class MergingSearchEngine extends SearchEngine {
 	    queries = null;
 	}
 
+        @Override
 	public boolean isActive() {
 
 	    // if there aren't any queries we aren't alive
@@ -280,10 +284,12 @@ public class MergingSearchEngine extends SearchEngine {
 	    return false;
 	}
 
+        @Override
 	public SearchEngine getSearchEngine() {
 	    return mhs;
 	}
 
+        @Override
 	public synchronized void itemsFound(SearchEvent e) {
 	    SearchQuery queryin = (SearchQuery) e.getSource();
 
@@ -304,12 +310,14 @@ public class MergingSearchEngine extends SearchEngine {
 	    }
 	}
 
+        @Override
 	public void searchStarted(SearchEvent e) {
 	    // Ignore these events as this class already informed
 	    // the listeners the search was started so we don't have 
 	    // to do anything else
 	}
 
+        @Override
 	public synchronized void searchFinished(SearchEvent e) {
 	    SearchQuery queryin = (SearchQuery) e.getSource();
 		

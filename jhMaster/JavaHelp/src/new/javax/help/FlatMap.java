@@ -99,6 +99,7 @@ public class FlatMap implements Map, Serializable {
      * @return True if id is valid, false if not valid.
      */
 
+    @Override
     public boolean isValidID(String id, HelpSet hs) {
 	debug("isValidID "+id);
 
@@ -115,6 +116,7 @@ public class FlatMap implements Map, Serializable {
      *
      * @return An enumeration of all the IDs in a Map.
      */
+    @Override
     public Enumeration getAllIDs() {
 	return new FlatEnumeration(resource.getKeys(), helpset);
     }
@@ -127,6 +129,7 @@ public class FlatMap implements Map, Serializable {
      * @return URL The matching URL.  Null if this map cannot solve the ID
      * @exception MalformedURLException if the URLspecification found  is malformed
      */
+    @Override
     public URL getURLFromID(ID iden) throws MalformedURLException {
 	debug("getURLFromID("+iden+")");
 
@@ -151,6 +154,7 @@ public class FlatMap implements Map, Serializable {
      * @param url The URL to check on.
      * @return true If this is an ID, otherwise false.
      */
+    @Override
     public boolean isID(URL url) {
 	URL tmp;
 	for (Enumeration e = resource.getKeys() ; e.hasMoreElements() ;) {
@@ -174,6 +178,7 @@ public class FlatMap implements Map, Serializable {
      * @param url The URL to get the ID for.
      * @return The id (Map.ID) or null if URL is not an ID.
      */
+    @Override
     public ID getIDFromURL(URL url) {
 	String tmp;
 	URL tmpURL;
@@ -206,6 +211,7 @@ public class FlatMap implements Map, Serializable {
      * @param url A URL
      * @return The closest ID in this map to the given URL
      */
+    @Override
     public ID getClosestID(URL url) {
 	return getIDFromURL(url);
     }
@@ -217,6 +223,7 @@ public class FlatMap implements Map, Serializable {
      * @param URL The URL to compare the Map IDs to.
      * @return Enumeration of Map.IDs
      */
+    @Override
     public Enumeration getIDs(URL url) {
 	String tmp=null;
 	URL tmpURL=null;
@@ -244,10 +251,12 @@ public class FlatMap implements Map, Serializable {
 	    this.hs = hs;
 	}
 
+        @Override
 	public boolean hasMoreElements() {
 	    return e.hasMoreElements();
 	}
 
+        @Override
 	public Object nextElement() {
 	    Object back = null;
 	    try {
@@ -297,6 +306,7 @@ public class FlatMap implements Map, Serializable {
 	/**
 	 * Overrides ResourceBundle, same semantics.
 	 */
+        @Override
 	public final Object handleGetObject(String key) {
 	    return lookup.get(key); // this class ignores locales
 	}
@@ -304,6 +314,7 @@ public class FlatMap implements Map, Serializable {
 	/**
 	 * Implements ResourceBundle.getKeys.
 	 */
+        @Override
 	public Enumeration getKeys() {
 	    return lookup.keys();
 	}
@@ -325,6 +336,7 @@ public class FlatMap implements Map, Serializable {
 	/**
 	 *  A tag was parsed.
 	 */
+        @Override
 	public void tagFound(ParserEvent e) {
 	    Locale locale = null;
 	    Tag tag = e.getTag();
@@ -377,6 +389,7 @@ public class FlatMap implements Map, Serializable {
 	/**
 	 *  A PI was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void piFound(ParserEvent e) {
 	    // ignore
 	}
@@ -384,6 +397,7 @@ public class FlatMap implements Map, Serializable {
 	/**
 	 *  A DOCTYPE was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void doctypeFound(ParserEvent e) {
 	    String publicID = e.getPublicId();
 	    if (publicID == null ||
@@ -396,14 +410,17 @@ public class FlatMap implements Map, Serializable {
 	/**
 	 * A continous block of text was parsed.
 	 */
+        @Override
 	public void textFound(ParserEvent e) {
 	    // At the current time I don't care about text. All the text is
 	    // within the attributes in the tag
 	}
 
 	// The remaing events from Parser are ignored
+        @Override
 	public void commentFound(ParserEvent e) {}
 
+        @Override
 	public void errorFound(ParserEvent e){
 	    reportMessage(e.getText(), false);
 	}

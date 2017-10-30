@@ -75,6 +75,7 @@ public class GlossaryView extends IndexView {
     /**
      * create a navigator for a given model
      */
+    @Override
     public Component createNavigator(HelpModel model) {
 	return new JHelpGlossaryNavigator(this, model);
     }

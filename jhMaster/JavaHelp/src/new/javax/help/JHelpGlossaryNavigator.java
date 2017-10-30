@@ -75,6 +75,7 @@ public class JHelpGlossaryNavigator extends JHelpNavigator {
      *
      * @return The ID of UIClass representing JHelpGlossaryNavigator
      */
+    @Override
     public String getUIClassID() {
 	return "HelpGlossaryNavigatorUI";
     }

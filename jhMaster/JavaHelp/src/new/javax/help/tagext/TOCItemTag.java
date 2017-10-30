@@ -117,6 +117,7 @@ public class TOCItemTag extends BodyTagSupport {
 	}
     }    
 
+    @Override
     public int doStartTag() {
 	initialize();
 	if(treeEnum.hasMoreElements()) {
@@ -138,6 +139,7 @@ public class TOCItemTag extends BodyTagSupport {
 	}
     }
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {

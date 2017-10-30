@@ -176,6 +176,7 @@ public class JHelpPrintHandler implements ActionListener {
      * requires that this go through an ActionListener as it must be in the
      * EventDispatchThread.
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         
         String name = null;
@@ -419,6 +420,7 @@ public class JHelpPrintHandler implements ActionListener {
             setDaemon(true);
         }
         
+        @Override
         public void run() {
             PrinterJob job = getPrinterJob();
             if (job != null) {
@@ -447,6 +449,7 @@ public class JHelpPrintHandler implements ActionListener {
             setDaemon(true);
         }
         
+        @Override
         public void run() {
             PrinterJob job = getPrinterJob();
             if (job != null) {
@@ -543,6 +546,7 @@ public class JHelpPrintHandler implements ActionListener {
             return transforms.size();
         }
         
+        @Override
         public synchronized void propertyChange(PropertyChangeEvent evt) {
             notifyAll();
         }
@@ -785,6 +789,7 @@ public class JHelpPrintHandler implements ActionListener {
             ));
         }
         
+        @Override
         public int print(Graphics pg, PageFormat pageFormat, int pi) {
             
             debug("Printing document page=" + pi);
@@ -840,6 +845,7 @@ public class JHelpPrintHandler implements ActionListener {
     }
     
     class EmptyPrintable implements Printable {
+        @Override
         public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
             return Printable.NO_SUCH_PAGE;
         }
@@ -872,6 +878,7 @@ public class JHelpPrintHandler implements ActionListener {
          *         the <code>Pageable</code> does not contain the requested
          * 		page.
          */
+        @Override
         public PageFormat getPageFormat(int pageIndex) throws IndexOutOfBoundsException {
             return pf;
         }
@@ -885,6 +892,7 @@ public class JHelpPrintHandler implements ActionListener {
          * UNKNOWN_NUMBER_OF_PAGES constant.
          * @return the number of pages in this <code>Pageable</code>.
          */
+        @Override
         public int getNumberOfPages() {
 	    if (numPages != 0) {
 		// only do this once ???
@@ -910,6 +918,7 @@ public class JHelpPrintHandler implements ActionListener {
          *           the <code>Pageable</code> does not contain the requested
          * 		  page.
          */
+        @Override
         public Printable getPrintable(int pageIndex) throws IndexOutOfBoundsException {
             
             debug("JHPageable.getPrintable("+pageIndex+"): lastIndex="+lastIndex+", lastPage"+lastPage);
@@ -965,10 +974,12 @@ public class JHelpPrintHandler implements ActionListener {
      */
     class JHFrame extends JFrame {
         
+        @Override
         public void addNotify() {
             getRootPane().addNotify();
         }
         
+        @Override
         public void validate() {
             validateTree();
         }
@@ -976,6 +987,7 @@ public class JHelpPrintHandler implements ActionListener {
         // The editor has to have a graphics set for it.
         // This is bug in jdk1.2.2. The Graphics is not necessery
         // for jdk1.1 and jdk1.3.
+        @Override
         public Graphics getGraphics() {
             return JHelpPrintHandler.this.getHelp().getGraphics();
         }
@@ -998,6 +1010,7 @@ public class JHelpPrintHandler implements ActionListener {
             setDropTarget(null);
         }
         
+        @Override
         public EditorKit getEditorKitForContentType(String type) {
             EditorKit k = JHelpPrintHandler.this.createEditorKitForContentType(type);
             if (k == null) {
@@ -1009,27 +1022,35 @@ public class JHelpPrintHandler implements ActionListener {
         // This methods enable to keep references to listeners null. It is
         // workaround for bug in Component.addNotify() method in jdk1.1
         // and jdk1.2. Moreover it can save resources.
+        @Override
         public void addMouseListener(MouseListener l) {
         }
         
+        @Override
         public void removeMouseListener(MouseListener l) {
         }
         
+        @Override
         public void addMouseMotionListener(MouseMotionListener l) {
         }
         
+        @Override
         public void removeMouseMotionListener(MouseMotionListener l) {
         }
         
+        @Override
         public void addFocusListener(FocusListener l) {
         }
         
+        @Override
         public void removeFocusListener(FocusListener l) {
         }
         
+        @Override
         public void addKeyListener(KeyListener l) {
         }
         
+        @Override
         public void removeKeyListener(KeyListener l) {
         }
         

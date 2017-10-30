@@ -54,6 +54,7 @@ class ByteArrayDecompressor extends Decompressor
     return _index - _index0;
   }
 
+  @Override
   protected int getNextByte() throws Exception {
     return _array[_index++] & 0xFF;
   }

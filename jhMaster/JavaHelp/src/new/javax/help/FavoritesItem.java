@@ -116,6 +116,7 @@ public class FavoritesItem extends TreeItem implements Transferable, Serializabl
     /**
      * Return the URL for this item
      */
+    @Override
     public URL getURL () {
 	try {
 	    return new URL(url);
@@ -210,12 +211,14 @@ public class FavoritesItem extends TreeItem implements Transferable, Serializabl
         return children;
     }
     
+    @Override
     public Object clone(){
         FavoritesItem item = new FavoritesItem(getName(), target, url, 
 					       title, locale);
         return item;
     }
     
+    @Override
     public String toString(){
         return getName();
     }
@@ -223,6 +226,7 @@ public class FavoritesItem extends TreeItem implements Transferable, Serializabl
     /**
      * Returns an object which represents the data to be transferred.
      */
+    @Override
     public Object getTransferData(DataFlavor df) throws UnsupportedFlavorException, IOException {
         if (df.equals(FAVORITES_FLAVOR)) {
             return this;
@@ -233,6 +237,7 @@ public class FavoritesItem extends TreeItem implements Transferable, Serializabl
     /**
      * Returns an array of DataFlavor objects indicating the flavors the data can be provided in.
      */
+    @Override
     public DataFlavor[] getTransferDataFlavors() {
         return flavors;
     }
@@ -240,6 +245,7 @@ public class FavoritesItem extends TreeItem implements Transferable, Serializabl
     /**
      * Returns whether or not the specified data flavor is supported for this object.
      */
+    @Override
     public boolean isDataFlavorSupported(DataFlavor df) {
         return df.equals(FAVORITES_FLAVOR);
     }

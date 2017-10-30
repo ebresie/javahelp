@@ -167,6 +167,7 @@ public class SearchItem {
 	return concepts.elements();
     }
 
+    @Override
     public String toString() {
 	StringBuffer result;
 	result = new StringBuffer(confidence + " " + title + ":" + 

@@ -88,6 +88,7 @@ public class JHelpTOCNavigator extends JHelpNavigator {
     /**
      * The UID for this JComponent.
      */
+    @Override
     public String getUIClassID() {
 	return "HelpTOCNavigatorUI";
     }
@@ -100,6 +101,7 @@ public class JHelpTOCNavigator extends JHelpNavigator {
      * @see merge()
      * @see remove()
      */
+    @Override
     public boolean canMerge(NavigatorView view) {
 	if (view instanceof TOCView &&
 	    getNavigatorName().equals(view.getName())) {
@@ -119,6 +121,7 @@ public class JHelpTOCNavigator extends JHelpNavigator {
      * @exception IllegalArgumentException
      * @exception IllegalStateException
      */
+    @Override
     public void merge(NavigatorView view) {
 	debug("merge: "+view);
 	this.getUI().merge(view);
@@ -133,6 +136,7 @@ public class JHelpTOCNavigator extends JHelpNavigator {
      * @exception IllegalArgumentException
      * @exception IllegalStateException
      */
+    @Override
     public void remove(NavigatorView view) {
 	// this should recompute the view
 	this.getUI().remove(view);

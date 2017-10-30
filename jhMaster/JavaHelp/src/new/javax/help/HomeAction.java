@@ -59,6 +59,7 @@ public class HomeAction extends AbstractHelpAction implements ActionListener {
         }
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent event) {
         try {
             JHelp help = (JHelp)getControl();

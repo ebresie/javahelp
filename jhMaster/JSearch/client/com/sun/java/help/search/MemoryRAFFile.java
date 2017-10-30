@@ -69,20 +69,24 @@ public class MemoryRAFFile extends RAFFile {
 	filePointer = 0;
     }
 
+    @Override
     public long length() { 
 	return size;
     }
 
+    @Override
     public void close() throws IOException {
 	filePointer = 0;
 	data = null;
 	size = 0;
     }
 
+    @Override
     public long getFilePointer() throws IOException {
 	return filePointer;
     }
 
+    @Override
     public void seek(long pos) throws IOException {
 	if (pos > size) {
 	    throw new IOException();
@@ -90,6 +94,7 @@ public class MemoryRAFFile extends RAFFile {
 	filePointer = (int)pos;
     }
 
+    @Override
     public int read() throws IOException {
 	if (filePointer >= size) {
 	    return -1;
@@ -109,10 +114,12 @@ public class MemoryRAFFile extends RAFFile {
 	return len;
     }
 
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
 	return readBytes(b, off, len);
     }
 
+    @Override
     public int readInt() throws IOException {
 	debug ("readInt");
 	int ch1 = this.read();
@@ -124,6 +131,7 @@ public class MemoryRAFFile extends RAFFile {
 	return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
     }
 
+    @Override
     public final void readFully(byte b[]) throws IOException {
 	readFully(b, 0, b.length);
     }
@@ -139,10 +147,12 @@ public class MemoryRAFFile extends RAFFile {
 	} while (n < len);
     }
 
+    @Override
     public void writeInt(int v) throws IOException {
 	throw new IOException("Unsupported Operation");
     }
 
+    @Override
     public void write(byte b[]) throws IOException {
 	throw new IOException("Unsupported Operation");
     }

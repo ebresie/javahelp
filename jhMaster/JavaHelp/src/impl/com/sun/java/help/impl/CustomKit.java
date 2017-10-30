@@ -57,6 +57,7 @@ public class CustomKit extends HTMLEditorKit {
     /**
      * Clone the editorkit
      */
+    @Override
     public Object clone() {
 	return new CustomKit();
     }
@@ -67,6 +68,7 @@ public class CustomKit extends HTMLEditorKit {
      *
      * @param c the JEditorPane
      */
+    @Override
       public void install(JEditorPane c) {
 	c.addMouseMotionListener(mouseHandler);
 	super.install(c);
@@ -79,11 +81,13 @@ public class CustomKit extends HTMLEditorKit {
      *
      * @param c the JEditorPane
      */
+    @Override
     public void deinstall(JEditorPane c) {
 	c.removeMouseMotionListener(mouseHandler);
 	super.deinstall(c);
     }
 
+    @Override
     public Document createDefaultDocument() {
 	// normally we would do exactly what HTMLEditor.createDefaultDocument
 	// does:
@@ -112,6 +116,7 @@ public class CustomKit extends HTMLEditorKit {
      *
      * @return the factory
      */
+    @Override
     public ViewFactory getViewFactory() {
 	debug("fetched custom factory");
 	return new CustomFactory();
@@ -131,10 +136,12 @@ public class CustomKit extends HTMLEditorKit {
 	private Cursor handCursor=null;
 
 	// ignore the drags
+        @Override
 	public void mouseDragged(MouseEvent e) {
 	}
 
 	// track the moving of the mouse.
+        @Override
 	public void mouseMoved(MouseEvent e) {
 	    JEditorPane editor = (JEditorPane) e.getSource();
 
@@ -177,6 +184,7 @@ public class CustomKit extends HTMLEditorKit {
 
     static class CustomFactory extends HTMLFactory {
 
+        @Override
         public View create(Element elem) {
 	    Object o = elem.getAttributes().getAttribute(StyleConstants.NameAttribute);
 	    if (o instanceof HTML.Tag) {
@@ -197,6 +205,7 @@ public class CustomKit extends HTMLEditorKit {
 	    super(s);
 	}
 
+        @Override
         public HTMLEditorKit.ParserCallback getReader(int pos) {
 	    Object desc = getProperty(Document.StreamDescriptionProperty);
 	    if (desc instanceof URL) { 
@@ -219,6 +228,7 @@ public class CustomKit extends HTMLEditorKit {
 
 	    class ObjectAction1 extends SpecialAction {
 		
+                @Override
                 public void start(HTML.Tag t, MutableAttributeSet a) {
 		    if (t == HTML.Tag.PARAM) {
 			addParameter(a);
@@ -227,6 +237,7 @@ public class CustomKit extends HTMLEditorKit {
 		    }
 		}
 		
+                @Override
   	        public void end(HTML.Tag t) {
 		    if (t != HTML.Tag.PARAM) {
 			super.end(t);
@@ -263,6 +274,7 @@ public class CustomKit extends HTMLEditorKit {
 	 * as a specification of the classname, which
 	 * we try to load.
 	 */
+        @Override
 	protected Component createComponent() {
 	    AttributeSet attr = getElement().getAttributes();
 	    debug("attr: " + attr.copyAttributes());

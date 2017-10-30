@@ -48,51 +48,61 @@ final public class TemporaryRAFFile extends RAFFile {
 	this.permission = permission;
     }
 
+    @Override
     public long length() throws IOException { 
 	// check permission
 	return raf.length();
     }
 
+    @Override
     public long getFilePointer() throws IOException {
 	// check permission
 	return raf.getFilePointer();
     }
 
+    @Override
     public void close() throws IOException {
 	// check permission
 	raf.close();
     }
 
+    @Override
     public void seek(long pos) throws IOException {
 	// check permission
 	raf.seek(pos);
     }
 
+    @Override
     public int readInt() throws IOException {
 	// check permission
 	return raf.readInt();
     }
 
+    @Override
     public int read() throws IOException {
 	// check permission
 	return raf.read();
     }
 
+    @Override
     public void readFully (byte b[]) throws IOException {
 	// check permission
 	raf.readFully(b);
     }
 
+    @Override
     public int read(byte[] b, int off, int len) throws IOException {
 	// check permission
 	return raf.read(b, off, len);
     }
   
+    @Override
     public void writeInt(int v) throws IOException {
 	// check permission
 	raf.writeInt(v);
     }
 
+    @Override
     public void write(byte b[]) throws IOException {
 	// check permission
 	raf.write(b);

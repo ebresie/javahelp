@@ -74,6 +74,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
      * via the "lookAndFeel" property.
      */
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	String changeName = event.getPropertyName();
 	if (changeName.equals("lookAndFeel")) {
@@ -162,6 +163,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     }
 
     static Object basicOnItemCursor = new UIDefaults.LazyValue() {
+        @Override
 	public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.basic.BasicCursorFactory",
 			      "getOnItemCursor");
@@ -169,6 +171,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     };
 
     static Object basicDnDCursor = new UIDefaults.LazyValue() {
+        @Override
         public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.basic.BasicCursorFactory",
 			      "getDnDCursor");
@@ -176,6 +179,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     };
 
     static Object gtkOnItemCursor = new UIDefaults.LazyValue() {
+        @Override
 	public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.gtk.GTKCursorFactory",
 			      "getOnItemCursor");
@@ -183,6 +187,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     };
 
     static Object gtkDnDCursor = new UIDefaults.LazyValue() {
+        @Override
         public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.gtk.GTKCursorFactory",
 			      "getDnDCursor");
@@ -199,6 +204,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
      */
     static private Object makeBasicIcon(final String image) {
         return new UIDefaults.LazyValue() {
+            @Override
             public Object createValue(UIDefaults table) {
                 return SwingHelpUtilities.getImageIcon(javax.help.plaf.basic.BasicHelpUI.class, image);
             }
@@ -274,6 +280,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
      */
     static private Object makeGTKIcon(final String image) {
         return new UIDefaults.LazyValue() {
+            @Override
             public Object createValue(UIDefaults table) {
                 return SwingHelpUtilities.getImageIcon(javax.help.plaf.gtk.GTKCursorFactory.class, 
 						       image);

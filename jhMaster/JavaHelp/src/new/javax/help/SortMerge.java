@@ -56,6 +56,7 @@ public class SortMerge extends Merge{
      * @param node The master node (This node must be sorted)
      * @return Merged master node
      */
+    @Override
     public TreeNode processMerge(TreeNode node) {
 	debug("processMerge started");
         DefaultMutableTreeNode masterNode = (DefaultMutableTreeNode) node;

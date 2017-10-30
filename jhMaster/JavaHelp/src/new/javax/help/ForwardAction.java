@@ -72,12 +72,14 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
     /**
      * Invoked when the mouse exits a component.
      */
+    @Override
     public void mouseExited(MouseEvent e) {
     }    
     
     /**
      * Invoked when a mouse button has been released on a component.
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (timer != null) {
             timer.stop();
@@ -87,6 +89,7 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
     /**
      * Invoked when a mouse button has been pressed on a component.
      */
+    @Override
     public void mousePressed(MouseEvent e) {
         timer = new Timer(DELAY, new TimeListener(e));
         timer.start();
@@ -95,6 +98,7 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
     /**
      * Invoked when the mouse has been clicked on a component.
      */
+    @Override
     public void mouseClicked(MouseEvent e) {
         if ((historyModel != null) && isEnabled()) {
             historyModel.goForward();
@@ -104,6 +108,7 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
     /**
      * Invoked when the mouse enters a component.
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
@@ -115,6 +120,7 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
             this.e = e;
         }
         
+        @Override
         public void actionPerformed(ActionEvent evt){
             timer.stop();
             if (ForwardAction.this.isEnabled()) {
@@ -131,6 +137,7 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
             this.index = index;          
         }
         
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent event) {
             if(historyModel != null) {
                 historyModel.setHistoryEntry(index);
@@ -178,6 +185,7 @@ public class ForwardAction extends AbstractHelpAction implements MouseListener, 
      *
      * @param e The HelpHistoryModelEvent
      */
+    @Override
     public void historyChanged(HelpHistoryModelEvent e) {
         setEnabled(e.isNext());
     }

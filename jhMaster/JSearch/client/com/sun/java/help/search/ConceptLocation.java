@@ -77,6 +77,7 @@ class ConceptLocation
 
   private class ConceptSorter extends ConceptLocationSorter
   {
+    @Override
     public boolean smallerThan(ConceptLocation a, ConceptLocation b) {
       return a._concept < b._concept;
     }
@@ -84,6 +85,7 @@ class ConceptLocation
   
   private class PositionSorter extends ConceptLocationSorter
   {
+    @Override
     public boolean smallerThan(ConceptLocation a, ConceptLocation b) {
       return a._begin < b._begin || a._begin == b._begin && a._end < b._end;
     }

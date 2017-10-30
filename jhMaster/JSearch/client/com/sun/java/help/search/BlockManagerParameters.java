@@ -69,6 +69,7 @@ class BlockManagerParameters extends DBPartParameters
       return false;
   }
 
+  @Override
   public void updateSchema(String params) {
     super.updateSchema("bs="+blockSize+" rt="+root+" fl=-1 " + params);
   }
@@ -80,6 +81,7 @@ class BlockManagerParameters extends DBPartParameters
     this.root = root;
   }
 
+  @Override
   public URL getURL() {
     return url;
   }

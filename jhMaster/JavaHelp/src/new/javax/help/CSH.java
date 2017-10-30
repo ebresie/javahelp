@@ -1033,9 +1033,11 @@ public class CSH {
             if (parents == null) {
                 // WeakHashMap of WeakReferences
                 parents = new WeakHashMap(4) {
+                    @Override
                     public Object put(Object key, Object value) {
                         return super.put(key, new WeakReference(value));
                     }
+                    @Override
                     public Object get(Object key) {
                         WeakReference wr = (WeakReference)super.get(key);
                         if (wr != null) {
@@ -1278,6 +1280,7 @@ public class CSH {
 	}
 
         
+        @Override
         public void actionPerformed(ActionEvent e) {
             
             Component src = (Component) e.getSource();
@@ -1442,6 +1445,7 @@ public class CSH {
 	    this.hs = hs;
 	}
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Cursor onItemCursor, oldCursor;
             
@@ -1669,6 +1673,7 @@ public class CSH {
 	}
 
         
+        @Override
         public void actionPerformed(ActionEvent e) {
 	    Object source = e.getSource();
 	    displayHelp(hb, hs, presentation, presentationName, 

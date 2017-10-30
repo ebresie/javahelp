@@ -62,6 +62,7 @@ public class LiteMorph_en extends LiteMorph{
      * Create the exceptions HashTable for the size needed.
      * the call intialize(String []).
      */
+    @Override
     protected synchronized void initialize() {
 	if (exceptions != null) {
 	    return;

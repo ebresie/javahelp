@@ -180,6 +180,7 @@ public class BtreeDict
   public BtreeDict(BtreeDictParameters params) throws Exception
   {
     init(params, false, new BlockFactory() {
+      @Override
       public Block makeBlock() { return new DictBlock(); }
     });
     blocks = new int[params.getFreeID()];
@@ -279,6 +280,7 @@ public class BtreeDict
   {
     long start = System.currentTimeMillis();
     blockManager.mapBlocks(new BlockProcessor() {
+      @Override
       public void process(Block block) {
 	((DictBlock)block).setBlockNumbers(blocks);
       }

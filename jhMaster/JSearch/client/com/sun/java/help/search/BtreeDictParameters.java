@@ -63,6 +63,7 @@ class BtreeDictParameters extends BlockManagerParameters
     super(schema, partName);
   }
   
+  @Override
   public boolean readState()
   {
     if (super.readState())

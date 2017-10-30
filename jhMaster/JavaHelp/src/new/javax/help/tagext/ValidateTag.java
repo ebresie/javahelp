@@ -75,6 +75,7 @@ public class ValidateTag extends TagSupport {
 	this.merge = merge;
     }
 
+    @Override
     public int doStartTag() {
 	checkRequestParams();
 	validateHelpSet();

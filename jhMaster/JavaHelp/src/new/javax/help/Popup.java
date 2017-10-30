@@ -215,6 +215,7 @@ public class Popup extends Presentation implements ActionListener{
     /**
      * Displays the presentation to the user
      */
+    @Override
     public void setDisplayed(boolean b) {
 	Container top = getTopMostContainer();
 
@@ -276,6 +277,7 @@ public class Popup extends Presentation implements ActionListener{
 	}
     }
 
+    @Override
     public boolean isDisplayed() {
 	if (window != null) {
 	    return true;
@@ -283,6 +285,7 @@ public class Popup extends Presentation implements ActionListener{
 	return false;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
 	String command = e.getActionCommand();
         if (command == "cancel") {
@@ -540,18 +543,22 @@ public class Popup extends Presentation implements ActionListener{
 
     private class PopupWindowAdapter extends WindowAdapter {
 
+        @Override
 	public void windowClosing(WindowEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void windowClosed(WindowEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void windowIconified(WindowEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void windowGainedFocus(WindowEvent e) {
 	    window.toFront();
 	}
@@ -560,12 +567,14 @@ public class Popup extends Presentation implements ActionListener{
 
     private class PopupMouseAdapter extends MouseInputAdapter {
 
+        @Override
 	public void mousePressed(MouseEvent e) {
 	    cancelPopup();
 	}
     }
 
     private class PopupMouseWheelListener implements MouseWheelListener {
+        @Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 	    cancelPopup();
 	}
@@ -573,18 +582,22 @@ public class Popup extends Presentation implements ActionListener{
     
     private class PopupComponentAdapter extends ComponentAdapter {
 
+        @Override
 	public void componentResized(ComponentEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void componentMoved(ComponentEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void componentShown(ComponentEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void componentHidden(ComponentEvent e) {
 	    cancelPopup();
 	}
@@ -596,6 +609,7 @@ public class Popup extends Presentation implements ActionListener{
      */
     private class PopupKeyAdapter extends KeyAdapter {
 
+        @Override
 	public void keyReleased(KeyEvent e) {
 	    int code = e.getKeyCode();
 	    if (code == KeyEvent.VK_ESCAPE) {

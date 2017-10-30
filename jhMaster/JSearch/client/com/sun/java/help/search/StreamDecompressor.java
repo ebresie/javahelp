@@ -49,6 +49,7 @@ class StreamDecompressor extends Decompressor
     initReading();
   }
   
+  @Override
   public int getNextByte() throws java.io.IOException {
     return _input.read();
   }

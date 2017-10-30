@@ -63,6 +63,7 @@ public class DefaultIndexerKit extends IndexerKit {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         return new DefaultIndexerKit();
     }
@@ -74,6 +75,7 @@ public class DefaultIndexerKit extends IndexerKit {
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
         return "";
     }
@@ -89,6 +91,7 @@ public class DefaultIndexerKit extends IndexerKit {
      * @param config The indexer configuration information
      * @exception IOException on any I/O error
      */
+    @Override
     public void parse(Reader in, String file, boolean ignoreCharset,
 		      IndexBuilder builder, 
 		      ConfigFile config) throws IOException 
@@ -97,6 +100,7 @@ public class DefaultIndexerKit extends IndexerKit {
 	// Do nothing in the default implementation
     }
 
+    @Override
     public int parseIntoTokens (String source, int pos) {
 	BreakIterator boundary;
 	int start;
@@ -140,6 +144,7 @@ public class DefaultIndexerKit extends IndexerKit {
 	return currentPos;
     }
 
+    @Override
     protected void startStoreDocument (String file) throws Exception {
 	if ((config == null) || (builder == null)) {
 	    throw new IllegalStateException("ConfigFile and/or IndexBuilder not set");
@@ -147,6 +152,7 @@ public class DefaultIndexerKit extends IndexerKit {
 	builder.openDocument(config.getURLString(file));
     }
 
+    @Override
     protected void endStoreDocument () throws Exception {
 	if ((config == null) || (builder == null)) {
 	    throw new IllegalStateException("ConfigFile and/or IndexBuilder not set");
@@ -154,6 +160,7 @@ public class DefaultIndexerKit extends IndexerKit {
 	builder.closeDocument();
     }
 
+    @Override
     protected void storeToken (String token, int pos) throws Exception {
 	if ((config == null) || (builder == null)) {
 	    throw new IllegalStateException("ConfigFile and/or IndexBuilder not set");
@@ -170,6 +177,7 @@ public class DefaultIndexerKit extends IndexerKit {
 	builder.storeLocation(token, pos);
     }
 
+    @Override
     protected void storeTitle (String title) throws Exception {
 	if ((config == null) || (builder == null)) {
 	    throw new IllegalStateException("ConfigFile and/or IndexBuilder not set");

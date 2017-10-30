@@ -95,6 +95,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     private Cursor waitCursor=null;
 
     class SearchActionListener implements ActionListener {
+        @Override
 	public synchronized void actionPerformed(ActionEvent e) {
 	    HelpModel helpmodel = searchnav.getModel();
 	    try {
@@ -133,6 +134,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public void installUI(JComponent c) {
 	searchnav = (JHelpSearchNavigator)c;
 	HelpModel helpmodel = searchnav.getModel();
@@ -170,6 +172,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	reloadData();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
 	HelpModel helpmodel = searchnav.getModel();
 
@@ -186,6 +189,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	searchnav = null;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
 	/*
 	if (sp != null) {
@@ -197,6 +201,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	return new Dimension(200,100);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
 	if (sp != null) {
 	    return ((ScrollPaneLayout)sp.getLayout()).minimumLayoutSize(sp);
@@ -205,6 +210,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
 	return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -293,6 +299,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
      * Merges in the navigational data from another NavigatorView. 
      */
 
+    @Override
     public void merge(NavigatorView view) {
 	debug("merging "+view);
 
@@ -309,6 +316,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
      * Removes the navigational data from another NavigatorView. 
      */
 
+    @Override
     public void remove(NavigatorView view) {
 	debug("removing "+view);
 
@@ -339,6 +347,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
      * navigator.
      */
 
+    @Override
     public void idChanged(HelpModelEvent e) {
  	ID id = e.getID();
 	URL url = e.getURL();
@@ -387,6 +396,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     /**
      * A value has changed.  This is used as a TreeSelectionListener.
      */
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -445,6 +455,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	debug(this + " " + "propertyChange: " + event.getSource() + " "  +
 	      event.getPropertyName());
@@ -470,18 +481,21 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component's size changes.
      */
+    @Override
     public void componentResized(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component's position changes.
      */
+    @Override
     public void componentMoved(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component has been made visible.
      */
+    @Override
     public void componentShown(ComponentEvent e) {
         searchparams.selectAll();
         searchparams.requestFocus();
@@ -490,6 +504,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component has been made invisible.
      */
+    @Override
     public void componentHidden(ComponentEvent e) {
     }
     
@@ -660,6 +675,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 
     }
 
+    @Override
     public synchronized void itemsFound(SearchEvent e) {
 	SwingUtilities.invokeLater(new SearchItemsFound(e));
     }
@@ -672,6 +688,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	    this.e = e;
 	}
 
+        @Override
 	public void run() {
 	    SearchTOCItem tocitem;
 	    Vector nodes = new Vector();
@@ -727,9 +744,11 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public synchronized void searchStarted(SearchEvent e) {
 	debug ("search Started");
 	SwingUtilities.invokeLater(new Runnable() {
+            @Override
 	    public void run() {
 		TreeSelectionModel tsm = tree.getSelectionModel();
 		tsm.clearSelection();
@@ -741,8 +760,10 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	});
     }
 
+    @Override
     public synchronized void searchFinished(SearchEvent e) {
 	SwingUtilities.invokeLater(new Runnable() {
+            @Override
 	    public void run() {
 		TreeSelectionModel tsm = tree.getSelectionModel();
 		if (lastTOCnode == null && topNode.getChildCount() > 0) {

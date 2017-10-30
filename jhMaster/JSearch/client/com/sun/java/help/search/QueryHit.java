@@ -50,6 +50,7 @@ class QueryHit
     _concepts = new int[nColumns];
   }
   
+  @Override
   public String toString() {
     return "[doc = "+_doc+", "+_begin+", "+_end+", "+_score+"]";
   }

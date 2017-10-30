@@ -254,6 +254,7 @@ static int count1 = 0, count2 = 0;
 	return hashtable;
     }
 
+    @Override
     public synchronized Object clone() {
 	try { 
 	    TagProperties tp = (TagProperties)super.clone();
@@ -267,6 +268,7 @@ static int count1 = 0, count2 = 0;
 	}
     }
 
+    @Override
     public synchronized String toString() {
 	if (hashtable != null) {
 	    return hashtable.toString();
@@ -277,10 +279,12 @@ static int count1 = 0, count2 = 0;
 
     class EmptyEnumerator implements Enumeration {
 	
+        @Override
 	public boolean hasMoreElements() {
 	    return false;
     }
 	
+        @Override
 	public Object nextElement() {
 	    throw new java.util.NoSuchElementException("EmptyEnumerator");
 	}

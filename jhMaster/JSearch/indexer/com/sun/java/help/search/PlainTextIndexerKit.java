@@ -58,6 +58,7 @@ public class PlainTextIndexerKit extends DefaultIndexerKit {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         return new PlainTextIndexerKit();
     }
@@ -69,6 +70,7 @@ public class PlainTextIndexerKit extends DefaultIndexerKit {
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
         return "text/plain";
     }
@@ -84,6 +86,7 @@ public class PlainTextIndexerKit extends DefaultIndexerKit {
      * @param config The indexer configuration information
      * @exception IOException on any I/O error
      */
+    @Override
     public void parse(Reader in, String file, boolean ignoreCharset,
 		      IndexBuilder builder, 
 		      ConfigFile config) throws IOException 

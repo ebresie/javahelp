@@ -1285,6 +1285,7 @@ class ScanBuffer {
 	return buflen;
     }
 
+    @Override
     public String toString() {
  	return "ScanBuffer, buf = " + buf + ", buflen = " + buflen;
     } 
@@ -1308,6 +1309,7 @@ class ScanBuffer {
 class MyBufferedReader extends BufferedReader {
     public MyBufferedReader(Reader in, int sz) { super(in, sz); }  
     public MyBufferedReader(Reader in) { super(in); }  
+    @Override
     public int read(char cbuf[], int off, int len) throws IOException {
 	if(lock == null) {
 	    //System.err.println("read(): -------------------lock == null");

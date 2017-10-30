@@ -227,6 +227,7 @@ public class QueryEngine
 	    this.score = score;
 	}
 
+        @Override
 	public String toString() {
 	    return "col=" + col + " concept=" + concept + " score=" + score;
 	}

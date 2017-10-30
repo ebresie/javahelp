@@ -72,6 +72,7 @@ public class DefaultSearchQuery extends SearchQuery implements Runnable {
      * understood by this engine
      * @exception IllegalStateException There is an active search in progress in this instance
      */
+    @Override
     public void start(String searchparams, Locale l) 
 	 throws IllegalArgumentException, IllegalStateException 
     {
@@ -93,6 +94,7 @@ public class DefaultSearchQuery extends SearchQuery implements Runnable {
      * SearchEngine. This method will invoke searchStopped on 
      * SearchListeners.
      */
+    @Override
     public void stop() throws IllegalArgumentException, IllegalStateException {
 	debug ("Stop Search");
 	// Can no longer do a stop
@@ -101,6 +103,7 @@ public class DefaultSearchQuery extends SearchQuery implements Runnable {
 	// with thread.stop
     }
 
+    @Override
     public boolean isActive() {
 	if (thread == null) { 
 	    return false;
@@ -108,6 +111,7 @@ public class DefaultSearchQuery extends SearchQuery implements Runnable {
 	return thread.isAlive();
     }
 
+    @Override
     public void run() throws IllegalArgumentException{
 	QueryEngine qe = dhs.getQueryEngine();
 	try {

@@ -67,6 +67,7 @@ public class FullBtreeDict extends BtreeDict
   
   protected class FullDictBlock extends DictBlock
   {
+    @Override
     public void setFree(int free)
     {
       this.free = free - firstEntry();
@@ -341,6 +342,7 @@ public class FullBtreeDict extends BtreeDict
     throws Exception
   {
     init(params, update, new BlockFactory() {
+      @Override
       public Block makeBlock() { return new FullDictBlock(); }
     });
     blocks = new int[300000];	// !!!

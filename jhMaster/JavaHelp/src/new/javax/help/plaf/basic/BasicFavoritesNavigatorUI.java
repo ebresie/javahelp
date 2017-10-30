@@ -137,6 +137,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
 	}
     }
     
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         
@@ -232,6 +233,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
         tree.setCellRenderer(new BasicFavoritesCellRenderer());
     }
     
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         HelpModel model = favorites.getModel();
@@ -249,16 +251,19 @@ PropertyChangeListener, TreeModelListener, Serializable {
         favorites = null;
     }
     
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         
         return new Dimension(200,100);
         
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return new Dimension(100,100);
     }
     
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -562,6 +567,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
      * @param e The HelpModelEvent
      */
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         debug("idChanged("+e+")");
         
@@ -683,6 +689,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
      * Finds the subnode with certain id and name
      */
     
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
         
         selectedTreePath = e.getNewLeadSelectionPath();
@@ -762,6 +769,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
         }
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getSource() + " "  +
         event.getPropertyName());
@@ -800,11 +808,13 @@ PropertyChangeListener, TreeModelListener, Serializable {
         }
     }
     
+    @Override
     public void helpSetAdded(HelpSetEvent ev){
         debug("HelpSet added");
         reloadData();
     }
     
+    @Override
     public void helpSetRemoved(HelpSetEvent ev){
         debug("HelpSet removed");
         reloadData();
@@ -818,10 +828,12 @@ PropertyChangeListener, TreeModelListener, Serializable {
         view.saveFavorites(rootNode);
     }
     
+    @Override
     public void treeStructureChanged(javax.swing.event.TreeModelEvent treeModelEvent) {
         debug("tree structure changed");
     }
     
+    @Override
     public void treeNodesInserted(javax.swing.event.TreeModelEvent treeModelEvent) {
         debug("node inserted");
         int place = -1;
@@ -872,6 +884,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
         }
     }
     
+    @Override
     public void treeNodesRemoved(javax.swing.event.TreeModelEvent treeModelEvent) {
         debug("nodes removed");
         Object nodes[] = treeModelEvent.getChildren();
@@ -883,6 +896,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
         }
     }
     
+    @Override
     public void treeNodesChanged(javax.swing.event.TreeModelEvent treeModelEvent) {
         debug("node changed");
         TreeCellEditor editor = tree.getCellEditor();
@@ -926,6 +940,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             super(HelpUtilities.getString(locale, "favorites.add"), SwingHelpUtilities.getImageIcon(BasicFavoritesNavigatorUI.class,"images/addToFav.gif"));
         }
         
+        @Override
         public void actionPerformed(ActionEvent ev){
             debug("add");
 
@@ -997,6 +1012,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
      * Returns the Add action
      *
      */
+    @Override
     public Action getAddAction(){
         return addAction;
     }
@@ -1011,6 +1027,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             super(HelpUtilities.getString(locale, "favorites.remove"), SwingHelpUtilities.getImageIcon(BasicFavoritesNavigatorUI.class,"images/remove.gif"));
         }
         
+        @Override
         public void actionPerformed(ActionEvent ev){
             debug("remove");
             DefaultMutableTreeNode node = null;
@@ -1047,6 +1064,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             super(HelpUtilities.getString(locale, "favorites.folder"), SwingHelpUtilities.getImageIcon(BasicFavoritesNavigatorUI.class,"images/folder.gif"));
         }
         
+        @Override
         public void actionPerformed(ActionEvent ev){
             FavoritesItem favoriteFolder = new FavoritesItem(HelpUtilities.getString(locale, "favorites.folder"));
             favoriteFolder.setAsFolder();
@@ -1085,6 +1103,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             super(HelpUtilities.getString(locale,"favorites.cut"));
         }
         
+        @Override
         public void actionPerformed(ActionEvent ev){
             debug("cut");
             DefaultMutableTreeNode node = null;
@@ -1122,6 +1141,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             super(HelpUtilities.getString(locale,"favorites.paste"));
         }
         
+        @Override
         public void actionPerformed(ActionEvent ev){
             debug("paste");
             
@@ -1165,6 +1185,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             super(HelpUtilities.getString(locale,"favorites.copy"));
         }
         
+        @Override
         public void actionPerformed(ActionEvent ev){
             debug("paste");
             
@@ -1199,10 +1220,12 @@ PropertyChangeListener, TreeModelListener, Serializable {
      */
     public class PopupListener extends MouseAdapter{
         
+        @Override
         public void mousePressed(MouseEvent e){
 	    maybeShowPopup(e);
         }
 
+        @Override
         public void mouseReleased(MouseEvent e){
 	    maybeShowPopup(e);
         }
@@ -1281,6 +1304,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             putClientProperty("JTree.lineStyle", "None");
         }
         
+        @Override
         public void dragGestureRecognized(DragGestureEvent e) {
             FavoritesNode dragNode = getSelectedNode();
             if (dragNode != null) {
@@ -1334,25 +1358,30 @@ PropertyChangeListener, TreeModelListener, Serializable {
             return ghostImage;
         }
         
+        @Override
         public void dragDropEnd(DragSourceDropEvent dsde) {
             debug("dragDropEnd");
         }
         
+        @Override
         public void dragEnter(DragSourceDragEvent dsde) {
             debug("dragEnter");
             setCursor(dsde);
         }
         
+        @Override
         public void dragOver(DragSourceDragEvent dsde) {
             debug("drag over");
             setCursor(dsde);
         }
         
+        @Override
         public void dropActionChanged(DragSourceDragEvent dsde) {
             debug("dropActionChanged");
             setCursor(dsde);
         }
         
+        @Override
         public void dragExit(DragSourceEvent dsde) {
             debug("dragExit");
         }
@@ -1380,6 +1409,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
             }
         }
         
+        @Override
         public void drop(DropTargetDropEvent e) {
             debug("drop");
             try {
@@ -1467,15 +1497,18 @@ PropertyChangeListener, TreeModelListener, Serializable {
             }
         }
         
+        @Override
         public void dragEnter(DropTargetDragEvent e) {
         }
         
+        @Override
         public void dragExit(DropTargetEvent e) {
             if (!DragSource.isDragImageSupported()) {
                 repaint(ghostRect.getBounds());
             }
         }
         
+        @Override
         public void dragOver(DropTargetDragEvent e) {
             
             Point pt = e.getLocation();
@@ -1500,6 +1533,7 @@ PropertyChangeListener, TreeModelListener, Serializable {
                 e.rejectDrag();
         }
         
+        @Override
         public void dropActionChanged(DropTargetDragEvent e) {
         }
         

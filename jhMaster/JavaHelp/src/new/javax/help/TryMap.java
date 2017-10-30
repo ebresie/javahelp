@@ -92,6 +92,7 @@ public class TryMap implements Map, Serializable {
      * @return True if id is valid, false if not valid.
      */
 
+    @Override
     public boolean isValidID(String id, HelpSet hs) {
 	debug("isValidID "+id);
 	for (Enumeration e = maps.elements();
@@ -109,6 +110,7 @@ public class TryMap implements Map, Serializable {
      *
      * @param An enumeration of all the IDs in a Map.
      */
+    @Override
     public Enumeration getAllIDs() {
 	return new TryEnumeration(maps.elements(), null);
     }
@@ -121,6 +123,7 @@ public class TryMap implements Map, Serializable {
      * @return URL The matching URL.  Null if this Map cannot resolve the ID.
      * @exception MalformedURLException if the URL specification found is malformed
      */
+    @Override
     public URL getURLFromID(ID id) throws MalformedURLException {
 	debug("getURLFromID("+id+")");
 	URL back = null;
@@ -141,6 +144,7 @@ public class TryMap implements Map, Serializable {
      * @param url The URL to check on.
      * @return True if this is an ID, false otherwise.
      */
+    @Override
     public boolean isID(URL url) {
 	for (Enumeration e = maps.elements();
 	     e.hasMoreElements(); ) {
@@ -159,6 +163,7 @@ public class TryMap implements Map, Serializable {
      * @param url The URL to get the ID for.
      * @return The ID (Map.ID), or null if URL is not an ID
      */
+    @Override
     public ID getIDFromURL(URL url) {
 	debug("getIDFromURL("+url+")");
 	ID back = null;
@@ -179,6 +184,7 @@ public class TryMap implements Map, Serializable {
      * @param url A URL
      * @return The closest ID in this map to the given URL
      */
+    @Override
     public ID getClosestID(URL url) {
 	ID back = null;
 	// See if there is an exact match
@@ -219,6 +225,7 @@ public class TryMap implements Map, Serializable {
      * @param URL The URL to compare the Map IDs to.
      * @return Enumeration of IDs (Strings)
      */
+    @Override
     public Enumeration getIDs(URL url) {
 	return new TryEnumeration(maps.elements(), url);
     }
@@ -234,6 +241,7 @@ public class TryMap implements Map, Serializable {
 	    this.url = url;
 	}
 
+        @Override
 	public boolean hasMoreElements() {
 	    while (k == null ||
 		   !k.hasMoreElements()) {
@@ -250,6 +258,7 @@ public class TryMap implements Map, Serializable {
 	    return k.hasMoreElements();
 	}
 
+        @Override
 	public Object nextElement() {
 	    return k.nextElement(); // this is an ID
 	}

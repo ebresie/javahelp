@@ -122,6 +122,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
     /**
      * @return The HelpViewerUI that provides the current look and feel.
      */
+    @Override
     public HelpContentViewerUI getUI() {
 	return (HelpContentViewerUI)ui;
     }
@@ -132,6 +133,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
      *
      * @overrides updateUI in class JComponent
      */
+    @Override
     public void updateUI() {
         SwingHelpUtilities.installUIDefaults();
 	setUI((HelpContentViewerUI)UIManager.getUI(this));
@@ -141,6 +143,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
     /**
      * @return "HelpViewerUI"
      */
+    @Override
     public String getUIClassID()
     {
         return "HelpContentViewerUI";
@@ -389,6 +392,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
      *
      * @return the AccessibleContext of this JComponent
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJHelpContentViewer();
@@ -414,6 +418,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

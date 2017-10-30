@@ -73,6 +73,7 @@ public class PrintSetupAction extends AbstractHelpAction implements PropertyChan
 
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         if (handler != null) {
             handler.printSetup();
@@ -84,6 +85,7 @@ public class PrintSetupAction extends AbstractHelpAction implements PropertyChan
      * @param evt A PropertyChangeEvent object describing the event source
      *  	and the property that has changed.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("enabled")) {
             setEnabled(((Boolean)evt.getNewValue()).booleanValue());

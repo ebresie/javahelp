@@ -83,6 +83,7 @@ public class JHelpIndexNavigator extends JHelpNavigator {
     /**
      * Gets the UID for this JComponent.
      */
+    @Override
     public String getUIClassID() {
 	return "HelpIndexNavigatorUI";
     }
@@ -96,6 +97,7 @@ public class JHelpIndexNavigator extends JHelpNavigator {
      * @see merge(NavigatorView)
      * @see remove(NavigatorView)
      */
+    @Override
     public boolean canMerge(NavigatorView view) {
 	if (view instanceof IndexView &&
 	    getNavigatorName().equals(view.getName())) {
@@ -114,6 +116,7 @@ public class JHelpIndexNavigator extends JHelpNavigator {
      * @see canMerge(NavigatorView)
      * @see remove(NavigatorView)
      */
+    @Override
     public void merge(NavigatorView view) {
 	debug("merge of: "+view);
 	this.getUI().merge(view);
@@ -129,6 +132,7 @@ public class JHelpIndexNavigator extends JHelpNavigator {
      * @see canMerge(NavigatorView)
      * @see merge(NavigatorView)
      */
+    @Override
     public void remove(NavigatorView view) {
 	this.getUI().remove(view);
     }

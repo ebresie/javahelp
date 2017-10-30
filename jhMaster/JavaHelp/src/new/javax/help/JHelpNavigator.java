@@ -124,6 +124,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
     /**
      * @return "HelpNavigatorUI"
      */
+    @Override
     public String getUIClassID()
     {
         return "HelpNavigatorUI";
@@ -256,6 +257,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
     /**
      * Returns the HelpUI that provides the current look and feel.
      */
+    @Override
     public HelpNavigatorUI getUI() {
 	return (HelpNavigatorUI)ui;
     }
@@ -266,6 +268,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
      *
      * @overrides updateUI in class JComponent
      */
+    @Override
     public void updateUI() {
         SwingHelpUtilities.installUIDefaults();
 	setUI((HelpNavigatorUI)UIManager.getUI(this));
@@ -335,6 +338,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
      *
      * @return The AccessibleContext of this JComponent
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJHelpNavigator();
@@ -360,6 +364,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
          * @return An instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

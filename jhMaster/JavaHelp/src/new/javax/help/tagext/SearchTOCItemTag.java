@@ -78,6 +78,7 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
     }
 
 
+    @Override
     public synchronized int doStartTag() {
 	if (helpsearch == null) {
 	    helpsearch = new MergingSearchEngine(view);
@@ -133,6 +134,7 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
 	}
     }    
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {
@@ -199,6 +201,7 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
     }
 	
 
+    @Override
     public synchronized void itemsFound(SearchEvent e) {
 	SearchTOCItem tocitem;
 	Enumeration itemEnum = e.getSearchItems();
@@ -239,11 +242,13 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
 	}
     }
 
+    @Override
     public synchronized void searchStarted(SearchEvent e) {
 	nodes = new Vector();
 	searchFinished = false;
     }
 
+    @Override
     public synchronized void searchFinished(SearchEvent e) {
 	searchFinished = true;
 	treeEnum = nodes.elements();

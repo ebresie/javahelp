@@ -621,6 +621,7 @@ public class HelpSet implements Serializable{
     /**
      * Prints Name for this HelpSet.
      */
+    @Override
     public String toString() {
 	return getTitle();
     }
@@ -678,6 +679,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Parsing starts.
 	 */
+        @Override
 	public void parsingStarted(URL source) {
 	    if (source == null) {
 		throw new NullPointerException("source");
@@ -690,6 +692,7 @@ public class HelpSet implements Serializable{
 	 * @param publicID the document. If null or is not valid a parsingError
 	 * will be generated.
 	 */
+        @Override
 	public void processDOCTYPE(String root, 
 				   String publicID,
 				   String systemID) {
@@ -703,6 +706,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Processes a PI
 	 */
+        @Override
 	public void processPI(HelpSet hs,
 			      String target,
 			      String data) {
@@ -712,6 +716,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * A title is found
 	 */
+        @Override
 	public void processTitle(HelpSet hs,
 				 String value) {
 	    String title = hs.getTitle();
@@ -725,6 +730,7 @@ public class HelpSet implements Serializable{
 	 * A HomeID is found.
 	 */
 
+        @Override
 	public void processHomeID(HelpSet hs,
 				  String value) {
 	    ID homeID = hs.getHomeID();
@@ -743,6 +749,7 @@ public class HelpSet implements Serializable{
 	 * @param Spec to the URL
 	 * @param Attributes for the tag
 	 */
+        @Override
 	public void processMapRef(HelpSet hs,
 				  Hashtable attributes) {
 	    String spec = (String) attributes.get("location");
@@ -784,6 +791,7 @@ public class HelpSet implements Serializable{
 	/*
 	 * Called per &lt;view&gt;
 	 */
+        @Override
 	public void processView(HelpSet hs,
 				String name,
 				String label,
@@ -823,6 +831,7 @@ public class HelpSet implements Serializable{
 	/*
 	 * Called per &lt;presentation&gt;
 	 */
+        @Override
 	public void processPresentation(HelpSet hs,
 					String name,
 					boolean defaultPresentation,
@@ -860,6 +869,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Called when a sub-HelpSet is found.
 	 */
+        @Override
 	public void processSubHelpSet(HelpSet hs,
 				      Hashtable attributes) {
 	    debug("createSubHelpSet");
@@ -897,6 +907,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Reports an error message.
 	 */
+        @Override
 	public void reportMessage(String msg, boolean validParse) {
 	    messages.addElement(msg);
 	    this.validParse = this.validParse && validParse;
@@ -905,6 +916,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Enumerates all the error messages.
 	 */
+        @Override
 	public Enumeration listMessages() {
 	    return messages.elements();
 	}
@@ -914,6 +926,7 @@ public class HelpSet implements Serializable{
 	 * to the HelpSet.
 	 * @param hs The HelpSet the parsing ended on. A null hs is valid.
 	 */
+        @Override
 	public HelpSet parsingEnded(HelpSet hs) {
 	    HelpSet back = hs;
 	    if (! validParse) {
@@ -1295,6 +1308,7 @@ public class HelpSet implements Serializable{
 	    parser.parse();
 	}
 
+        @Override
 	public void tagFound(ParserEvent e) {
             debug("tagFound " + e.getTag().name);
 	    Locale locale = null;
@@ -1705,10 +1719,12 @@ public class HelpSet implements Serializable{
 	    }
 	}
 
+        @Override
 	public void piFound(ParserEvent e) {
 	    factory.processPI(myHS, e.getTarget(), e.getData());
 	}
 
+        @Override
 	public void doctypeFound(ParserEvent e) {
 	    factory.processDOCTYPE(e.getRoot(), e.getPublicId(), e.getSystemId());
 	}
@@ -1719,6 +1735,7 @@ public class HelpSet implements Serializable{
 	    }
 	}
 
+        @Override
 	public void textFound(ParserEvent e) {
 	    debug("textFound: ");
 	    debug("  text: "+e.getText());
@@ -1791,6 +1808,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Method used to parse a HelpSet.
 	 */
+        @Override
 	public void errorFound(ParserEvent e) {
 	    // Ignore it for now
 	}
@@ -1798,6 +1816,7 @@ public class HelpSet implements Serializable{
 	/**
 	 * Method used to parse a HelpSet.
 	 */
+        @Override
 	public void commentFound(ParserEvent e) {
 	    // Ignore it for now
 	}

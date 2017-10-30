@@ -303,10 +303,12 @@ public class HelpUtilities {
 	    this.locale2 = locale2;
 	}
 	
+        @Override
 	public int hashCode() {
 	    return locale1.hashCode() + locale2.hashCode();
 	}
 	
+        @Override
 	public boolean equals(Object obj) {
 	    if (obj == null || ! (obj instanceof LocalePair)) {
 		return false;

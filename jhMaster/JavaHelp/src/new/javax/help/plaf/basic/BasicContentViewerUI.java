@@ -108,6 +108,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
     class JHEditorPane extends JEditorPane {
         private Hashtable typeHandlers;
         
+        @Override
         public EditorKit getEditorKitForContentType(String type) {
             if (typeHandlers == null) {
                 typeHandlers = new Hashtable(3);
@@ -132,6 +133,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
     }
     
        
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         theViewer = (JHelpContentViewer)c;
@@ -178,6 +180,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         pendingHighlightsEvent = null;
     }
     
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         JHelpContentViewer viewer = (JHelpContentViewer) c;
@@ -192,19 +195,23 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         viewer.removeAll();
     }
     
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return PREF_SIZE;
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return MIN_SIZE;
     }
     
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // This doesn't seem right. But I'm not sure what to do for now
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         ID id = e.getID();
         URL url = e.getURL();
@@ -266,6 +273,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         debug("rebuild-end");
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getPropertyName() + "\n\toldValue:" + event.getOldValue() + "\n\tnewValue:" + event.getNewValue());
         
@@ -355,6 +363,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
      * Notification of a change relative to a
      * hyperlink.
      */
+    @Override
     public void hyperlinkUpdate(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
             // If in a frame do something different
@@ -419,6 +428,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             cursor = c;
         }
         
+        @Override
         public void run() {
             if (url == null) {
                 // restore the original cursor
@@ -495,11 +505,13 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         class Callback extends HTMLEditorKit.ParserCallback{
             boolean wasTitle = false;
             
+            @Override
             public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos){
                 if(t.equals(HTML.Tag.TITLE)){
                     wasTitle = true;
                 }
             }
+            @Override
             public void handleText(char[] data, int pos){
                 if(wasTitle){
                     title = new String(data);
@@ -518,6 +530,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
      *
      * @param e The TextHelpModelEvent.
      */
+    @Override
     public void highlightsChanged(TextHelpModelEvent e) {
         debug("highlightsChanged "+e);
         
@@ -571,6 +584,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             this.pos = pos;
         }
         
+        @Override
         public void run() {
             try {
                 Rectangle rec = html.modelToView(pos);

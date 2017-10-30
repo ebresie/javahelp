@@ -60,6 +60,7 @@ public class ReloadAction extends AbstractHelpAction implements ActionListener {
         }
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent event) {
 	JHelp help = (JHelp)getControl();
 	JHelpContentViewer viewer = help.getContentViewer();

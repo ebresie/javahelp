@@ -81,6 +81,7 @@ public class DefaultSearchEngine extends SearchEngine {
 	}
     }
 
+    @Override
     public SearchQuery createQuery() {
 	return new DefaultSearchQuery(this);
     }

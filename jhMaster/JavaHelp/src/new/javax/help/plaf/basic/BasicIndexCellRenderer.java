@@ -51,6 +51,7 @@ public class BasicIndexCellRenderer extends DefaultTreeCellRenderer {
       * The foreground color is set based on the selection and the icon
       * is set based on on leaf and expanded.
       */
+    @Override
     public Component getTreeCellRendererComponent(JTree tree,
                                                   Object value,
 						  boolean sel,

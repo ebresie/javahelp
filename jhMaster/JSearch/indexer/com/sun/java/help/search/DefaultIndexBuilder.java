@@ -84,6 +84,7 @@ public class DefaultIndexBuilder extends IndexBuilder
     // temporary until Jacek incorporates stop words into IndexBuilder
     private Hashtable tmpstopWords = new Hashtable();
 
+  @Override
     public void storeStopWords(Enumeration stopWords) {
 	for (; stopWords.hasMoreElements() ;) {
 	    String word = (String) stopWords.nextElement();
@@ -93,6 +94,7 @@ public class DefaultIndexBuilder extends IndexBuilder
 	}
     }
 
+  @Override
     public Enumeration getStopWords() {
 	// For now the stop words are not stored in the index
 	// Jacek will change this when he supports stop words in indexes
@@ -104,6 +106,7 @@ public class DefaultIndexBuilder extends IndexBuilder
 	return tmpstopWords.get(word) != null;
     }
 
+  @Override
   public void close() throws Exception
   {
     dict.close(freeID);
@@ -131,6 +134,7 @@ public class DefaultIndexBuilder extends IndexBuilder
     _schema.save();
   }
 
+  @Override
   public void openDocument(String name) throws Exception
   {
     if (currentDocID != 0) {
@@ -139,6 +143,7 @@ public class DefaultIndexBuilder extends IndexBuilder
     currentDocID = intern(name);
   }
   
+  @Override
   public void closeDocument() throws Exception
   {
     if (currentDocID == 0) {
@@ -150,6 +155,7 @@ public class DefaultIndexBuilder extends IndexBuilder
     _title = 0;
   }
 
+  @Override
   public void storeLocation(String text, int position) throws Exception
   {
     // next line is temporary until Jacek provides support for stop words in
@@ -165,6 +171,7 @@ public class DefaultIndexBuilder extends IndexBuilder
 					    position + text.length());
   }
 
+  @Override
   public void storeTitle(String title) throws Exception
   {
     _title = intern(title);

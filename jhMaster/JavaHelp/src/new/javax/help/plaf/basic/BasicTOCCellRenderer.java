@@ -70,6 +70,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
       * The foreground color is set based on the selection and the icon
       * is set based on on leaf and expanded.
       */
+    @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
 						  boolean sel,
 						  boolean expanded,
@@ -135,6 +136,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 	return this;
     }
 
+    @Override
     public Icon getLeafIcon() {
 	Icon icon = null;
 	if (view != null) {
@@ -151,6 +153,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 	return super.getLeafIcon();
     }
 
+    @Override
     public Icon getOpenIcon() {
 	Icon icon = null;
 	if (view != null) {
@@ -167,6 +170,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 	return super.getOpenIcon();
     }
 
+    @Override
     public Icon getClosedIcon() {
 	Icon icon = null;
 	if (view != null) {

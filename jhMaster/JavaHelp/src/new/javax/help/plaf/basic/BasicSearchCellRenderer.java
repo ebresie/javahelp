@@ -204,6 +204,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
     /**
      * Subclassed to only accept the font if it is not a FontUIResource.
      */
+    @Override
     public void setFont(Font font) {
 	if(font instanceof FontUIResource) {
 	    font = null;
@@ -219,6 +220,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
     /**
      * Subclassed to only accept the color if it is not a ColorUIResource.
      */
+    @Override
     public void setBackground(Color color) {
 	if(color instanceof ColorUIResource)
 	    color = null;
@@ -231,6 +233,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
       * The foreground color is set based on the selection and the icon
       * is set based on on leaf and expanded.
       */
+    @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
 						  boolean sel,
 						  boolean expanded,
@@ -316,6 +319,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
     /**
       * Paints the value.  The background is filled based on selected color.
       */
+    @Override
     public void paint(Graphics g) {
 	Color bColor;
 
@@ -360,6 +364,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
      * Overrides <code>JComponent.getPreferredSize</code> to
      * return slightly taller preferred size value.
      */
+    @Override
     public Dimension getPreferredSize() {
 	Dimension        retDimension = super.getPreferredSize();
 	int width = 0;
@@ -438,6 +443,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	 *
 	 * @return the AccessibleContext of this JComponent
 	 */
+        @Override
 	public AccessibleContext getAccessibleContext() {
 	    if (accessibleContext == null) {
 		accessibleContext = new AccessibleValueJLabel();
@@ -460,6 +466,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	protected class AccessibleValueJLabel extends AccessibleJLabel implements AccessibleValue {
 
 
+            @Override
 	    public AccessibleValue getAccessibleValue() {
 		return this;
 	    }
@@ -472,6 +479,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	     * @return value of the object
 	     * @see #setCurrentAccessibleValue
 	     */
+            @Override
 	    public Number getCurrentAccessibleValue() {
 		return accessValue;
 	    }
@@ -482,6 +490,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	     * @return True if the value was set; else False
 	     * @see #getCurrentAccessibleValue
 	     */
+            @Override
 	    public boolean setCurrentAccessibleValue(Number n) {
 		return false;       // I assume the value can't be set
 	    }
@@ -493,6 +502,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	     * have a minimum value
 	     * @see #getMaximumAccessibleValue
 	     */
+            @Override
 	    public Number getMinimumAccessibleValue() {
 		return minValue;
 	    }
@@ -504,6 +514,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	     * have a maximum value
 	     * @see #getMinimumAccessibleValue
 	     */
+            @Override
 	    public Number getMaximumAccessibleValue() {
 		return maxValue;
 	    }

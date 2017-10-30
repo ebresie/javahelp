@@ -105,6 +105,7 @@ public class FavoritesView extends NavigatorView{
      * is valid.
      * @return The appropriate Component for this view.
      */
+    @Override
     public Component createNavigator(HelpModel model) {
         return new JHelpFavoritesNavigator(this, model);
     }
@@ -112,6 +113,7 @@ public class FavoritesView extends NavigatorView{
     /**
      * Get the Index navigators mergeType. Overrides getMergeType in NavigatorView
      */
+    @Override
     public String getMergeType() {
 	String mergeType = super.getMergeType();
 	if (mergeType == null) {
@@ -217,6 +219,7 @@ public class FavoritesView extends NavigatorView{
         /**
          * Parsing has started
          */
+        @Override
         public void parsingStarted(URL source) {
             if (source == null) {
                 throw new NullPointerException("source");
@@ -227,6 +230,7 @@ public class FavoritesView extends NavigatorView{
         /**
          * Process a DOCTYPE
          */
+        @Override
         public void processDOCTYPE(String root,
 				   String publicID,
 				   String systemID) {
@@ -239,6 +243,7 @@ public class FavoritesView extends NavigatorView{
         /**
          * We have found a PI; ignore it
          */
+        @Override
         public void processPI(HelpSet hs, String target, String data) {
         }
         
@@ -254,6 +259,7 @@ public class FavoritesView extends NavigatorView{
          * @returns A fully constructed TreeItem.
          * @throws IllegalArgumentException if tagname is null or invalid.
          */
+        @Override
         public TreeItem createItem(String tagName,
 				   Hashtable atts,
 				   HelpSet hs,
@@ -288,6 +294,7 @@ public class FavoritesView extends NavigatorView{
     /**
      * Creates a default FavoritesItem.
      */
+        @Override
     public TreeItem createItem() {
         debug("empty item created");
         return new FavoritesItem();
@@ -296,6 +303,7 @@ public class FavoritesView extends NavigatorView{
     /**
      * Reports an error message.
      */
+        @Override
     public void reportMessage(String msg, boolean validParse) {
         messages.addElement(msg);
         this.validParse = this.validParse && validParse;
@@ -304,6 +312,7 @@ public class FavoritesView extends NavigatorView{
     /**
      * Lists all the error messages.
      */
+        @Override
     public Enumeration listMessages() {
         return messages.elements();
     }
@@ -317,6 +326,7 @@ public class FavoritesView extends NavigatorView{
      * @returns A valid DefaultMutableTreeNode if the parsing succeded or null
      * if it failed
      */
+        @Override
     public DefaultMutableTreeNode parsingEnded(DefaultMutableTreeNode node) {
         DefaultMutableTreeNode back = node;
         if (! validParse) {
@@ -398,6 +408,7 @@ public class FavoritesView extends NavigatorView{
 	/**
 	 *  A Tag was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void tagFound(ParserEvent e) {
 	    Locale locale = null;
 	    Tag tag = e.getTag();
@@ -485,6 +496,7 @@ public class FavoritesView extends NavigatorView{
 	/**
 	 *  A PI was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void piFound(ParserEvent e) {
 	    // ignore
 	}
@@ -492,6 +504,7 @@ public class FavoritesView extends NavigatorView{
 	/**
 	 *  A DOCTYPE was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void doctypeFound(ParserEvent e) {
 	    // ignore for now
 	    factory.processDOCTYPE(e.getRoot(), e.getPublicId(), e.getSystemId());
@@ -500,6 +513,7 @@ public class FavoritesView extends NavigatorView{
 	/**
 	 * A continous block of text was parsed.
 	 */
+        @Override
 	public void textFound(ParserEvent e) {
 	    if (tagStack.empty()) {
 		return;		// ignore
@@ -518,8 +532,10 @@ public class FavoritesView extends NavigatorView{
 	}
     
 	// The remaing events from Parser are ignored
+        @Override
 	public void commentFound(ParserEvent e) {}
     
+        @Override
 	public void errorFound(ParserEvent e){
 	    factory.reportMessage(e.getText(), false);
 	}

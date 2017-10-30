@@ -86,6 +86,7 @@ public class HelpSetEvent extends java.util.EventObject {
     /**
      * Returns textual about the instance. 
      */
+     @Override
     public String toString() {
 	if (action==HELPSET_ADDED) {
 	    return "HelpSetEvent("+source+", "+helpset+"; added";

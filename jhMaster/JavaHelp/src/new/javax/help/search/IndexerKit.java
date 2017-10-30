@@ -61,6 +61,7 @@ public abstract class IndexerKit implements Cloneable {
      *
      * @return the copy
      */
+    @Override
     public abstract Object clone();
 
     /**

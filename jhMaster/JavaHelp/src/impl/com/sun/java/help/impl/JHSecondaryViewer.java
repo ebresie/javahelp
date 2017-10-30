@@ -149,20 +149,25 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	addActionListener(this);
 	origCursor = getCursor();
 	addMouseListener(new MouseListener() {
+            @Override
 	    public void mouseClicked(MouseEvent e) {
 	    }
 
+            @Override
 	    public void mouseEntered(MouseEvent e) {
 		setCursor(handCursor);
 	    }
 
+            @Override
 	    public void mouseExited(MouseEvent e) {
 		setCursor(origCursor);
 	    }
 
+            @Override
 	    public void mousePressed(MouseEvent e) {
 	    }
 
+            @Override
 	    public void mouseReleased(MouseEvent e) {
 	    }
 	});
@@ -171,6 +176,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
     /**
      * Sets data optained from the View
      */
+    @Override
     public void setViewData(View v) {
 	myView = v;
 	doc = (HTMLDocument) myView.getDocument();
@@ -848,6 +854,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
     /**
      * Displays the viewer according to the viewerType
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
 	debug ("actionPerformed");
 

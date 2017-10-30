@@ -105,6 +105,7 @@ public abstract class WindowPresentation extends Presentation {
      * 
      * @see HelpSet.Presentation
      */
+    @Override
     public void setHelpSetPresentation (HelpSet.Presentation hsPres) {
 	debug("setHelpSetPrsentation");
 	if (hsPres == null) {
@@ -323,6 +324,7 @@ public abstract class WindowPresentation extends Presentation {
      * @param hs The HelpSet to set for this presentation. 
      * A null hs is valid parameter.
      */
+    @Override
     public void setHelpSet(HelpSet hs) {
 	debug("setHelpSet");
 
@@ -341,6 +343,7 @@ public abstract class WindowPresentation extends Presentation {
     /**
      * Displays the presentation to the user.
      */
+    @Override
     public void setDisplayed(boolean b) {
 	debug ("setDisplayed");
 	// if the jhelp is null and they don't want it displayed just return
@@ -392,6 +395,7 @@ public abstract class WindowPresentation extends Presentation {
     /**
      * Determines if the presentation is displayed.
      */
+    @Override
     public boolean isDisplayed() {
 	debug ("isDisplayed");
 	if (jhelp == null) {
@@ -453,6 +457,7 @@ public abstract class WindowPresentation extends Presentation {
      * Sets the font for this this WindowPresentation.
      * @param f The font.
      */
+    @Override
     public void setFont (Font f) {
 	debug("setFont");
 	super.setFont(f);
@@ -464,6 +469,7 @@ public abstract class WindowPresentation extends Presentation {
     /**
      * Gets the font for this WindowPresentation
      */
+    @Override
     public Font getFont() {
 	debug("getFont");
 	Font font = super.getFont();
@@ -483,6 +489,7 @@ public abstract class WindowPresentation extends Presentation {
      * is the same as the defaultLocale.
      * @see #getLocale
      */
+    @Override
     public void setLocale(Locale l) { 
 	debug("setLocale");
 	super.setLocale(l);
@@ -690,6 +697,7 @@ public abstract class WindowPresentation extends Presentation {
      * Requests the size of the presentation.
      * @returns Point the location of the presentation.
      */
+    @Override
     public Dimension getSize() {
 	debug("getSize");
 	// if the jhelp is created then just use the current sizes 
@@ -712,6 +720,7 @@ public abstract class WindowPresentation extends Presentation {
      * the presentation on the fly. This is an override of 
      * Presentation.SetSize.
      */
+    @Override
     public void setSize(Dimension d) {
 	debug("setSize");
 	super.setSize(d);
@@ -942,6 +951,7 @@ public abstract class WindowPresentation extends Presentation {
 		// is set to null so that a new dialog will be created so
 		// that events aren't blocked in the HelpViewer.
 		dl = new WindowAdapter() {
+                    @Override
 		    public void windowClosing(WindowEvent e) {
 			debug ("modal window closing");
 			if (destroyOnExit) {
@@ -958,6 +968,7 @@ public abstract class WindowPresentation extends Presentation {
 			modalDeactivated = true;
 		    }
 
+                    @Override
 		    public void windowClosed(WindowEvent e) {
 			debug ("modal window closing");
 			if (destroyOnExit) {
@@ -1007,6 +1018,7 @@ public abstract class WindowPresentation extends Presentation {
 		frame = new JFrame(getTitle(), gc);
 
 		WindowListener l = new WindowAdapter() {
+                    @Override
 		    public void windowClosing(WindowEvent e) {
 			if (destroyOnExit) {
 			    destroy();
@@ -1014,6 +1026,7 @@ public abstract class WindowPresentation extends Presentation {
 			}
 			frame.setVisible(false);
 		    }
+                    @Override
 		    public void windowClosed(WindowEvent e) {
 			frame.setVisible(false);
 			if (destroyOnExit) {
@@ -1080,6 +1093,7 @@ public abstract class WindowPresentation extends Presentation {
     }
 
     private class WindowPropertyChangeListener implements PropertyChangeListener {
+        @Override
 	public void propertyChange(PropertyChangeEvent event) {
 	    String changeName = event.getPropertyName();
 	    if (changeName.equals("page")) {

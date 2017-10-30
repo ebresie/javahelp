@@ -104,6 +104,7 @@ public class TOCView extends NavigatorView {
     /**
      * Creates a navigator for a given model.
      */
+    @Override
     public Component createNavigator(HelpModel model) {
 	return new JHelpTOCNavigator(this, model);
     }
@@ -111,6 +112,7 @@ public class TOCView extends NavigatorView {
     /**
      * Get the TOC navigators mergeType. Overrides getMergeType in NavigatorView
      */
+    @Override
     public String getMergeType() {
 	String mergeType = super.getMergeType();
 	if (mergeType == null) {
@@ -305,6 +307,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * Starts parsing.
 	 */
+        @Override
 	public void parsingStarted(URL source) {
 	    if (source == null) {
 		throw new NullPointerException("source");
@@ -315,6 +318,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * Processes a DOCTYPE.
 	 */
+        @Override
 	public void processDOCTYPE(String root, 
 				   String publicID,
 				   String systemID) {
@@ -328,6 +332,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * Finds a PI--ignore it.
 	 */
+        @Override
 	public void processPI(HelpSet hs, String target, String data) {
 	}
 
@@ -343,6 +348,7 @@ public class TOCView extends NavigatorView {
 	 * @returns A fully constructed TreeItem.
 	 * @throws IllegalArgumentExcetpion if tagname is null or invalid.
 	 */
+        @Override
 	public TreeItem createItem(String tagName,
 				   Hashtable atts,
 				   HelpSet hs,
@@ -409,6 +415,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * Creates a default TOCItem.
 	 */
+        @Override
 	public TreeItem createItem() {
 	    return new TOCItem();
 	}
@@ -416,6 +423,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * Reports an error message.
 	 */
+        @Override
 	public void reportMessage(String msg, boolean validParse) {
 	    messages.addElement(msg);
 	    this.validParse = this.validParse && validParse;
@@ -424,6 +432,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * Lists all the error messages.
 	 */
+        @Override
 	public Enumeration listMessages() {
 	    return messages.elements();
 	}
@@ -437,6 +446,7 @@ public class TOCView extends NavigatorView {
 	 * @returns A valid DefaultMutableTreeNode if the parsing succeded or null
 	 * if it failed.
 	 */
+        @Override
 	public DefaultMutableTreeNode parsingEnded(DefaultMutableTreeNode node) {
 	    DefaultMutableTreeNode back = node;
 	    if (! validParse) {
@@ -520,6 +530,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 *  A Tag was parsed.
 	 */
+        @Override
 	public void tagFound(ParserEvent e) {
 	    Locale locale = null;
 	    Tag tag = e.getTag();
@@ -622,6 +633,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 *  A PI was parsed.  This method is not intended for general use.
 	 */
+        @Override
 	public void piFound(ParserEvent e) {
 	    // ignore
 	}
@@ -629,6 +641,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 *  A DOCTYPE was parsed.  This method is not intended for general use.
 	 */
+        @Override
 	public void doctypeFound(ParserEvent e) {
 	    // ignore for now
 	}
@@ -636,6 +649,7 @@ public class TOCView extends NavigatorView {
 	/**
 	 * A continous block of text was parsed.
 	 */
+        @Override
 	public void textFound(ParserEvent e) {
 	    debug("TextFound: "+e.getText().trim());
 
@@ -657,8 +671,10 @@ public class TOCView extends NavigatorView {
 	}
 
 	// The remaing events from Parser are ignored
+        @Override
 	public void commentFound(ParserEvent e) {}
 
+        @Override
 	public void errorFound(ParserEvent e){
 	    factory.reportMessage(e.getText(), false);
 	}

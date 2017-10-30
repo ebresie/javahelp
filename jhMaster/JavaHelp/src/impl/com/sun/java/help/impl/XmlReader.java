@@ -660,6 +660,7 @@ final public class XmlReader extends Reader
     /**
      * Reads the number of characters read into the buffer, or -1 on EOF.
      */
+    @Override
     public int read (char buf [], int off, int len) throws IOException
     {
 	int	i;
@@ -689,6 +690,7 @@ final public class XmlReader extends Reader
     /**
      * Reads a single character.
      */
+    @Override
     public int read () throws IOException
     {
 	if (closed)
@@ -724,6 +726,7 @@ final public class XmlReader extends Reader
     /**
      * Returns true iff the reader supports mark/reset.
      */
+    @Override
     public boolean markSupported ()
     {
 	return in != null && in.markSupported ();
@@ -734,6 +737,7 @@ final public class XmlReader extends Reader
      * be "peeked", by reading and then resetting.
      * @param value how many characters may be "peeked".
      */
+    @Override
     public void mark (int value) throws IOException
     {
 	if (in != null)
@@ -743,6 +747,7 @@ final public class XmlReader extends Reader
     /**
      * Resets the current position to the last marked position.
      */
+    @Override
     public void reset () throws IOException
     {
 	if (in != null)
@@ -752,6 +757,7 @@ final public class XmlReader extends Reader
     /**
      * Skips a specified number of characters.
      */
+    @Override
     public long skip (long value) throws IOException
     {
 	if (value < 0)
@@ -770,6 +776,7 @@ final public class XmlReader extends Reader
     /**
      * Returns true iff input characters are known to be ready.
      */
+    @Override
     public boolean ready () throws IOException
     {
 	if (in != null)
@@ -780,6 +787,7 @@ final public class XmlReader extends Reader
     /**
      * Closes the reader.
      */
+    @Override
     public void close () throws IOException
     {
 	if (closed)

@@ -161,6 +161,7 @@ public class BtreeDictCompactor extends FullBtreeDict
     throws Exception
   {
     init(params, update, new BlockFactory() {
+      @Override
       public Block makeBlock() { return new CompactorDictBlock(); }
     });
     _currentLeaf = new CompactorDictBlock();
@@ -219,6 +220,7 @@ public class BtreeDictCompactor extends FullBtreeDict
     return number;
   }
 
+  @Override
   public void close() throws java.io.IOException
   {
     _currentLeaf.setFree(_entry);

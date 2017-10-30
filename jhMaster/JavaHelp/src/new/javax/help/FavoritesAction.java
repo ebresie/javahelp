@@ -71,6 +71,7 @@ public class FavoritesAction extends AbstractHelpAction implements ActionListene
         }
     }
 
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent event) {
 	if (favoritesActionListener != null) {
 	    favoritesActionListener.actionPerformed(event);

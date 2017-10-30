@@ -71,6 +71,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         debug("createUI - sort of");
     }
     
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         theViewer = (JHelpContentViewer)c;
@@ -115,6 +116,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         theViewer.add("Center", scroller);
     }
     
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         JHelpContentViewer viewer = (JHelpContentViewer) c;
@@ -132,19 +134,23 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         viewer.removeAll();
     }
     
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return PREF_SIZE;
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return MIN_SIZE;
     }
     
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // This doesn't seem right. But I'm not sure what to do for now
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         ID id = e.getID();
         URL url = e.getURL();
@@ -197,6 +203,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         debug("rebuild-end");
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getPropertyName() + "\n\toldValue:" + event.getOldValue() + "\n\tnewValue:" + event.getNewValue());
         
@@ -239,6 +246,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
      *
      * @param e The TextHelpModelEvent.
      */
+    @Override
     public void highlightsChanged(TextHelpModelEvent e) {
         debug("highlightsChanged "+e);
  

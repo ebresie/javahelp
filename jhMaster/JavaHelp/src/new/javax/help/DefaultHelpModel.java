@@ -70,6 +70,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
     /**
      * Sets the HelpSet for this HelpModel. A null hs is valid.
      */
+    @Override
     public void setHelpSet(HelpSet hs) {
 	HelpSet old = this.helpset;
 	this.helpset = hs;
@@ -81,6 +82,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      *
      * @return the helpset. A null hs is valid.
      */
+    @Override
     public HelpSet getHelpSet() {
 	return helpset;
     }
@@ -97,6 +99,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * If the HomeID doesn't exist the currentID is set to null.
      * @exception InvalidHelpSetContextException The ID is not valid for the HelpSet
      */
+    @Override
     public void setCurrentID(ID ident) throws InvalidHelpSetContextException {
         setCurrentID(ident,(String)null, (JHelpNavigator) null);
 
@@ -111,6 +114,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @exception InvalidHelpSetContextException The HelpSet of the ID is not
      * valid for the HelpSet currently loaded in the model
      */
+    @Override
     public void setCurrentID(ID ident, String historyName, JHelpNavigator navigator) throws InvalidHelpSetContextException{
         if (ident == null) {
 	    ident = helpset.getHomeID();
@@ -175,6 +179,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @return the current ID. A null ID is a valid id. If no ID has been set
      * a null ID is returned.
      */
+    @Override
     public ID getCurrentID() {
 	return currentID;
     }
@@ -186,6 +191,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      *
      * @param url The url to set the model to. A null URL is a valid url.
      */
+    @Override
     public void setCurrentURL(URL url) {
         setCurrentURL(url, (String)null, (JHelpNavigator)null);        
     }
@@ -199,6 +205,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @param historyName The name to set for history
      * @param navigator The name of the navigator for history
      */
+    @Override
     public void setCurrentURL(URL url, String historyName, JHelpNavigator navigator){
         
         boolean fire = false;
@@ -253,6 +260,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @return The current URL. A null URL is a valid URL. If no URL has been
      * previously set a null URL will be returned.
      */
+    @Override
     public URL getCurrentURL() {
 	return currentURL;
     }
@@ -263,6 +271,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @param pos0 start position
      * @param pos1 end position
      */
+    @Override
     public void addHighlight(int pos0, int pos1) {
 	debug("addHighlight("+pos0+", "+pos1+")");
 	highlights.addElement(new DefaultHighlight(pos0, pos1));
@@ -272,6 +281,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
     /**
      * Removes highlights.
      */
+    @Override
     public void removeAllHighlights() {
 	debug("removeAllHighlights");
 	highlights.setSize(0);
@@ -284,6 +294,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @param h An array of Hightlights. If h is null it is the same as setting 
      * no highlights
      */
+    @Override
     public void setHighlights(Highlight[] h) {
 	highlights.setSize(0);
 	if (h == null) {
@@ -303,6 +314,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      *
      * @return An array of highlights
      */
+    @Override
     public Highlight[] getHighlights() {
 	Highlight back[] = new DefaultHighlight[highlights.size()];
 	highlights.copyInto(back);
@@ -318,6 +330,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @see javax.help.HelpModel#removeHelpModelListener
      * @throws IllegalArgumentException if l is null.
      */
+    @Override
     public void addHelpModelListener(HelpModelListener l) {
 	debug("addHelpModelListener: ");
 	debug("  l:"+l);
@@ -339,6 +352,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @see javax.help.HelpModel#addHelpModelListener
      * @throws IllegalArgumentException if l is null.
      */
+    @Override
     public void removeHelpModelListener(HelpModelListener l) {
 	listenerList.remove(HelpModelListener.class, l);
     }
@@ -351,6 +365,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @see javax.help.HelpModel#removeHelpModelListener
      * @throws IllegalArgumentException if l is null.
      */
+    @Override
     public void addTextHelpModelListener(TextHelpModelListener l) {
 	debug("addTextHelpModelListener: ");
 	debug("  l:"+l);
@@ -373,6 +388,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @see javax.help.HelpModel#addHelpModelListener
      * @throws IllegalArgumentException if l is null.
      */
+    @Override
     public void removeTextHelpModelListener(TextHelpModelListener l) {
 	textListenerList.remove(TextHelpModelListener.class, l);
     }
@@ -382,6 +398,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      *
      * @param l  the listener to add
      */
+    @Override
     public void addPropertyChangeListener(PropertyChangeListener l) {
 	changes.addPropertyChangeListener(l);
     }
@@ -392,6 +409,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @param l  the listener to remove. If l is not on the list of listeners
      * it is ignored.
      */
+    @Override
     public void removePropertyChangeListener(PropertyChangeListener l) {
 	changes.removePropertyChangeListener(l);
     }
@@ -402,6 +420,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @param title the Title for the document currently being shown. A null 
      * title is valid.
      */
+    @Override
     public void setDocumentTitle(String title) {
 	String oldTitle = this.title;
 	this.title = title;
@@ -414,6 +433,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
      * @return The title for the current document. A null title is valid. If 
      * the title has not be previously set it will be null.
      */
+    @Override
     public String getDocumentTitle() {
 	return title;
     }
@@ -482,6 +502,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
 	 *
 	 * @returns start offset (>=0)
 	 */
+        @Override
 	public int getStartOffset() {
 	    return start;
 	}
@@ -491,6 +512,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
 	 *
 	 * @returns end offset (>=0)
 	 */
+        @Override
 	public int getEndOffset() {
 	    return end;
 	}

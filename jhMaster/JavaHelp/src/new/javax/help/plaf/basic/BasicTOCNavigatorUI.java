@@ -91,6 +91,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public void installUI(JComponent c) {
 	debug (this + " " + "installUI");
 
@@ -135,6 +136,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	tree.setCellRenderer(new BasicTOCCellRenderer(map, (TOCView)view));
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
 	debug (this + " " + "unistallUI");
 	HelpModel model = toc.getModel();
@@ -153,6 +155,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	toc = null;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
 	/*
 	if (sp != null) {
@@ -164,10 +167,12 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	return new Dimension (200,100);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
 	return new Dimension(100,100);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
 	return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -251,10 +256,12 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	    this.view = view;
 	}
 
+        @Override
 	public Object construct() {
 	    return loadData(view);
 	}
 
+        @Override
 	public void finished() {
 	    if ((Boolean)get() == Boolean.TRUE) {
 		presentData();
@@ -431,6 +438,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
      * so it replaces the correct NavigatorUI method.
      */
 
+    @Override
     public void merge(NavigatorView view) {
 	debug("merging "+view);
         doMerge(view);
@@ -447,6 +455,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
      * so it replaces the correct NavigatorUI method.
      */
 
+    @Override
     public void remove(NavigatorView view) {
 	debug("removing "+view);
 
@@ -558,6 +567,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
      * Processes an idChanged event.
      */
 
+    @Override
     public synchronized void idChanged(HelpModelEvent e) {
  	ID id = e.getID();
 	HelpModel helpModel = toc.getModel();
@@ -641,6 +651,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         return toc;
     }
 
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -738,6 +749,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	debug(this + " " + "propertyChange: " + event.getSource() + " "  +
 	      event.getPropertyName());
@@ -766,18 +778,21 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component's size changes.
      */
+    @Override
     public void componentResized(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component's position changes.
      */
+    @Override
     public void componentMoved(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component has been made visible.
      */
+    @Override
     public void componentShown(ComponentEvent e) {
         tree.requestFocus();
     }
@@ -785,6 +800,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component has been made invisible.
      */
+    @Override
     public void componentHidden(ComponentEvent e) {
     }
     

@@ -239,6 +239,7 @@ public class TreeItem implements Serializable
      *
      * @see TOCCellRenderer
      */
+    @Override
     public String toString() {
 	return (id+"("+name+")");
     }

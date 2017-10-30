@@ -53,20 +53,24 @@ public class Parser extends DocumentParser {
         super(in);
     }
 
+    @Override
     protected void tag(String name, TagProperties atts, boolean endTag, boolean emptyTag) {
 	Tag tag = new Tag(name, atts, endTag, emptyTag);
 	listenerList.tagFound(new ParserEvent(this, tag));
     }
 
+    @Override
     protected void pi(String target, String data) {
 	listenerList.piFound(new ParserEvent(this, target, data));
     }
 
+    @Override
     protected void doctype(String root, String publicId, String systemId) {
 	listenerList.doctypeFound(new ParserEvent(this, root, publicId, systemId));
     }
 
 
+    @Override
     protected void flush(char [] buf, int offset, int length) { 
 	if (length == 1 &&((buf[offset] == DocPConst.NEWLINE) ||
 			   (buf[offset] == DocPConst.RETURN))) {
@@ -76,15 +80,18 @@ public class Parser extends DocumentParser {
 	listenerList.textFound(new ParserEvent(this, text));
     }
 
+    @Override
     protected void comment(String s) { 
 	listenerList.commentFound(new ParserEvent(this, s));
     }
 
+    @Override
     protected void errorString(String s) { 
 	listenerList.errorFound(new ParserEvent(this, s));
     } 
 
     // Not need for our version of Parser
+    @Override
     protected String documentAttribute(String name) {return null;}
 
     public void addParserListener(ParserListener l) {
@@ -129,31 +136,37 @@ public class Parser extends DocumentParser {
 	    }
 	}
 
+        @Override
 	public void tagFound(ParserEvent e) {
 	    ((ParserListener)a).tagFound(e);
 	    ((ParserListener)b).tagFound(e);
 	}
 
+        @Override
 	public void piFound(ParserEvent e) {
 	    ((ParserListener)a).piFound(e);
 	    ((ParserListener)b).piFound(e);
 	}
 
+        @Override
 	public void doctypeFound(ParserEvent e) {
 	    ((ParserListener)a).doctypeFound(e);
 	    ((ParserListener)b).doctypeFound(e);
 	}
 
+        @Override
 	public void textFound(ParserEvent e) {
 	    ((ParserListener)a).textFound(e);
 	    ((ParserListener)b).textFound(e);
 	}
 
+        @Override
 	public void commentFound(ParserEvent e) {
 	    ((ParserListener)a).commentFound(e);
 	    ((ParserListener)b).commentFound(e);
 	}
 
+        @Override
 	public void errorFound(ParserEvent e) {
 	    ((ParserListener)a).errorFound(e);
 	    ((ParserListener)b).errorFound(e);

@@ -76,6 +76,7 @@ public class SearchView extends NavigatorView {
     /**
      * Creates a navigator for a given model.
      */
+    @Override
     public Component createNavigator(HelpModel model) {
 	return new JHelpSearchNavigator(this, model);
     }

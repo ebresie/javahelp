@@ -70,6 +70,7 @@ public class NavigatorsTag extends BodyTagSupport {
 	views = hs.getNavigatorViews();
     }
 
+    @Override
     public int doStartTag() {
 	initialize();
 	if(views.length > 0) {
@@ -104,6 +105,7 @@ public class NavigatorsTag extends BodyTagSupport {
     }
 
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {

@@ -101,6 +101,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
        }
     }
 
+    @Override
     public void installUI(JComponent c) {
 	debug ("installUI");
 
@@ -158,6 +159,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
         //ToolTipManager.sharedInstance().registerComponent(tree);
     }
     
+    @Override
     public void uninstallUI(JComponent c) {
 	debug ("uninstallUI");
 	HelpModel model = index.getModel();
@@ -176,6 +178,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	index = null;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
 	/*
 	if (sp != null) {
@@ -188,10 +191,12 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
 	return new Dimension(100,100);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
 	return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -271,10 +276,12 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	    this.view = view;
 	}
 
+        @Override
 	public Object construct() {
 	    return loadData(view);
 	}
 
+        @Override
 	public void finished() {
 	    if ((Boolean)get() == Boolean.TRUE) {
 		presentData();
@@ -450,6 +457,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
      * so it replaces the correct NavigatorUI method.
      */
 
+    @Override
     public void merge(NavigatorView view) {
 	debug("merge");
         doMerge(view);
@@ -466,6 +474,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
      * so it replaces the correct NavigatorUI method.
      */
 
+    @Override
     public void remove(NavigatorView view) {
 	debug("removing "+view);
 
@@ -567,6 +576,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 
     // Process and idChanged event
 
+    @Override
     public synchronized void idChanged(HelpModelEvent e) {
 	ID id = e.getID();
 	HelpModel helpModel = index.getModel();
@@ -650,6 +660,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
         return index;
     }
 		
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -738,6 +749,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	debug("propertyChange: " + event.getSource() + " "  +
 	      event.getPropertyName());
@@ -768,18 +780,21 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component's size changes.
      */
+    @Override
     public void componentResized(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component's position changes.
      */
+    @Override
     public void componentMoved(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component has been made visible.
      */
+    @Override
     public void componentShown(ComponentEvent e) {
         searchField.selectAll();
         searchField.requestFocus();
@@ -788,11 +803,13 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component has been made invisible.
      */
+    @Override
     public void componentHidden(ComponentEvent e) {
     }
     /**
      *  Handles Action from the JTextField component for searching.
      */
+    @Override
     public void actionPerformed(ActionEvent evt) {
 	if (evt.getSource()==searchField) {
 

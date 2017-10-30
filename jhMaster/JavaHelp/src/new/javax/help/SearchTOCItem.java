@@ -107,6 +107,7 @@ public class SearchTOCItem extends TOCItem {
 	}
     }
 
+    @Override
     public URL getURL() {
 	return url;
     }
@@ -122,10 +123,12 @@ public class SearchTOCItem extends TOCItem {
 	return new Enumeration() {
 	    int count = 0;
 		
+            @Override
 	    public boolean hasMoreElements() {
 		return count < sivec.size();
 	    }
 		
+            @Override
 	    public Object nextElement() {
 		synchronized (sivec) {
 		    if (count < sivec.size()) {

@@ -182,6 +182,7 @@ public interface Map {
 	 * @param o The object to compare.
 	 */
 
+        @Override
 	public boolean equals(Object o) {
 	    if (o instanceof ID) {
 		ID id2 = (ID) o;
@@ -193,6 +194,7 @@ public interface Map {
 	/**
 	 * Gets an external represenation of an ID.
 	 */
+        @Override
 	public String toString() {
 	    return("ID: "+id+", "+hs);
 	}
