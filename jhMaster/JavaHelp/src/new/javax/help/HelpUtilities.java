@@ -30,7 +30,9 @@ package javax.help;
 import java.awt.Component;
 import java.awt.IllegalComponentStateException;
 import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
 import java.beans.Introspector;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.text.CollationElementIterator;
@@ -86,7 +88,7 @@ public class HelpUtilities {
 	    BeanInfo bi = Introspector.getBeanInfo(beanClass);
 	    helpSetName =
 		(String) bi.getBeanDescriptor().getValue("helpSetName");
-	} catch (Exception ex) {
+	} catch (IntrospectionException ex) {
 	    helpSetName = null;
 	}
 	if (helpSetName == null) {
@@ -117,7 +119,7 @@ public class HelpUtilities {
 	try {
 	    BeanInfo bi = Introspector.getBeanInfo(beanClass);
 	    helpID = (String) bi.getBeanDescriptor().getValue("helpID");
-	} catch (Exception ex) {
+	} catch (IntrospectionException ex) {
 	    helpID = null;
 	}
 	if (helpID == null) {
@@ -210,7 +212,7 @@ public class HelpUtilities {
 				return url;
 			    }
 			}
-		    } catch (Throwable t) {
+		    } catch (IOException t) {
 		        // ignore and continue looking
 		    }
 		} else {

@@ -31,6 +31,7 @@ import com.sun.java.help.impl.*;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
@@ -148,7 +149,7 @@ public class IndexView extends NavigatorView {
 
 	try {
 	    url = new URL(hs.getHelpSetURL(), (String) params.get("data"));
-	} catch (Exception ex) {
+	} catch (MalformedURLException ex) {
 	    throw new Error("Trouble getting URL to Index data; "+ex);
 	}
         debug("url,hs: "+url.toString()+";"+hs.toString());
@@ -182,7 +183,7 @@ public class IndexView extends NavigatorView {
 	    factory.parsingStarted(url);
 	    node = (new IndexParser(factory)).parse(src, hs, locale);
 	    src.close();
-	} catch (Exception e) {
+	} catch (IOException e) {
 	    factory.reportMessage("Exception caught while parsing "+url+
 				  e.toString(),
 				  false);

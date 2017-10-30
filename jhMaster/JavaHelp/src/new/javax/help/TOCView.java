@@ -31,6 +31,7 @@ import com.sun.java.help.impl.*;
 import java.awt.Component;
 import java.io.IOException;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Enumeration;
@@ -145,7 +146,7 @@ public class TOCView extends NavigatorView {
 
 	try {
 	    url = new URL(hs.getHelpSetURL(), (String) params.get("data"));
-	} catch (Exception ex) {
+	} catch (MalformedURLException ex) {
 	    throw new Error("Trouble getting URL to TOC data; "+ex);
 	}
 
@@ -208,7 +209,7 @@ public class TOCView extends NavigatorView {
 	    TOCParser tocParser = new TOCParser(factory, view);
 	    node = (tocParser.parse(src, hs, locale));
 	    src.close();
-	} catch (Exception e) {
+	} catch (IOException e) {
 	    factory.reportMessage("Exception caught while parsing "+url+
 				  e.toString(), false);
 	}

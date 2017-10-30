@@ -251,7 +251,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    try {
 	    URL url = map.getURLFromID(ident);
 	    return (url.toExternalForm());
-	    } catch (Exception ex) {
+	    } catch (MalformedURLException ex) {
 	    }
 	}
 
@@ -870,7 +870,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    debug ("ident=" + ident);
 		    try {
 			sw.setCurrentID(ident);
-		    } catch (Exception ex) {
+		    } catch (InvalidHelpSetContextException ex) {
 			debug ("error setting CurrentID");
 			// do nothing
 		    }
@@ -879,7 +879,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    try {
 			URL url = new URL(base, content);
 			sw.setCurrentURL(url);
-		    } catch (Exception ex) {
+		    } catch (MalformedURLException ex) {
 			debug ("error setting URL");
 		    }
 		}
@@ -908,7 +908,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    debug ("ident=" + ident);
 		    try {
 			popup.setCurrentID(ident);
-		    } catch (Exception ex) {
+		    } catch (InvalidHelpSetContextException ex) {
 			debug ("error setting CurrentID");
 			// do nothing
 		    }
@@ -917,7 +917,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    try {
 			URL url = new URL(base, content);
 			popup.setCurrentURL(url);
-		    } catch (Exception ex) {
+		    } catch (MalformedURLException ex) {
 			debug ("error setting URL");
 		    }
 		}

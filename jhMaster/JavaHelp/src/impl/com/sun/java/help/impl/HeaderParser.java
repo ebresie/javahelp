@@ -175,7 +175,7 @@ public class HeaderParser {
     public int findInt(String k, int Default) {
 	try {
 	    return Integer.parseInt(findValue(k, String.valueOf(Default)));
-	} catch (Throwable t) {
+	} catch (NumberFormatException t) {
 	    return Default;
 	}
     }

@@ -27,6 +27,7 @@
 
 package javax.help.plaf;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import javax.help.Map;
 import javax.help.NavigatorView;
@@ -92,7 +93,7 @@ public abstract class HelpNavigatorUI extends ComponentUI {
                 Map map = view.getHelpSet().getCombinedMap();
                 URL url = map.getURLFromID(id);
                 icon = new ImageIcon(url);
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
         }
         return icon;

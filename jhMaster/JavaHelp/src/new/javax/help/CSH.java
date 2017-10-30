@@ -716,9 +716,19 @@ public class CSH {
 		}
 		Method m = klass.getMethod("getPresentation", types);
 		pres = (Presentation)m.invoke(null, args);
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new RuntimeException("error invoking presentation" );
-	    }
+	    } catch (IllegalAccessException ex) {
+                throw new RuntimeException("error invoking presentation" );
+            } catch (IllegalArgumentException ex) {
+                throw new RuntimeException("error invoking presentation" );
+            } catch (NoSuchMethodException ex) {
+                throw new RuntimeException("error invoking presentation" );
+            } catch (SecurityException ex) {
+                throw new RuntimeException("error invoking presentation" );
+            } catch (InvocationTargetException ex) {
+                throw new RuntimeException("error invoking presentation" );
+            }
 
 	    if (pres == null) {
 		return;
@@ -757,9 +767,13 @@ public class CSH {
 		pres.setCurrentID(id);
 		pres.setDisplayed(true);
 	    }
-	} catch (Exception e2) {
+	} catch (BadIDException e2) {
 	    e2.printStackTrace();
-	}
+	} catch (InvalidHelpSetContextException e2) {
+            e2.printStackTrace();
+        } catch (UnsupportedOperationException e2) {
+            e2.printStackTrace();
+        }
     }
 
     /**
@@ -1270,7 +1284,7 @@ public class CSH {
 		} else {
 		    klass = loader.loadClass(presentation);
 		}
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new IllegalArgumentException(presentation + "presentation  invalid");
 	    }
 
@@ -1436,7 +1450,7 @@ public class CSH {
 		} else {
 		    klass = loader.loadClass(presentation);
 		}
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new IllegalArgumentException(presentation + "presentation  invalid");
 	    }
 
@@ -1663,7 +1677,7 @@ public class CSH {
 		} else {
 		    klass = loader.loadClass(presentation);
 		}
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new IllegalArgumentException(presentation + "presentation  invalid");
 	    }
 

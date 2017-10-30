@@ -28,6 +28,7 @@
 
 package javax.help;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Vector;
@@ -249,11 +250,15 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 	try {
 	    url = new URL(spec);
 	    hs = new HelpSet(loader, url);
-	} catch (Exception ex) {
+	} catch (MalformedURLException ex) {
 	    System.err.println("Trouble setting HelpSetSpec to spec |"+spec+"|");
 	    System.err.println("  ex: "+ex);
 	    hs = null;
-	}
+	} catch (HelpSetException ex) {
+            System.err.println("Trouble setting HelpSetSpec to spec |"+spec+"|");
+            System.err.println("  ex: "+ex);
+            hs = null;
+        }
 	contentViewer.setModel(new DefaultHelpModel(hs));
 	setModel(contentViewer.getModel());
 	updateUI();

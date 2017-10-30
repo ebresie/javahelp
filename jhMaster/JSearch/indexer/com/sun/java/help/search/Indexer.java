@@ -497,7 +497,13 @@ public class Indexer {
 		}
                 k = (IndexerKit) c.newInstance();
                 kitRegistry.put(type, k);
-            } catch (Throwable e) {
+            } catch (ClassNotFoundException e) {
+                if (debugFlag) e.printStackTrace();
+                k = null;
+            } catch (IllegalAccessException e) {
+                if (debugFlag) e.printStackTrace();
+                k = null;
+            } catch (InstantiationException e) {
                 if (debugFlag) e.printStackTrace();
                 k = null;
             }

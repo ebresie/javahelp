@@ -339,9 +339,17 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
 	    pres = (Presentation)m.invoke(null, args);
 	} catch (ClassNotFoundException cnfex) {
 	    throw new IllegalArgumentException(presentation + "presentation  invalid");
-	} catch (Exception ex) {
+	} catch (IllegalAccessException ex) {
 	    throw new RuntimeException("error invoking presentation" );
-	}
+	} catch (IllegalArgumentException ex) {
+            throw new RuntimeException("error invoking presentation" );
+        } catch (NoSuchMethodException ex) {
+            throw new RuntimeException("error invoking presentation" );
+        } catch (SecurityException ex) {
+            throw new RuntimeException("error invoking presentation" );
+        } catch (InvocationTargetException ex) {
+            throw new RuntimeException("error invoking presentation" );
+        }
 
 	if (pres == null) {
 	    return null;

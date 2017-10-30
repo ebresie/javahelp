@@ -130,12 +130,42 @@ public abstract class NavigatorView implements Serializable{
 	    konstructor = klass.getConstructor(types);
 	    back = (NavigatorView) konstructor.newInstance(args);
 	    return back;
-	} catch (Exception ex) {
+	} catch (ClassNotFoundException ex) {
 	    throw new InvalidNavigatorViewException("Could not create",
 						    hs,
 						    name, label, locale,
 						    className, params);
-	}
+	} catch (IllegalAccessException ex) {
+            throw new InvalidNavigatorViewException("Could not create",
+                    hs,
+                    name, label, locale,
+                    className, params);
+        } catch (IllegalArgumentException ex) {
+            throw new InvalidNavigatorViewException("Could not create",
+                    hs,
+                    name, label, locale,
+                    className, params);
+        } catch (InstantiationException ex) {
+            throw new InvalidNavigatorViewException("Could not create",
+                    hs,
+                    name, label, locale,
+                    className, params);
+        } catch (NoSuchMethodException ex) {
+            throw new InvalidNavigatorViewException("Could not create",
+                    hs,
+                    name, label, locale,
+                    className, params);
+        } catch (SecurityException ex) {
+            throw new InvalidNavigatorViewException("Could not create",
+                    hs,
+                    name, label, locale,
+                    className, params);
+        } catch (InvocationTargetException ex) {
+            throw new InvalidNavigatorViewException("Could not create",
+                    hs,
+                    name, label, locale,
+                    className, params);
+        }
     }
 
     /**

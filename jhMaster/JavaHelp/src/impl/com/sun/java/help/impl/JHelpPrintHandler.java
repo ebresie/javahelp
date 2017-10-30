@@ -33,6 +33,7 @@ import java.awt.geom.*;
 import java.awt.print.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Vector;
 import java.util.WeakHashMap;
@@ -399,7 +400,13 @@ public class JHelpPrintHandler implements ActionListener {
             }
             k = (EditorKit) c.newInstance();
             // kitRegistry.put(type, k);
-        } catch (Throwable e) {
+        } catch (ClassNotFoundException e) {
+            System.err.println(e);
+            k = null;
+        } catch (IllegalAccessException e) {
+            System.err.println(e);
+            k = null;
+        } catch (InstantiationException e) {
             System.err.println(e);
             k = null;
         }
@@ -427,7 +434,7 @@ public class JHelpPrintHandler implements ActionListener {
                 synchronized (job) {
                     try {
                         setPageFormat(job.pageDialog(getPageFormat()));
-                    } catch (Exception e) {
+                    } catch (HeadlessException e) {
                         processException(e);
                     }
                 }
@@ -462,14 +469,14 @@ public class JHelpPrintHandler implements ActionListener {
 		    try {
 			job.setPageable(new JHPageable(editor, urls, 
 						       (PageFormat)JHelpPrintHandler.this.getPageFormat().clone()));
-		    } catch (Exception e) {
+		    } catch (NullPointerException e) {
 			processException(e);
 		    }
                         
                     if (job.printDialog()) {
                         try {
                             job.print();
-                        } catch (Exception e) {
+                        } catch (PrinterException e) {
                             processException(e);
                         }
                     }
@@ -532,7 +539,9 @@ public class JHelpPrintHandler implements ActionListener {
             try {
                 editor.setPage(url);
                 wait();
-            } catch (Exception e) {
+            } catch (IOException e) {
+                processException(e);
+            } catch (InterruptedException e) {
                 processException(e);
             }
             editor.removePropertyChangeListener("page", this);

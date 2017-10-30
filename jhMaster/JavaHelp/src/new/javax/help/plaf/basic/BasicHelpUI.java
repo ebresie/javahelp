@@ -36,6 +36,7 @@ import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Enumeration;
@@ -256,7 +257,11 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
                 Object args[] = { "enabled",  this };
                 m.invoke(action, args);
                 back = true;
-            } catch (Exception ex) {
+            } catch (IllegalAccessException ex) {
+            } catch (IllegalArgumentException ex) {
+            } catch (NoSuchMethodException ex) {
+            } catch (SecurityException ex) {
+            } catch (InvocationTargetException ex) {
             }
             return back;
         }
@@ -269,7 +274,11 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
                 Object args[] = { this };
                 m.invoke(action, args);
                 back = true;
-            } catch (Exception ex) {
+            } catch (IllegalAccessException ex) {
+            } catch (IllegalArgumentException ex) {
+            } catch (NoSuchMethodException ex) {
+            } catch (SecurityException ex) {
+            } catch (InvocationTargetException ex) {
             }
             return back;
         }
@@ -331,7 +340,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
 		String string = HelpUtilities.getString(locale, "history.homePage");
 		hm.setCurrentID(homeID, string, null);
 	    }
-        } catch (Exception e) {
+        } catch (InvalidHelpSetContextException e) {
             // For example, a null HelpSet!
             return;
         }

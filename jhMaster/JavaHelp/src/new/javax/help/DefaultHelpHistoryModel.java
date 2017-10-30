@@ -228,7 +228,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
                 if(navigator != null)
                     help.setCurrentNavigator(navigator);
                 return;
-            } catch (Exception ex) {
+            } catch (InvalidHelpSetContextException ex) {
                 // fall through
             }
         }

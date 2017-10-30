@@ -122,7 +122,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 		    searchquery.stop();
 		}
 		searchquery.start(searchparams.getText(),searchnav.getLocale());
-	    } catch (Exception e2) {
+	    } catch (IllegalArgumentException e2) {
 		searchparams.setCursor(paramCursor);
 		tree.setCursor(treeCursor);
 		// more work needed here
@@ -130,7 +130,15 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 		// 2 beeps
 		searchnav.getToolkit().beep();
 		searchnav.getToolkit().beep();
-	    }
+	    } catch (IllegalStateException e2) {
+                searchparams.setCursor(paramCursor);
+                tree.setCursor(treeCursor);
+                // more work needed here
+                e2.printStackTrace();
+                // 2 beeps
+                searchnav.getToolkit().beep();
+                searchnav.getToolkit().beep();
+            }
 	}
     }
 

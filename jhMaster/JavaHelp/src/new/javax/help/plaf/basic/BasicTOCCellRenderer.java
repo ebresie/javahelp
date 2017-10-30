@@ -31,6 +31,7 @@
 package javax.help.plaf.basic;
 
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 import javax.help.Map;
@@ -107,7 +108,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		try {
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}
@@ -146,7 +147,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
 		    return icon;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}
@@ -163,7 +164,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
 		    return icon;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}
@@ -180,7 +181,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
 		    return icon;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}

@@ -196,7 +196,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
                 String name = HelpUtilities.getString(locale, "history.homePage");
                 model.setCurrentID(homeID, name, (JHelpNavigator)null);
                 html.setURL(model.getCurrentURL());
-            } catch (Exception e) {
+            } catch (InvalidHelpSetContextException e) {
                 // ignore
             }
         }

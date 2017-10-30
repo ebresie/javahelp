@@ -33,6 +33,7 @@ package com.sun.java.help.search;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.text.BreakIterator;
@@ -174,9 +175,19 @@ public class QueryEngine
 						 (java.lang.Class[]) null);
 		return (LiteMorph) method.invoke(null, 
 						 (java.lang.Object[]) null);
-	    } catch (Exception e) {
+	    } catch (ClassNotFoundException e) {
 		continue;
-	    }
+	    } catch (IllegalAccessException e) {
+                continue;
+            } catch (IllegalArgumentException e) {
+                continue;
+            } catch (NoSuchMethodException e) {
+                continue;
+            } catch (SecurityException e) {
+                continue;
+            } catch (InvocationTargetException e) {
+                continue;
+            }
 	}
 	// couldn't find a match 
 	return null;

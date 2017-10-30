@@ -39,6 +39,7 @@ import java.awt.Point;
 import java.beans.PropertyChangeSupport;
 import java.io.*;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -265,9 +266,13 @@ public class HelpSet implements Serializable{
 		c = Class.forName(classname);
 	    }
 	    back = (HelpBroker) c.newInstance();
-	} catch (Throwable e) {
+	} catch (ClassNotFoundException e) {
 	    back = null;
-	}
+	} catch (IllegalAccessException e) {
+            back = null;
+        } catch (InstantiationException e) {
+            back = null;
+        }
 
         if (back != null) {
             back.setHelpSet(this);
@@ -469,7 +474,7 @@ public class HelpSet implements Serializable{
 	} else {
 	    try {
 		return ID.create(homeID, this);
-	    } catch (Exception ex) {
+	    } catch (BadIDException ex) {
 		return null;
 	    }
 	}
@@ -652,7 +657,7 @@ public class HelpSet implements Serializable{
 	    factory.parsingStarted(url);
 	    (new HelpSetParser(factory)).parseInto(src, this);
 	    src.close();
-	} catch (Exception ex) {
+	} catch (IOException ex) {
 	    factory.reportMessage("Got an IOException ("+
 				       ex.getMessage()+
 				       ")", false);
@@ -823,7 +828,7 @@ public class HelpSet implements Serializable{
 		     
 		     hs.addView(view);
 		 }
-	     } catch (Exception ex) {
+	     } catch (InvalidNavigatorViewException ex) {
 		 // ignore this view...
 	     }
 	}
@@ -1098,14 +1103,33 @@ public class HelpSet implements Serializable{
 			    URL url = map.getURLFromID(id);
 			    icon = new javax.swing.ImageIcon(url);
 			    action.putValue("icon", icon);
-			} catch (Exception ex) {
-			}
+			} catch (MalformedURLException ex) {
+			} catch (BadIDException ex) {
+                        }
 		    }
 		    actions.add(action);
-		} catch (Exception ex) {
+		} catch (ClassNotFoundException ex) {
 		    throw new RuntimeException("Could not create HelpAction " +
 					       act.className);
-		}
+		} catch (IllegalAccessException ex) {
+                    throw new RuntimeException("Could not create HelpAction " +
+                            act.className);
+                } catch (IllegalArgumentException ex) {
+                    throw new RuntimeException("Could not create HelpAction " +
+                            act.className);
+                } catch (InstantiationException ex) {
+                    throw new RuntimeException("Could not create HelpAction " +
+                            act.className);
+                } catch (NoSuchMethodException ex) {
+                    throw new RuntimeException("Could not create HelpAction " +
+                            act.className);
+                } catch (SecurityException ex) {
+                    throw new RuntimeException("Could not create HelpAction " +
+                            act.className);
+                } catch (InvocationTargetException ex) {
+                    throw new RuntimeException("Could not create HelpAction " +
+                            act.className);
+                }
 	    }
 	    
 	    return actions.elements();

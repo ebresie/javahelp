@@ -49,6 +49,7 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Vector;
 import javax.swing.BorderFactory;
@@ -253,9 +254,15 @@ public class Popup extends Presentation implements ActionListener{
 		Method m = window.getClass().getMethod("addWindowFocusListener", types);
 		m.invoke(window, args);
 		// window.addWindowFocusListener(pwa);
-	    } catch (java.lang.Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		//ignore it
-	    }
+	    } catch (IllegalAccessException ex) {
+                //ignore it
+            } catch (IllegalArgumentException ex) {
+            } catch (NoSuchMethodException ex) {
+            } catch (SecurityException ex) {
+            } catch (InvocationTargetException ex) {
+            }
 	}
 
 	JRootPane root = getRootPane();
@@ -640,9 +647,15 @@ public class Popup extends Presentation implements ActionListener{
 			Method m = window.getClass().getMethod("addMouseWheelListener", types);
 			m.invoke(comp, args);
 			// comp.addMouseWheelListener(pmwl);
-		    } catch (java.lang.Exception ex) {
+		    } catch (ClassNotFoundException ex) {
 			//ignore it
-		    }
+		    } catch (IllegalAccessException ex) {
+                        //ignore it
+                    } catch (IllegalArgumentException ex) {
+                    } catch (NoSuchMethodException ex) {
+                    } catch (SecurityException ex) {
+                    } catch (InvocationTargetException ex) {
+                    }
 		}
 		grabbed.addElement(comp);
 		if (comp instanceof Container) {
@@ -671,9 +684,15 @@ public class Popup extends Presentation implements ActionListener{
 			Method m = window.getClass().getMethod("removeMouseWheelListener", types);
 			m.invoke(cpn, args);
 			// cpn.removeMouseWheelListener(pmwl);
-		    } catch (java.lang.Exception ex) {
+		    } catch (ClassNotFoundException ex) {
 			//ignore it
-		    }
+		    } catch (IllegalAccessException ex) {
+                        //ignore it
+                    } catch (IllegalArgumentException ex) {
+                    } catch (NoSuchMethodException ex) {
+                    } catch (SecurityException ex) {
+                    } catch (InvocationTargetException ex) {
+                    }
 		}
 	    }
 	}
@@ -698,9 +717,15 @@ public class Popup extends Presentation implements ActionListener{
 		Method m = window.getClass().getMethod("removeWindowFocusListener", types);
 		m.invoke(window, args);
 		// window.removeWindowFocusListener(pwa);
-	    } catch (java.lang.Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		//ignore it
-	    }
+	    } catch (IllegalAccessException ex) {
+                //ignore it
+            } catch (IllegalArgumentException ex) {
+            } catch (NoSuchMethodException ex) {
+            } catch (SecurityException ex) {
+            } catch (InvocationTargetException ex) {
+            }
 	}
 	window.getRootPane().unregisterKeyboardAction
 	    (KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));

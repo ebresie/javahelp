@@ -231,7 +231,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             try {
                 loadingURL = true;
                 html.setPage(url);
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 loadingURL = false;
                 // IGNORE FOR EA2 --- !! - epll
             }
@@ -266,7 +266,9 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                 String name = HelpUtilities.getString(locale, "history.homePage");
                 model.setCurrentID(homeID, name, (JHelpNavigator)null);
                 html.setPage(model.getCurrentURL());
-            } catch (Exception e) {
+            } catch (IOException e) {
+                // ignore
+            } catch (InvalidHelpSetContextException e) {
                 // ignore
             }
         }
@@ -492,7 +494,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                 ParserDelegator parser = new ParserDelegator();
                 callback = new Callback();
                 parser.parse(rd,callback,true);
-            }catch (Exception exp){
+            }catch (IOException exp){
                 System.err.println(exp);
             }
             return title;

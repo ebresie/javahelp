@@ -165,7 +165,7 @@ public class FlatMap implements Map, Serializable {
 		if (url.sameFile(tmp) == true) {
 		    return true;
 		}
-	    } catch (Exception ex) {
+	    } catch (MalformedURLException ex) {
 	    }
 	}
 	return false;
@@ -196,8 +196,9 @@ public class FlatMap implements Map, Serializable {
 		if (urlString.compareTo(tmpString) == 0) {
 		    return ID.create(key, helpset);
 		}
-	    } catch (Exception ex) {
-	    }
+	    } catch (MalformedURLException ex) {
+	    } catch (BadIDException ex) {
+            }
 	}
 	return null;
     }
@@ -236,7 +237,7 @@ public class FlatMap implements Map, Serializable {
 		if (url.sameFile(tmpURL) == true) {
 		    ids.addElement(key);
 		}
-	    } catch (Exception ex) {
+	    } catch (MalformedURLException ex) {
 	    }
 	}
 	return new FlatEnumeration(ids.elements(), helpset);
@@ -261,7 +262,7 @@ public class FlatMap implements Map, Serializable {
 	    Object back = null;
 	    try {
 		back = ID.create((String) e.nextElement(), hs);
-	    } catch (Exception ex) {
+	    } catch (BadIDException ex) {
 	    }
 	    return back;
 	}
@@ -292,7 +293,7 @@ public class FlatMap implements Map, Serializable {
 		src = XmlReader.createReader(uc);
 		parse(src);
 		src.close();
-	    } catch (Exception e) {
+	    } catch (IOException e) {
 		reportMessage("Exception caught while parsing "+url+" "+
 				   e.toString(), false);
 	    }

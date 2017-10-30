@@ -27,12 +27,14 @@
 
 package javax.help.tagext;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.help.InvalidHelpSetContextException;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.TagSupport;
 
@@ -109,10 +111,13 @@ public class ValidateTag extends TagSupport {
 	if (tesths == null && hsName == null) {
 	    try {
 		pageContext.forward(invalidURLPath);
-	    } catch (Exception e) {
+	    } catch (IOException e) {
 		// ignore it
 		return;
-	    }
+	    } catch (ServletException e) {
+                // ignore it
+                return;
+            }
 	} 
 
 

@@ -28,6 +28,7 @@
 package javax.help;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Locale;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -144,11 +145,35 @@ public abstract class Merge {
 		    }
 		    konstructor = klass.getConstructor(types);
 		    mergeObject = (Merge) konstructor.newInstance(args);
-		} catch (Exception ex) {
+		} catch (ClassNotFoundException ex) {
 		    ex.printStackTrace();
 		    throw new RuntimeException("Could not create Merge type " +
 					       mergeType);
-		}
+		} catch (IllegalAccessException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Could not create Merge type " +
+                            mergeType);
+                } catch (IllegalArgumentException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Could not create Merge type " +
+                            mergeType);
+                } catch (InstantiationException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Could not create Merge type " +
+                            mergeType);
+                } catch (NoSuchMethodException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Could not create Merge type " +
+                            mergeType);
+                } catch (SecurityException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Could not create Merge type " +
+                            mergeType);
+                } catch (InvocationTargetException ex) {
+                    ex.printStackTrace();
+                    throw new RuntimeException("Could not create Merge type " +
+                            mergeType);
+                }
 	    } else {
 		mergeObject = new AppendMerge(masterView, slaveView);
 	    }

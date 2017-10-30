@@ -33,6 +33,7 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import javax.swing.ImageIcon;
 import javax.swing.LookAndFeel;
@@ -107,7 +108,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 		Class c = Class.forName(cvUI);
 		// an error will be thrown if the class doesn't exist
 		contentViewerUI = cvUI;
-	    } catch (Throwable e) {
+	    } catch (ClassNotFoundException e) {
 		System.out.println("ContentViewerClass " + cvUI + " doesn't exist");
 	    }
 	}
@@ -157,9 +158,19 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	    Method m = klass.getMethod(method, types);
 	    Object back = m.invoke(null, args);
 	    return back;
-	} catch (Exception ex) {
+	} catch (ClassNotFoundException ex) {
 	    return null;
-	}
+	} catch (IllegalAccessException ex) {
+            return null;
+        } catch (IllegalArgumentException ex) {
+            return null;
+        } catch (NoSuchMethodException ex) {
+            return null;
+        } catch (SecurityException ex) {
+            return null;
+        } catch (InvocationTargetException ex) {
+            return null;
+        }
     }
 
     static Object basicOnItemCursor = new UIDefaults.LazyValue() {
@@ -383,7 +394,11 @@ public class SwingHelpUtilities implements PropertyChangeListener {
             Class types[] = { PropertyChangeListener.class };
             Object args[] = { listener };
             object.getClass().getMethod("addPropertyChangeListener", types).invoke(object, args);
-        } catch (Exception ex) {
+        } catch (IllegalAccessException ex) {
+        } catch (IllegalArgumentException ex) {
+        } catch (NoSuchMethodException ex) {
+        } catch (SecurityException ex) {
+        } catch (InvocationTargetException ex) {
         }
     }
 

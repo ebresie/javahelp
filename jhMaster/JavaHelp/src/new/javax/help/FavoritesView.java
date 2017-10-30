@@ -173,7 +173,7 @@ public class FavoritesView extends NavigatorView{
             factory.parsingStarted(url);
             node = (new FavoritesParser(factory)).parse(src, hs, locale);
             src.close();
-        } catch (Exception e) {
+        } catch (IOException e) {
             factory.reportMessage("Exception caught while parsing "+url+
             e.toString(),
             false);
@@ -203,7 +203,7 @@ public class FavoritesView extends NavigatorView{
         }catch(SecurityException se){
             enabledSave = false;
             se.printStackTrace();
-        }catch(Exception excp){
+        }catch(IOException excp){
             excp.printStackTrace();
         }
     }

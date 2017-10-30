@@ -46,6 +46,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -136,7 +137,7 @@ public abstract class WindowPresentation extends Presentation {
 		URL url = map.getURLFromID(imageID);
 		icon = new ImageIcon(url);
 		image = icon.getImage();
-	    } catch (Exception e) {
+	    } catch (MalformedURLException e) {
 	    }
 	}
 

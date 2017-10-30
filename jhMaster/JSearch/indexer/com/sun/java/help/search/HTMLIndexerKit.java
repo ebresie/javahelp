@@ -149,9 +149,13 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    try {
                 Class c = Class.forName("javax.swing.text.html.parser.ParserDelegator");
                 defaultParser = (HTMLEditorKit.Parser) c.newInstance();
-	    } catch (Throwable e) {
+	    } catch (ClassNotFoundException e) {
 		e.printStackTrace();
-	    }
+	    } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
 	}
 	return defaultParser;
     }
@@ -895,7 +899,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		    } else {
 		    	return false;
 		    }
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 		    debug ("Exception in isPost4207472 : " + e);
 		    return true;  // assume true if we encounter problem
 	        }	

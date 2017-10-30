@@ -37,6 +37,7 @@ import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -717,9 +718,19 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 			}
 			Method m = klass.getMethod("getPresentation", types);
 			pres = (Presentation)m.invoke(null, args);
-		    } catch (Exception ex) {
+		    } catch (ClassNotFoundException ex) {
 			throw new RuntimeException("error invoking presentation" );
-		    }
+		    } catch (IllegalAccessException ex) {
+                        throw new RuntimeException("error invoking presentation" );
+                    } catch (IllegalArgumentException ex) {
+                        throw new RuntimeException("error invoking presentation" );
+                    } catch (NoSuchMethodException ex) {
+                        throw new RuntimeException("error invoking presentation" );
+                    } catch (SecurityException ex) {
+                        throw new RuntimeException("error invoking presentation" );
+                    } catch (InvocationTargetException ex) {
+                        throw new RuntimeException("error invoking presentation" );
+                    }
 
 		    if (pres == null) {
 			return;

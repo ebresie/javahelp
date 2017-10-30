@@ -29,6 +29,7 @@ package javax.help;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
 import javax.help.Map.ID;
@@ -142,7 +143,7 @@ public class TreeItem implements Serializable
     public URL getURL() {
         try {
             return id.getURL();
-        } catch (Exception e) {
+        } catch (MalformedURLException e) {
             return null;
         }
     }

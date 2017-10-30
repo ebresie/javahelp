@@ -29,6 +29,7 @@ package javax.help;
 
 import java.beans.*;
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
 import javax.help.Map.ID;
@@ -162,7 +163,7 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
 		}
 	    }
 	    currentURL = url;
-	} catch (Exception ex) {
+	} catch (MalformedURLException ex) {
 	    currentURL = null;
 	}
         

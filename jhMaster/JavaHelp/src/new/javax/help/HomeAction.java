@@ -68,7 +68,7 @@ public class HomeAction extends AbstractHelpAction implements ActionListener {
             Locale locale = hs.getLocale();
             String string = HelpUtilities.getString(locale, "history.homePage");
             help.setCurrentID(homeID, string, help.getCurrentNavigator());
-        } catch (Exception e) {
+        } catch (InvalidHelpSetContextException e) {
         }
     }
 }
