@@ -104,7 +104,7 @@ public abstract class AbstractHelpAction implements HelpAction {
     public void setEnabled(boolean enabled) {
         boolean oldEnabled = this.enabled;
         this.enabled = enabled;
-        firePropertyChange("enabled", new Boolean(oldEnabled), new Boolean(enabled));
+        firePropertyChange("enabled", oldEnabled, enabled);
     }
     
     /** Getter for property control.

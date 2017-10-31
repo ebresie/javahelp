@@ -112,7 +112,7 @@ class SearchEnvironment {
 
   public String hitToString(QueryHit hit) throws Exception
   {
-    StringBuffer result = new StringBuffer();
+    StringBuilder result = new StringBuilder();
     result.append(hit.getScore());
     result.append(" ");
     result.append(fetch(documents.at(hit.getDocument())));

@@ -206,7 +206,7 @@ public abstract class LiteMorph {
 	    return;
 	}
     
-	if (word.indexOf("-") >= 0)
+	if (word.indexOf('-') >= 0)
 	    return;
 	//don't apply rules to words with internal hyphens (but check exceptions)
 

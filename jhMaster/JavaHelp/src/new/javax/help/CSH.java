@@ -48,6 +48,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.*;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -160,7 +161,7 @@ public class CSH {
      * @since 2.0
      */
     public static Manager[] getManagers() {
-        return (Manager[])managers.toArray(new Manager[0]);
+        return (Manager[])managers.toArray(new Manager[managers.size()]);
     }
     
     /**
@@ -1530,9 +1531,7 @@ public class CSH {
             Frame frames[] = Frame.getFrames();
             for (int i = 0; i < frames.length; i++) {
                 Window[] windows = frames[i].getOwnedWindows();
-                for (int j = 0; j < windows.length; j++) {
-                    containers.add(windows[j]);
-                }
+                containers.addAll(Arrays.asList(windows));
                 if (!containers.contains(frames[i])) {
                     containers.add(frames[i]);
                 }

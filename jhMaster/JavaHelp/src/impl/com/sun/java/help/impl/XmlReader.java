@@ -133,7 +133,7 @@ final public class XmlReader extends Reader
 	if (type == null) {
 	    return null;
 	}
-	int parm = type.indexOf(";");
+	int parm = type.indexOf(';');
 	if (parm > -1) {
 	    // Save the paramList.
 	    String paramList = type.substring(parm);

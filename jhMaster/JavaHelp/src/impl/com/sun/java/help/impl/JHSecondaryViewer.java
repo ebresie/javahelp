@@ -192,10 +192,8 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 				 font.getName());
 	textAttribs.addAttribute(StyleConstants.FontSize,
 				 new Integer(font.getSize()));
-	textAttribs.addAttribute(StyleConstants.Bold,
-				 new Boolean(font.isBold()));
-	textAttribs.addAttribute(StyleConstants.Italic,
-				 new Boolean(font.isItalic()));
+	textAttribs.addAttribute(StyleConstants.Bold, font.isBold());
+	textAttribs.addAttribute(StyleConstants.Italic, font.isItalic());
 
 
 	// Loop through and find the JHelpContentViewer
@@ -450,7 +448,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
      */
     public void setViewerLocation(String location) {
 	debug("setViewerLocation");
-	int comma = location.indexOf(",");
+	int comma = location.indexOf(',');
 	if (comma != -1) {
 	    String x = location.substring(0,comma).trim();
 	    String y = location.substring(comma+1).trim();
@@ -499,7 +497,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
      */
     public void setViewerSize(String size) {
 	debug ("setViewerSize");
-	int comma = size.indexOf(",");
+	int comma = size.indexOf(',');
 	if (comma != -1) {
 	    String width = size.substring(0,comma).trim();
 	    String height = size.substring(comma+1).trim();
@@ -703,7 +701,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    isBold = false;
 	}
 	textAttribs.removeAttribute(StyleConstants.Bold);
-	textAttribs.addAttribute(StyleConstants.Bold, new Boolean(isBold));
+	textAttribs.addAttribute(StyleConstants.Bold, isBold);
 	setFont(getAttributeSetFont(textAttribs));
 	Font font = getFont();
     }
@@ -734,7 +732,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    isItalic = false;
 	}
 	textAttribs.removeAttribute(StyleConstants.Italic);
-	textAttribs.addAttribute(StyleConstants.Italic, new Boolean(isItalic));
+	textAttribs.addAttribute(StyleConstants.Italic, isItalic);
 	setFont(getAttributeSetFont(textAttribs));
 	Font font = getFont();
     }

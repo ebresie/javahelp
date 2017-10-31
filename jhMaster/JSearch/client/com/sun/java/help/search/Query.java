@@ -121,9 +121,8 @@ class Query
   public void resetForNextDocument()
   {
     _currentStandard = _store.getCurrentStandard();
-    // "everything's missing"
-    for (int i = 0; i < _nColumns; i++)
-      _upperboundTemplate[i] = _missingPenalty[i];
+      // "everything's missing"
+      System.arraycopy(_missingPenalty, 0, _upperboundTemplate, 0, _nColumns);
     _vote = false;
   }
 

@@ -130,7 +130,7 @@ public class NavigatorsTag extends BodyTagSupport {
 	pageContext.setAttribute("tip", view.getLabel());
 	String icon = getIconURL(view);
 	pageContext.setAttribute("iconURL", icon);
-	pageContext.setAttribute("isCurrentNav", new Boolean(curNav.compareTo(view.getName()) == 0));
+	pageContext.setAttribute("isCurrentNav", (curNav.compareTo(view.getName()) == 0));
     }
 
     /**

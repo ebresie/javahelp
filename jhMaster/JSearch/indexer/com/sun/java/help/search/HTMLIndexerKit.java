@@ -985,7 +985,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	protected void titleContent(String s) {
 	    if (title == null) {
-		title = new String(s);
+		title = s;
 	    } else {
 		title.concat(s);
 	    }
@@ -996,7 +996,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	protected void headerContent(String s) {
 	    if (header == null) {
-		header = new String(s);
+		header = s;
 	    } else {
 		header.concat(s);
 	    }

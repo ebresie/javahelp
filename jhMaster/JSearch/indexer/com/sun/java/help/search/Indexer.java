@@ -91,7 +91,7 @@ public class Indexer {
 
     public Indexer() {
 	// Make sure the last character is a file separator
-	if (dbName.lastIndexOf("/")
+	if (dbName.lastIndexOf('/')
 	    != dbName.length() - 1) {
 	    dbName = dbName.concat("/");
 	}
@@ -119,7 +119,7 @@ public class Indexer {
 		if ((i + 1) < args.length) {
 		    dbName = args[++i];
 		    // Make sure the last character is a file separator
-		    if (dbName.lastIndexOf("/")
+		    if (dbName.lastIndexOf('/')
 			!= dbName.length() - 1) {
 			dbName = dbName.concat("/");
 		    }
@@ -367,7 +367,7 @@ public class Indexer {
 	// The type could have optional info is part of it,
 	// for example some charset info.  We need to strip that
 	// of and save it.
-	int parm = type.indexOf(";");
+	int parm = type.indexOf(';');
 	if (parm > -1) {
 	    // Save the paramList.
 	    String paramList = type.substring(parm);

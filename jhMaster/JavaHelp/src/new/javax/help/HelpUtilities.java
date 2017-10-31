@@ -93,7 +93,7 @@ public class HelpUtilities {
 	}
 	if (helpSetName == null) {
 	    String className = beanClass.getName();
-	    int index = className.lastIndexOf(".");
+	    int index = className.lastIndexOf('.');
 	    if (index == -1) {
 		// unnamed package
 		helpSetName = className + "Help.hs";
@@ -513,8 +513,8 @@ public class HelpUtilities {
 	if (lang == null) {
 	    return newlocale;
 	}
-	int lpt = lang.indexOf("_");
-	int lpt2 = lang.indexOf("-");
+	int lpt = lang.indexOf('_');
+	int lpt2 = lang.indexOf('-');
 	if (lpt == -1 && lpt2 == -1) {
 	    language = lang;
 	    country = "";
@@ -524,8 +524,8 @@ public class HelpUtilities {
 		lpt = lpt2;
 	    }
 	    language = lang.substring(0, lpt);
-	    int cpt = lang.indexOf("_", lpt+1);
-	    int cpt2 = lang.indexOf("-", lpt+1);
+	    int cpt = lang.indexOf('_', lpt+1);
+	    int cpt2 = lang.indexOf('-', lpt+1);
 	    if (cpt == -1 && cpt2 == -1) {
 		country = lang.substring(lpt+1);
 		newlocale = new Locale(language, country);

@@ -163,7 +163,7 @@ public class QueryEngine
 	ClassLoader cl = QueryEngine.class.getClassLoader();
 	while (enum1.hasMoreElements()) {
 	    String tail = (String) enum1.nextElement();
-	    String name = new String(front + tail);
+	    String name = front + tail;
 	    try {
 		Class klass;
 		if (cl == null) {
@@ -194,7 +194,7 @@ public class QueryEngine
 		// which wouldn't start to read before a lot of chars
 		// were typed
 		new BufferedReader(new InputStreamReader(System.in), 1);
-	    String file = new String (args[0]);
+	    String file = args[0];
 	    QueryEngine qe = new QueryEngine(file, null);
 	    System.out.println("initialized; enter query");
 	    while(true)

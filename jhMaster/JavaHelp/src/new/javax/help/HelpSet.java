@@ -721,7 +721,7 @@ public class HelpSet implements Serializable{
 	public void processTitle(HelpSet hs,
 				 String value) {
 	    String title = hs.getTitle();
-	    if ((title != null) && !title.equals("")) {
+	    if ((title != null) && !title.isEmpty()) {
 		parsingWarning("helpset.wrongTitle", value, title);
 	    }
 	    hs.setTitle(value);
@@ -1733,7 +1733,7 @@ public class HelpSet implements Serializable{
 	}
 
 	private void checkNull(String name, String t) {
-	    if (! t.equals("")) {
+	    if (! t.isEmpty()) {
 		parsingError("helpset.wrongText", name, t);
 	    }
 	}

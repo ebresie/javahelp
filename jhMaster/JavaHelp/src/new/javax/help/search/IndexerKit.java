@@ -96,14 +96,14 @@ public abstract class IndexerKit implements Cloneable {
 	String country;
 	String variant=null;
 	Locale newlocale;
-	int lpt = lang.indexOf("_");
+	int lpt = lang.indexOf('_');
 	if (lpt == -1) {
 	    language = lang;
 	    country = "";
 	    newlocale = new Locale(language, country);
 	} else {
 	    language = lang.substring(0, lpt);
-	    int cpt = lang.indexOf("_", lpt+1);
+	    int cpt = lang.indexOf('_', lpt+1);
 	    if (cpt == -1) {
 		country = lang.substring(lpt+1);
 		newlocale = new Locale(language, country);

@@ -169,7 +169,7 @@ public class JHelpPrintHandler implements ActionListener {
     public void setEnabled(boolean newValue) {
         boolean oldValue = this.enabled;
         this.enabled = newValue;
-        firePropertyChange("enabled", new Boolean(oldValue), new Boolean(newValue));
+        firePropertyChange("enabled", oldValue, newValue);
     }
     
     /**

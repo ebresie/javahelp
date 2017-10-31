@@ -78,11 +78,11 @@ public class ConfigFile {
 	this.files = files;
 	LineNumberReader in;
 	String line;
-	String removeText = new String ("IndexRemove ");
-	String prependText = new String ("IndexPrepend ");
-	String fileText = new String ("File ");
-	String stopWordsText = new String ("StopWords ");
-	String stopWordsFileText = new String ("StopWordsFile ");
+	String removeText = "IndexRemove ";
+	String prependText = "IndexPrepend ";
+	String fileText = "File ";
+	String stopWordsText = "StopWords ";
+	String stopWordsFileText = "StopWordsFile ";
 	BreakIterator boundary;
 	int start;
 	String url;
@@ -126,7 +126,7 @@ public class ConfigFile {
 			 end != BreakIterator.DONE;
 			 start = end, end = boundary.next()) {
 			String word = words.substring(start,end).trim().toLowerCase();
-			if (word.equals(",") || word.equals("")) {
+			if (word.equals(",") || word.isEmpty()) {
 			    continue;
 			}
 			stopWords.put(word, word);

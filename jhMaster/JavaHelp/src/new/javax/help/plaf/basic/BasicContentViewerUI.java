@@ -299,7 +299,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                     EditorKit ek = html.getEditorKit();
                     if (ek instanceof HTMLEditorKit) {
                         
-                        StringBuffer buf = new StringBuffer(60);
+                        StringBuilder buf = new StringBuilder(60);
                         buf.append("body { font: ");
                         buf.append(newFont.getSize()).append("pt ");
                         if (newFont.isBold()) {
