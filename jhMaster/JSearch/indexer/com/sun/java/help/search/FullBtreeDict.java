@@ -455,23 +455,23 @@ public class FullBtreeDict extends BtreeDict
       FullBtreeDict dict = new FullBtreeDict(tmapParams, true);
       int freeID = tmapParams.getFreeID();
     
-      LineNumberReader in = new LineNumberReader(new BufferedReader
-						 (new FileReader(args[1])));
-      String line;
-      while ((line = in.readLine()) != null)
-	{
-	  StringTokenizer tokens = new StringTokenizer(line, " ");
-	  while (tokens.hasMoreTokens())
-	    {
-	      String token = tokens.nextToken();
-	      if (token.equals("storing")) {
-                  dict.store(tokens.nextToken(), freeID++);
-              } else if (token.equals("fetching")) {
-                  dict.fetch(tokens.nextToken());
-              }
-	    }
-	}
-      in.close();
+        try (LineNumberReader in = new LineNumberReader(new BufferedReader
+                                                         (new FileReader(args[1])))) {
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                StringTokenizer tokens = new StringTokenizer(line, " ");
+                while (tokens.hasMoreTokens())
+                {
+                    String token = tokens.nextToken();
+                    if (token.equals("storing")) {
+                        dict.store(tokens.nextToken(), freeID++);
+                    } else if (token.equals("fetching")) {
+                        dict.fetch(tokens.nextToken());
+                    }
+                }
+            }
+        }
     }
     catch (Exception e) {
       e.printStackTrace();

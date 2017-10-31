@@ -196,10 +196,10 @@ class BtreeDictParameters extends BlockManagerParameters
     
   public void write() throws java.io.IOException
   {
-    FileWriter out = new FileWriter(dirName + "/SCHEMA");
-    out.write("JavaSearch 1.0\n");
-    out.write("TMAP bs=2048 rt="+root+" fl=-1 id1="+id1+" id2=1\n");
-    out.close();
+      try (FileWriter out = new FileWriter(dirName + "/SCHEMA")) {
+          out.write("JavaSearch 1.0\n");
+          out.write("TMAP bs=2048 rt="+root+" fl=-1 id1="+id1+" id2=1\n");
+      }
   }
 
   /**

@@ -75,20 +75,18 @@ class DocumentCompressor
 	try {
 	  URL offURL = new URL(url, "OFFSETS");
 	  URLConnection connect = offURL.openConnection();
-	  BufferedInputStream in =
-	    new BufferedInputStream(connect.getInputStream());
-	
-	  int k1 = in.read();
-	  StreamDecompressor sddocs = new StreamDecompressor(in);
-	  sddocs.ascDecode(k1, _documents);
-	  int k2 = in.read();
-	  StreamDecompressor sdoffsets = new StreamDecompressor(in);
-	  sdoffsets.ascDecode(k2, _offsets);
-	  // decompress titles' ids table
-	  int k3 = in.read();
-	  StreamDecompressor sdtitles = new StreamDecompressor(in);
-	  sdtitles.decode(k3, _titles);
-	  in.close();
+            try (BufferedInputStream in = new BufferedInputStream(connect.getInputStream())) {
+                int k1 = in.read();
+                StreamDecompressor sddocs = new StreamDecompressor(in);
+                sddocs.ascDecode(k1, _documents);
+                int k2 = in.read();
+                StreamDecompressor sdoffsets = new StreamDecompressor(in);
+                sdoffsets.ascDecode(k2, _offsets);
+                // decompress titles' ids table
+                int k3 = in.read();
+                StreamDecompressor sdtitles = new StreamDecompressor(in);
+                sdtitles.decode(k3, _titles);
+            }
 	}
 	catch (java.io.FileNotFoundException e) {;}
 	_posFile = 
@@ -145,15 +143,15 @@ class DocumentCompressor
     Compressor titles = new Compressor();
     int k3 = titles.minimize(_titles, 8); // the starting k
     int nBytes = documents.byteCount();
-    RandomAccessFile out = new RandomAccessFile(indexFile, "rw");
-    out.seek(0);	// position at beginning
-    out.write(k1);
-    documents.write(out);
-    out.write(k2);
-    offsets.write(out);
-    out.write(k3);
-    titles.write(out);
-    out.close();
+      try (RandomAccessFile out = new RandomAccessFile(indexFile, "rw")) {
+          out.seek(0);	// position at beginning
+          out.write(k1);
+          documents.write(out);
+          out.write(k2);
+          offsets.write(out);
+          out.write(k3);
+          titles.write(out);
+      } // position at beginning
   }
   
   private void encode(ConceptLocation[] locations, int count, int nConcepts)

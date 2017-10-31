@@ -356,14 +356,15 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	    if (resource == null) {
 		return null; 
 	    }
-	    BufferedInputStream in = new BufferedInputStream(resource);
-	    ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-	    buffer[0] = new byte[1024];
-	    int n;
-	    while ((n = in.read(buffer[0])) > 0) {
-		out.write(buffer[0], 0, n);
-	    }
-	    in.close();
+            ByteArrayOutputStream out;
+            try (BufferedInputStream in = new BufferedInputStream(resource)) {
+                out = new ByteArrayOutputStream(1024);
+                buffer[0] = new byte[1024];
+                int n;
+                while ((n = in.read(buffer[0])) > 0) {
+                    out.write(buffer[0], 0, n);
+                }
+            }
 	    out.flush();
 	    buffer[0] = out.toByteArray();
 	} catch (IOException ioe) {

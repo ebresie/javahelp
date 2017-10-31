@@ -155,14 +155,14 @@ public class Schema
   {
     if (_update) {
       try {
-	FileWriter out = new FileWriter(_dirName + "/SCHEMA");
-	out.write("JavaSearch 1.0\n");
-	for (int i = 0; i < _lines.size(); i++)
-	  {
-	    out.write((String)_lines.elementAt(i));
-	    out.write('\n');
-	  }
-	out.close();
+          try (FileWriter out = new FileWriter(_dirName + "/SCHEMA")) {
+              out.write("JavaSearch 1.0\n");
+              for (int i = 0; i < _lines.size(); i++)
+              {
+                  out.write((String)_lines.elementAt(i));
+                  out.write('\n');
+              }
+          }
       }
       catch (IOException e) {
 	System.err.println("SCHEMA save failed " + e);

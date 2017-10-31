@@ -175,18 +175,19 @@ class DocumentLists
     _mainFile = new DataOutputStream
       (new BufferedOutputStream
        (new FileOutputStream(indexDir + "DOCS")));
-    // main work
-    InputStream file =
-      new BufferedInputStream(new FileInputStream(indexDir + "OFFSETS"));
-    int k1 = file.read();
-    IntegerArray array = new IntegerArray(4096);
-    StreamDecompressor documents = new StreamDecompressor(file);
-    documents.ascDecode(k1, array);
-    int k2 = file.read();
-    IntegerArray offsetArray = new IntegerArray(array.cardinality() + 1);
-    StreamDecompressor offsets = new StreamDecompressor(file);
-    offsets.ascDecode(k2, offsetArray);
-    file.close();
+    IntegerArray array;
+    IntegerArray offsetArray;
+      try ( // main work
+              InputStream file = new BufferedInputStream(new FileInputStream(indexDir + "OFFSETS"))) {
+          int k1 = file.read();
+          array = new IntegerArray(4096);
+          StreamDecompressor documents = new StreamDecompressor(file);
+          documents.ascDecode(k1, array);
+          int k2 = file.read();
+          offsetArray = new IntegerArray(array.cardinality() + 1);
+          StreamDecompressor offsets = new StreamDecompressor(file);
+          offsets.ascDecode(k2, offsetArray);
+      }
     File listsFile = new File(indexDir + "POSITIONS");
     byte[] positions = new byte[(int)listsFile.length()];
     FileInputStream in = new FileInputStream(listsFile);
