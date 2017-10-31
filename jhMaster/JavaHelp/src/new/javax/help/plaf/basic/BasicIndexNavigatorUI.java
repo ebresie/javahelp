@@ -303,9 +303,9 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
         IndexView oldView = (IndexView) index.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof IndexView){
                     indexView = (IndexView) tempView;
                     break;
@@ -331,9 +331,9 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	    HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if(index.canMerge(views[i])) {
-                    doMerge(views[i]);
+            for (NavigatorView view : views) {
+                if (index.canMerge(view)) {
+                    doMerge(view);
                 }
             }
             addSubHelpSets( ehs );

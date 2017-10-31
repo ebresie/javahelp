@@ -358,32 +358,32 @@ public class CustomKit extends HTMLEditorKit {
 		return;		// quit for now
 	    }
 	    PropertyDescriptor props[] = bi.getPropertyDescriptors();
-	    for (int i=0; i < props.length; i++) {
-		debug("checking on props[i]: "+props[i].getName());
-		Object v = attr.getAttribute(props[i].getName());
-		if (v instanceof String) {
-		    // found a property parameter
-		    String value = (String) v;
-		    Method writer = props[i].getWriteMethod();
-		    if (writer == null) {
-			// read-only property. ignore
-			return;	// for now
-		    }
-		    Class[] params = writer.getParameterTypes();
-		    if (params.length != 1) {
-			// zero or more than one argument, ignore
-			return;	// for now
-		    }
-		    String [] args = { value };
-		    try {
-			writer.invoke(comp, (java.lang.Object[]) args);
-			debug("Invocation succeeded");
-		    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-			debug("Invocation failed");
-			// invocation code
-		    }
-		}
-	    }
+            for (PropertyDescriptor prop : props) {
+                debug("checking on props[i]: " + prop.getName());
+                Object v = attr.getAttribute(prop.getName());
+                if (v instanceof String) {
+                    // found a property parameter
+                    String value = (String) v;
+                    Method writer = prop.getWriteMethod();
+                    if (writer == null) {
+                        // read-only property. ignore
+                        return;	// for now
+                    }
+                    Class[] params = writer.getParameterTypes();
+                    if (params.length != 1) {
+                        // zero or more than one argument, ignore
+                        return;	// for now
+                    }
+                    String [] args = { value };
+                    try {
+                        writer.invoke(comp, (java.lang.Object[]) args);
+                        debug("Invocation succeeded");
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        debug("Invocation failed");
+                        // invocation code
+                    }
+                }
+            }
 	}
     }
 

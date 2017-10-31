@@ -284,9 +284,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         TOCView oldView = (TOCView) toc.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof TOCView){
                     view = (TOCView) tempView;
                     break;
@@ -312,9 +312,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	    HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if(toc.canMerge(views[i])) {
-                    doMerge(views[i]);
+            for (NavigatorView view : views) {
+                if (toc.canMerge(view)) {
+                    doMerge(view);
                 }
             }
             addSubHelpSets( ehs );

@@ -907,8 +907,8 @@ PropertyChangeListener, TreeModelListener, Serializable {
     public void treeNodesRemoved(javax.swing.event.TreeModelEvent treeModelEvent) {
         debug("nodes removed");
         Object nodes[] = treeModelEvent.getChildren();
-        for(int i = 0; i < nodes.length; i++){
-            FavoritesNode originalNode = (FavoritesNode)nodes[i];
+        for (Object node : nodes) {
+            FavoritesNode originalNode = (FavoritesNode) node;
             FavoritesNode remNode = (FavoritesNode)connections.get(originalNode);
             if(remNode != null) {
                 remNode.removeFromParent();
@@ -1053,9 +1053,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             DefaultMutableTreeNode node = null;
             DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
             TreePath[] paths = tree.getSelectionPaths();
-            for(int i = 0 ; i < paths.length; i++){
-                if(paths[i] != null){
-                    node = (DefaultMutableTreeNode)paths[i].getLastPathComponent();
+            for (TreePath path : paths) {
+                if (path != null) {
+                    node = (DefaultMutableTreeNode) path.getLastPathComponent();
                     model.removeNodeFromParent(node);
                     if(node != null){
                         FavoritesItem item = (FavoritesItem)node.getUserObject();
@@ -1130,9 +1130,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             nodeClipboard.removeAllElements();
             DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
             TreePath[] paths = tree.getSelectionPaths();
-            for(int i = 0 ; i < paths.length; i++){
-                if(paths[i] != null){
-                    node = (DefaultMutableTreeNode)paths[i].getLastPathComponent();
+            for (TreePath path : paths) {
+                if (path != null) {
+                    node = (DefaultMutableTreeNode) path.getLastPathComponent();
                     if(node != null){
                         FavoritesItem item = (FavoritesItem)node.getUserObject();
                         nodeClipboard.add(node);
@@ -1214,9 +1214,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             nodeClipboard.removeAllElements();
             DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
             TreePath[] paths = tree.getSelectionPaths();
-            for(int i = 0 ; i < paths.length; i++){
-                if(paths[i] != null){
-                    node = (DefaultMutableTreeNode)paths[i].getLastPathComponent();
+            for (TreePath path : paths) {
+                if (path != null) {
+                    node = (DefaultMutableTreeNode) path.getLastPathComponent();
                     if(node != null){
                         FavoritesItem item = (FavoritesItem)node.getUserObject();
                         FavoritesNode copy = ((FavoritesNode)node).getDeepCopy();

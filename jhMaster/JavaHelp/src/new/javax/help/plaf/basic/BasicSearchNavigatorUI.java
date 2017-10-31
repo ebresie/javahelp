@@ -244,9 +244,9 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
         SearchView oldView = (SearchView) searchnav.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof SearchView){
                     view = (SearchView) tempView;
                     break;
@@ -276,22 +276,18 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	    HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if (searchnav.canMerge(views[i])) {
+            for (NavigatorView view : views) {
+                if (searchnav.canMerge(view)) {
                     try {
-                        searchnav.merge(views[i]);
+                        searchnav.merge(view);
                     } catch (IllegalArgumentException ex) {
-                        Hashtable params = views[i].getParameters();
+                        Hashtable params = view.getParameters();
                         Object data = null;
                         if (params != null) {
                             data = params.get("data");
                         }
                         throw new IllegalArgumentException("View is invalid:\n"
-                                + "   View Name: " + views[i].getName()
-                                + "   View Class: " + views[i].getClass().getName()
-                                + "   View Params: " + params
-                                + "   View Data: " + data
-                                + "   HelpSet URL: " + views[i].getHelpSet().getHelpSetURL());
+                                + "   View Name: " + view.getName() + "   View Class: " + view.getClass().getName() + "   View Params: " + params + "   View Data: " + data + "   HelpSet URL: " + view.getHelpSet().getHelpSetURL());
                     }
                 }
             }
@@ -556,10 +552,10 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	// Sort the array (Quick Sort)
 	quickSort(array, 0, array.length - 1);
 
-	// Reload the topNode. Everthing is in order now.
-	for (int i=0; i < array.length ; i++) {
-	    topNode.add((DefaultMutableTreeNode)array[i]);
-	}
+        // Reload the topNode. Everthing is in order now.
+        for (DefaultMutableTreeNode array1 : array) {
+            topNode.add((DefaultMutableTreeNode) array1);
+        }
 
 	// Tell the tree to repaint itself
 	((DefaultTreeModel)tree.getModel()).reload(); 

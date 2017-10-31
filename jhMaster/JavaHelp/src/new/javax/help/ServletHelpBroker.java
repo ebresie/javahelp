@@ -134,12 +134,12 @@ public class ServletHelpBroker implements HelpBroker {
     public void setCurrentView(String name) {
 
 	NavigatorView views[] = helpset.getNavigatorViews();
-	for (int i=0; i<views.length; i++) {
-	    if (views[i].getName().equals(name)) {
-		curNav = views[i];
-		return;
-	    }
-	}
+        for (NavigatorView view : views) {
+            if (view.getName().equals(name)) {
+                curNav = view;
+                return;
+            }
+        }
 	// did find a suitable navigator
 	throw new IllegalArgumentException("Invalid view name");
     }

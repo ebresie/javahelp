@@ -301,10 +301,9 @@ public class DefaultHelpModel implements TextHelpModel, Serializable {
 	if (h == null) {
 	    return;
 	}
-	for (int i=0; i<h.length; i++) {
-	    highlights.addElement(new DefaultHighlight(h[i].getStartOffset(),
-						       h[i].getEndOffset()));
-	}
+        for (Highlight h1 : h) {
+            highlights.addElement(new DefaultHighlight(h1.getStartOffset(), h1.getEndOffset()));
+        }
 	if (highlights.size() > 0) {
 	    fireHighlightsChanged(this);
 	}

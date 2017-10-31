@@ -137,23 +137,20 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 
 	debug("views: "+views);
 
-	for (int i=0; i<views.length; i++) {
-	    debug("  processing info: "+views[i]);
-
-	    // We are currently assuming all the Navigators are JComponents
-	    JHelpNavigator nav
-		= (JHelpNavigator) views[i].createNavigator(helpModel);
-	    
-	    if (nav == null) {
-		// For now...
-		debug("no JHelpNavigator for given info");
-	    } else {
-		debug("  adding the navigator");
-		navigators.addElement(nav);
-		// HERE -- I don't think we want to change again the model
-		//		    this.addHelpNavigator(nav);
+        for (NavigatorView view : views) {
+            debug("  processing info: " + view);
+            // We are currently assuming all the Navigators are JComponents
+            JHelpNavigator nav = (JHelpNavigator) view.createNavigator(helpModel);
+            if (nav == null) {
+                // For now...
+                debug("no JHelpNavigator for given info");
+            } else {
+                debug("  adding the navigator");
+                navigators.addElement(nav);
+                // HERE -- I don't think we want to change again the model
+                //		    this.addHelpNavigator(nav);
             }
-	}
+        }
     }
     
     /**
@@ -369,23 +366,23 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
         }
         
              
-    	for (int i=0; i<eviews.length; i++) {
-	    String n = eviews[i].getName();
-	    debug("addHelpSet: looking for navigator for "+n);
-	    JHelpNavigator nav = findNavigator(n);
-	    if (nav != null) {
-		debug("   found");
-		if (nav.canMerge(eviews[i])) {
-		    debug("  canMerge: true; merging...");
-		    nav.merge(eviews[i]);
-		} else {
-		    debug("  canMerge: false");
-		}
-	    } else {
-		debug("   not found");
-	    }
-	}
-	// In this version, we can only add views that appear at the top
+        for (NavigatorView eview : eviews) {
+            String n = eview.getName();
+            debug("addHelpSet: looking for navigator for "+n);
+            JHelpNavigator nav = findNavigator(n);
+            if (nav != null) {
+                debug("   found");
+                if (nav.canMerge(eview)) {
+                    debug("  canMerge: true; merging...");
+                    nav.merge(eview);
+                } else {
+                    debug("  canMerge: false");
+                }
+            } else {
+                debug("   not found");
+            }
+        }
+        // In this version, we can only add views that appear at the top
     }
 
     /**
@@ -401,22 +398,22 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     private void removeHelpSet(HelpSet ehs) {
 	NavigatorView eviews[] = ehs.getNavigatorViews();
 
-	for (int i=0; i<eviews.length; i++) {
-	    String n = eviews[i].getName();
-	    debug("removeHelpSet: looking for navigator for "+n);
-	    JHelpNavigator nav = findNavigator(n);
-	    if (nav != null) {
-		debug("   found");
-		if (nav.canMerge(eviews[i])) {
-		    debug("  canMerge: true; removing...");
-		    nav.remove(eviews[i]);
-		} else {
-		    debug("  canMerge: false");
-		}
-	    } else {
-		debug("   not found");
-	    }
-	}
+        for (NavigatorView eview : eviews) {
+            String n = eview.getName();
+            debug("removeHelpSet: looking for navigator for "+n);
+            JHelpNavigator nav = findNavigator(n);
+            if (nav != null) {
+                debug("   found");
+                if (nav.canMerge(eview)) {
+                    debug("  canMerge: true; removing...");
+                    nav.remove(eview);
+                } else {
+                    debug("  canMerge: false");
+                }
+            } else {
+                debug("   not found");
+            }
+        }
         
         // set the last displayed URL from Help. Set other than removed HelpSet, recount history 
         //helpModel.removeFromHistory(ehs);               

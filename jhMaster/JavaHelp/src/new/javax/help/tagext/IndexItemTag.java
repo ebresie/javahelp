@@ -103,14 +103,13 @@ public class IndexItemTag extends BodyTagSupport {
 	    }
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-		if (views[i] instanceof IndexView) {
-		    Merge mergeObject = 
-			Merge.DefaultMergeFactory.getMerge(view, views[i]);
-		    if (mergeObject != null) {
-			mergeObject.processMerge(topNode);
-		    }
-		}
+            for (NavigatorView view1 : views) {
+                if (view1 instanceof IndexView) {
+                    Merge mergeObject = Merge.DefaultMergeFactory.getMerge(view, view1);
+                    if (mergeObject != null) {
+                        mergeObject.processMerge(topNode);
+                    }
+                }
             }
             addSubHelpSets( ehs );
 	}

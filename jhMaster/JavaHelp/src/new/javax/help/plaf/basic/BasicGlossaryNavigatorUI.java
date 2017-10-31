@@ -240,9 +240,9 @@ PropertyChangeListener, ActionListener, Serializable {
         GlossaryView oldView = (GlossaryView) glossary.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof GlossaryView){
                     glossaryView = (GlossaryView) tempView;
                     break;
@@ -263,9 +263,9 @@ PropertyChangeListener, ActionListener, Serializable {
             HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if(glossary.canMerge(views[i])) {
-                    merge(views[i]);
+            for (NavigatorView view : views) {
+                if (glossary.canMerge(view)) {
+                    merge(view);
                 }
             }
             addSubHelpSets( ehs );

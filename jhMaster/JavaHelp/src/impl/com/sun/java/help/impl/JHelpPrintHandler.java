@@ -902,11 +902,10 @@ public class JHelpPrintHandler implements ActionListener {
 		return numPages;
 	    }
 	    if (urls != null) {
-		for (int i=0; i < urls.length; i++) {
-		    JHPrintable printable = new JHPrintable(editor, urls[i],
-							  pf, 0, true);
-		    numPages += printable.getNumberOfPages();
-		}
+                for (URL url : urls) {
+                    JHPrintable printable = new JHPrintable(editor, url, pf, 0, true);
+                    numPages += printable.getNumberOfPages();
+                }
 	    }
 	    return numPages;
         }

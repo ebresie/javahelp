@@ -125,10 +125,10 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
 	    }
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-		if (views[i] instanceof SearchView) {
-		    helpsearch.merge(views[i]);
-		}
+            for (NavigatorView view1 : views) {
+                if (view1 instanceof SearchView) {
+                    helpsearch.merge(view1);
+                }
             }
             addSubHelpSets( ehs );
 	}

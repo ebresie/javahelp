@@ -174,9 +174,9 @@ public class ConfigFile {
     public Vector getFiles () { return files; }
 
     private void useDefaultStopWords() {
-	for (int i=0; i < defStopWords.length; i++) {
-	    stopWords.put(defStopWords[i], defStopWords[i]);
-	}
+        for (String defStopWord : defStopWords) {
+            stopWords.put(defStopWord, defStopWord);
+        }
     }
 
     // Add stopwords from a file

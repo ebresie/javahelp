@@ -275,11 +275,10 @@ public class Indexer {
 	File tstfile = new File (file);
 	if (tstfile.isDirectory()) {
 	    String list[] = tstfile.list();
-	    for (int i=0; i < list.length; i++) {
-		files = loadFiles (tstfile.getPath() + 
-				   File.separator +
-				   list[i], files);
-	    }
+            for (String list1 : list) {
+                files = loadFiles(tstfile.getPath() + 
+                        File.separator + list1, files);
+            }
 	} else {
 	    files.addElement(file);
 	}

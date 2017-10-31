@@ -88,12 +88,12 @@ public class QueryEngine
 		    }
 		    if (morph != null) {
 			String [] morphs = morph.variantsOf(term);
-			for (int i=0; i < morphs.length ; i++) {
-			    int id2 = _env.fetch(morphs[i]);
-			    if (id2 > 0) {
-				ids.addElement(new SearchIds(col, id2, 0.1));
-			    }
-			}
+                        for (String morph1 : morphs) {
+                            int id2 = _env.fetch(morph1);
+                            if (id2 > 0) {
+                                ids.addElement(new SearchIds(col, id2, 0.1));
+                            }
+                        }
 		    }
 		} else if (term.length() == 1) {
 		    int charType = Character.getType(term.charAt(0));
@@ -112,12 +112,12 @@ public class QueryEngine
 			}
 			if (morph != null) {
 			    String [] morphs = morph.variantsOf(term);
-			    for (int i=0; i < morphs.length ; i++) {
-				int id2 = _env.fetch(morphs[i]);
-				if (id2 > 0) {
-				    ids.addElement(new SearchIds(col, id2, 0.1));
-				}
-			    }
+                            for (String morph1 : morphs) {
+                                int id2 = _env.fetch(morph1);
+                                if (id2 > 0) {
+                                    ids.addElement(new SearchIds(col, id2, 0.1));
+                                }
+                            }
 			}
 		    }
 		}

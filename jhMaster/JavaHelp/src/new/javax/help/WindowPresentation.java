@@ -503,14 +503,13 @@ public abstract class WindowPresentation extends Presentation {
 	if (gds.length == 1) {
 	    return false;
 	} else {
-	    for (int i=0; i<gds.length; i++) {
-		GraphicsConfiguration loopgc =
-		    gds[i].getDefaultConfiguration();
-		Rectangle bounds = loopgc.getBounds();
-		if (bounds.x != 0 || bounds.y !=0) {
-		    return true;
-		}
-	    }
+            for (GraphicsDevice gd : gds) {
+                GraphicsConfiguration loopgc = gd.getDefaultConfiguration();
+                Rectangle bounds = loopgc.getBounds();
+                if (bounds.x != 0 || bounds.y !=0) {
+                    return true;
+                }
+            }
 	}
 	return false;
     }

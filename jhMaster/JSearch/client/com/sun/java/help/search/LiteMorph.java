@@ -139,19 +139,19 @@ public abstract class LiteMorph {
 	    return;
 	}
 	String tempWord, tempVal;
-	for (int i = 0; i < exceptionTable.length; i++) {
-	    StringTokenizer tokens = new StringTokenizer(exceptionTable[i], " ");
-	    while (tokens.hasMoreTokens()) {
-		tempWord = tokens.nextToken();
-		tempVal = (String)exceptions.get(tempWord);
-		if (tempVal == null) {
-		    exceptions.put(tempWord, exceptionTable[i]);
-		} else {
-		    //the same form can occur in several groups that must be appended
-		    exceptions.put(tempWord, tempVal + " " + exceptionTable[i]);
-		}
-	    }
-	}
+        for (String exceptionTable1 : exceptionTable) {
+            StringTokenizer tokens = new StringTokenizer(exceptionTable1, " ");
+            while (tokens.hasMoreTokens()) {
+                tempWord = tokens.nextToken();
+                tempVal = (String)exceptions.get(tempWord);
+                if (tempVal == null) {
+                    exceptions.put(tempWord, exceptionTable1);
+                } else {
+                    //the same form can occur in several groups that must be appended
+                    exceptions.put(tempWord, tempVal + " " + exceptionTable1);
+                }
+            }
+        }
     }
 
     /**
@@ -233,20 +233,18 @@ public abstract class LiteMorph {
 	}
 
 
-	for (int i = 0; i < rules.length; i++) {
-	    debug("  "+word+": trying rule: " + rules[i]+
-		  ", at depth "+depth);
-	    String [] results = rules[i].match(word, depth, skipnum);
-	    if (results.length > 0) {
-		debug("  "+word+": found match for: "+rules[i]+
-		      ", at depth "+depth);
-		addVariant(word); //do this here -- i.e., only when a rule matches
-		for (int j=0; j < results.length; j++) {
-		    addVariant(results[j]);
-		}
-		break;
-	    }
-	}
+        for (Rule rule : rules) {
+            debug("  "+word+": trying rule: " + rule + ", at depth " + depth);
+            String[] results = rule.match(word, depth, skipnum);
+            if (results.length > 0) {
+                debug("  "+word+": found match for: " + rule + ", at depth " + depth);
+                addVariant(word); //do this here -- i.e., only when a rule matches
+                for (String result : results) {
+                    addVariant(result);
+                }
+                break;
+            }
+        }
     }
   
     /**

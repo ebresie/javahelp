@@ -257,8 +257,8 @@ public class CSH {
         String helpID = null;
         if (comp != null) {
             Manager managers[] = getManagers();
-            for (int i = 0; i < managers.length; i++) {
-                helpID = managers[i].getHelpIDString(comp, evt);
+            for (Manager manager : managers) {
+                helpID = manager.getHelpIDString(comp, evt);
                 if (helpID != null) {
                     return helpID;
                 }
@@ -499,8 +499,8 @@ public class CSH {
         HelpSet hs = null;
         if (comp != null) {
             Manager[] managers = getManagers();
-            for (int i = 0; i < managers.length; i++) {
-                hs = managers[i].getHelpSet(comp, evt);
+            for (Manager manager : managers) {
+                hs = manager.getHelpSet(comp, evt);
                 if (hs != null) {
                     return hs;
                 }
@@ -1529,11 +1529,11 @@ public class CSH {
                 }
             }
             Frame frames[] = Frame.getFrames();
-            for (int i = 0; i < frames.length; i++) {
-                Window[] windows = frames[i].getOwnedWindows();
+            for (Frame frame : frames) {
+                Window[] windows = frame.getOwnedWindows();
                 containers.addAll(Arrays.asList(windows));
-                if (!containers.contains(frames[i])) {
-                    containers.add(frames[i]);
+                if (!containers.contains(frame)) {
+                    containers.add(frame);
                 }
             }
             return containers;
@@ -1581,8 +1581,8 @@ public class CSH {
             }
             if (comp instanceof Container) {
                 Component component[] = ((Container)comp).getComponents();
-                for (int i = 0 ; i < component.length; i++) {
-                    setAndStoreCursors(component[i], cursor);
+                for (Component component1 : component) {
+                    setAndStoreCursors(component1, cursor);
                 }
             }
         }
@@ -1601,8 +1601,8 @@ public class CSH {
             }
             if (comp instanceof Container) {
                 Component component[] = ((Container)comp).getComponents();
-                for (int i = 0 ; i < component.length; i++) {
-                    resetAndRestoreCursors(component[i]);
+                for (Component component1 : component) {
+                    resetAndRestoreCursors(component1);
                 }
             }
         }
