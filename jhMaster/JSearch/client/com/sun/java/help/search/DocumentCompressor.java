@@ -151,7 +151,7 @@ class DocumentCompressor
           offsets.write(out);
           out.write(k3);
           titles.write(out);
-      } // position at beginning
+      }
   }
   
   private void encode(ConceptLocation[] locations, int count, int nConcepts)
