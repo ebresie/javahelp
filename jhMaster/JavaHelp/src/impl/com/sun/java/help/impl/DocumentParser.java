@@ -864,7 +864,7 @@ public abstract class DocumentParser {
 
 	    buffer.reset(offset);
 
-	    Character x = (Character)entities.get(s);
+	    Character x = entities.get(s);
 
 	    if (x != null){
 		return x.charValue();
@@ -889,10 +889,10 @@ public abstract class DocumentParser {
 	    return readChar();
     }
 
-    Hashtable entities;
+    Hashtable<String, Character> entities;
 
     protected void initEntities() {
-	entities = new Hashtable();
+	entities = new Hashtable<>();
 
 	entities.put("quot",	Character.valueOf(DocPConst.DQUOTE));
 	entities.put("amp",	Character.valueOf(DocPConst.AMPERSAND));
