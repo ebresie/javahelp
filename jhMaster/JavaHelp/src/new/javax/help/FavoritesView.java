@@ -160,8 +160,9 @@ public class FavoritesView extends NavigatorView{
         try {            
             String user_dir = System.getProperty("user.home");
             File file = new File(user_dir+File.separator+".JavaHelp"+File.separator+"Favorites.xml");            
-            if(!file.exists())
+            if(!file.exists()) {
                 return new FavoritesNode(new FavoritesItem("Favorites"));
+            }
             try{
                 url = file.toURL();
             }catch(MalformedURLException e){
@@ -189,8 +190,9 @@ public class FavoritesView extends NavigatorView{
      */
     
     public void saveFavorites(FavoritesNode node){
-        if(!enabledSave)
+        if(!enabledSave) {
             return;
+        }
         try{
             FileOutputStream out;
             String user_dir = System.getProperty("user.home");
@@ -281,10 +283,12 @@ public class FavoritesView extends NavigatorView{
                 url = (String) atts.get("url");
                 hstitle = (String) atts.get("hstitle");            
                 item = new FavoritesItem(name,target,url,hstitle,locale);       
-                if((item.getTarget() == null) &&(item.getURLSpec() == null))
+                if((item.getTarget() == null) &&(item.getURLSpec() == null)) {
                     item.setAsFolder();
-            }else
+                }
+            }else {
                 item = new FavoritesItem();
+            }
             
                        
        
@@ -572,8 +576,9 @@ public class FavoritesView extends NavigatorView{
 	    Locale newLocale=null;
         
 	    for (;;) {
-		if (tagStack.empty())
-		    break;
+		if (tagStack.empty()) {
+                    break;
+                }
 		el = (LangElement) tagStack.pop();
 		if (! el.getTag().name.equals(name)) {
 		    if (tagStack.empty()) {

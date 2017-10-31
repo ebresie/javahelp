@@ -154,8 +154,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             model.addHelpModelListener(this); // for our own changes
             model.addPropertyChangeListener(this); // for HelpSet change
             HelpSet helpSet = model.getHelpSet();
-            if(helpSet != null)
+            if(helpSet != null) {
                 helpSet.addHelpSetListener(this);
+            }
         }
         
 	topNode = new FavoritesNode(new FavoritesItem("Favorites"));
@@ -314,8 +315,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
     private void classifyNode(FavoritesNode node){
         debug("classifyNode");
         
-        if(node == null)
+        if(node == null) {
             return;
+        }
         
         HelpModel model = favorites.getModel();
         if(model == null){
@@ -361,8 +363,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
     private void classifyChildren(FavoritesNode node){
         debug("classifyChildren: "+node);
         
-        if(node == null)
+        if(node == null) {
             return;
+        }
         
 	boolean skipChild = true;
 
@@ -496,9 +499,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             debug(" node :"+ node.toString());
             if(node != null){
                 FavoritesItem favoritesItem = (FavoritesItem)node.getUserObject();
-                if(favoritesItem == null)
+                if(favoritesItem == null) {
                     debug("favoritesItem is null");
-                else{
+                } else{
                     //Map.ID id = favoritesItem.getID();
                     Map.ID id = (Map.ID)dataMap.get(favoritesItem);
                     if(id != null){
@@ -512,8 +515,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
                             System.err.println("Not valid ID :"+target );
                             break;
                         }
-                        if(id.equals(itemID))
+                        if(id.equals(itemID)) {
                             nodeFound.addElement(node);
+                        }
                     }
                 }
             }
@@ -576,8 +580,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
         contentTitle = e.getHistoryName();
         URL nurl = e.getURL();
         String nURL = null;
-        if (nurl != null)
+        if (nurl != null) {
             nURL = nurl.toExternalForm();
+        }
         
         //current values
         ID currentID = null;
@@ -607,12 +612,16 @@ PropertyChangeListener, TreeModelListener, Serializable {
                     currentName = item.getName();
                 }
                 if((currentName != null) && (currentName.equals(contentTitle))){
-                    if(currentID != null)
-                        if(currentID.equals(id))
+                    if(currentID != null) {
+                        if (currentID.equals(id)) {
                             return;
-                    if(currentURL != null)
-                        if(currentURL.equals(nURL))
+                        }
+                    }
+                    if(currentURL != null) {
+                        if (currentURL.equals(nURL)) {
                             return;
+                        }
+                    }
                 }
             }
         }
@@ -669,18 +678,20 @@ PropertyChangeListener, TreeModelListener, Serializable {
     private DefaultMutableTreeNode findURL(DefaultMutableTreeNode node, String urlSpec){
         debug(" findURL: "+ urlSpec);
         
-        if(urlSpec == null)
+        if(urlSpec == null) {
             return null;
+        }
         
         for(Enumeration children = node.children(); children.hasMoreElements();){
             DefaultMutableTreeNode child = (DefaultMutableTreeNode)children.nextElement();
             FavoritesItem childItem = (FavoritesItem) child.getUserObject();
             String childName = childItem.getName();
             String childURL = childItem.getURLSpec();
-            if(urlSpec.equals(childURL))
+            if(urlSpec.equals(childURL)) {
                 return child;
-            else
+            } else {
                 findURL(child,urlSpec);
+            }
         }
         return null;
     }
@@ -709,8 +720,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
         
         debug("ValueChanged: "+e);
         debug("  model: "+helpModel);
-        if(helpModel == null)
+        if(helpModel == null) {
             return;
+        }
         // send selected items into navigator
         TreeItem[] items = null;
         TreePath[] paths = tree.getSelectionPaths();
@@ -850,15 +862,16 @@ PropertyChangeListener, TreeModelListener, Serializable {
         debug("index first "+firstIndex);
         int lastIndex = (indices.length + firstIndex) - 1;
         FavoritesNode rootParent = (FavoritesNode)connections.get(parent);
-        if(rootParent == null)
+        if(rootParent == null) {
             rootParent = rootNode;
+        }
         
         debug("root parent "+rootParent);
         //nodes were inserted into first place in parent
         if(firstIndex == 0){
-            if(rootParent.getChildCount() == 0)
+            if(rootParent.getChildCount() == 0) {
                 place = 0;
-            else{
+            } else{
                 for(Enumeration en = rootParent.children(); en.hasMoreElements();){
                     FavoritesNode node = (FavoritesNode)en.nextElement();
                     if(node.isVisible()){
@@ -897,8 +910,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
         for(int i = 0; i < nodes.length; i++){
             FavoritesNode originalNode = (FavoritesNode)nodes[i];
             FavoritesNode remNode = (FavoritesNode)connections.get(originalNode);
-            if(remNode != null)
+            if(remNode != null) {
                 remNode.removeFromParent();
+            }
         }
     }
     
@@ -1077,9 +1091,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             FavoritesNode node = new FavoritesNode(favoriteFolder);
             TreePath nodePath = tree.getSelectionPath();
             TreeNode parent = null;
-            if(nodePath == null)
+            if(nodePath == null) {
                 parent = topNode;
-            else{
+            } else{
                 FavoritesNode selNode = (FavoritesNode)nodePath.getLastPathComponent();
                 parent = selNode.getParent();
             }
@@ -1162,8 +1176,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
                 }
                 else{
                     DefaultMutableTreeNode parent = (DefaultMutableTreeNode)node.getParent();
-                    if(parent == null)
+                    if(parent == null) {
                         return;
+                    }
                     int index = parent.getIndex(node);
                     for(Enumeration en = nodeClipboard.elements(); en.hasMoreElements();index++){
                         model.insertNodeInto((DefaultMutableTreeNode)en.nextElement(),parent,index);
@@ -1303,10 +1318,12 @@ PropertyChangeListener, TreeModelListener, Serializable {
             DropTarget dropTarget = new DropTarget(this, this);
             
             Toolkit tk = this.getToolkit();
-            if(tk.getBestCursorSize(16,16).equals(new Dimension(64,64)))
+            if(tk.getBestCursorSize(16,16).equals(new Dimension(64,64))) {
                 dndCursor = (Cursor) UIManager.get("HelpDnDCursor");
-            if(dndCursor == null)
+            }
+            if(dndCursor == null) {
                 debug("cursor is null");
+            }
             putClientProperty("JTree.lineStyle", "None");
         }
         
@@ -1336,8 +1353,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
             BufferedImage ghostImage = null;
             Point ptDragOrigin = e.getDragOrigin();
             TreePath path = getPathForLocation(ptDragOrigin.x, ptDragOrigin.y);
-            if (path == null)
+            if (path == null) {
                 return ghostImage;
+            }
             
             Rectangle raPath = getPathBounds(path);
             offset.setLocation(ptDragOrigin.x-raPath.x, ptDragOrigin.y-raPath.y);
@@ -1399,7 +1417,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
          */
         private void setCursor(DragSourceDragEvent dsde) {
             
-            if (cursorLocation == null) return;
+            if (cursorLocation == null) {
+                return;
+            }
             
             TreePath destinationPath =
             getPathForLocation(cursorLocation.x, cursorLocation.y);
@@ -1458,8 +1478,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
                 try {
                     if (!copyAction){
                         FavoritesNode fromRootNode = (FavoritesNode)connections.get(getSelectedNode());
-                        if(fromRootNode != null)
+                        if(fromRootNode != null) {
                             fromRootNode.removeFromParent();
+                        }
                         oldParent.remove(getSelectedNode());
                     }
                     DefaultTreeModel model = (DefaultTreeModel)getModel();
@@ -1470,12 +1491,15 @@ PropertyChangeListener, TreeModelListener, Serializable {
                             int index = parent.getIndex(newParent);
                             model.insertNodeInto(newNode,(DefaultMutableTreeNode)parent, index+1);
                         }
-                    }else
+                    }else {
                         model.insertNodeInto(newNode,newParent,newParent.getChildCount());
+                    }
                     
-                    if (copyAction)
+                    if (copyAction) {
                         e.acceptDrop(DnDConstants.ACTION_COPY);
-                    else e.acceptDrop(DnDConstants.ACTION_MOVE);
+                    } else {
+                        e.acceptDrop(DnDConstants.ACTION_MOVE);
+                    }
                 }
                 catch (java.lang.IllegalStateException ils) {
                     debug("drop ejected");
@@ -1518,8 +1542,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
         public void dragOver(DropTargetDragEvent e) {
             
             Point pt = e.getLocation();
-            if (pt.equals(ptLast))
+            if (pt.equals(ptLast)) {
                 return;
+            }
             
             ptLast = pt;
             
@@ -1535,8 +1560,9 @@ PropertyChangeListener, TreeModelListener, Serializable {
                     ghostRect.setRect(pt.x - offset.x, pt.y - offset.y, ghostImage.getWidth(), ghostImage.getHeight());
                     g2.drawImage(ghostImage, AffineTransform.getTranslateInstance(ghostRect.getX(), ghostRect.getY()), null);
                 }
-            }else
+            }else {
                 e.rejectDrag();
+            }
         }
         
         @Override
@@ -1560,16 +1586,19 @@ PropertyChangeListener, TreeModelListener, Serializable {
             
             FavoritesNode node = (FavoritesNode) destination.getLastPathComponent();
             
-            if (destination.equals(dropper))
+            if (destination.equals(dropper)) {
                 return "Destination cannot be same as source";
+            }
             
             
-            if ( dropper.isDescendant(destination))
+            if ( dropper.isDescendant(destination)) {
                 return "Destination node cannot be a descendant.";
+            }
             
             
-            if ( dropper.getParentPath().equals(destination))
+            if ( dropper.getParentPath().equals(destination)) {
                 return "Destination node cannot be a parent.";
+            }
             
             return null;
         }

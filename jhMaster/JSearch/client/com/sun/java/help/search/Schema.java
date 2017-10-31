@@ -71,39 +71,45 @@ public class Schema
     catch (java.io.FileNotFoundException e) {
       debug("error creating SCHEMA");
     }
-    for (int i = 0; i < _lines.size(); i++)
-      debug(_lines.elementAt(i).toString());
+    for (int i = 0; i < _lines.size(); i++) {
+        debug(_lines.elementAt(i).toString());
+    }
   }
   
   public void update(String partName, String parameters)
   {
-    for (int i = 0; i < _lines.size(); i++)
-      if (((String)_lines.elementAt(i)).startsWith(partName))
-	_lines.removeElementAt(i);
+    for (int i = 0; i < _lines.size(); i++) {
+        if (((String)_lines.elementAt(i)).startsWith(partName)) {
+            _lines.removeElementAt(i);
+        }
+    }
     _lines.addElement(partName + " " + parameters);
   }
 
   public String parametersAsString(String name)
   {
-    for (int i = 0; i < _lines.size(); i++)
-      if (((String)_lines.elementAt(i)).startsWith(name))
-	return ((String)_lines.elementAt(i)).substring(name.length() + 1);
+    for (int i = 0; i < _lines.size(); i++) {
+        if (((String)_lines.elementAt(i)).startsWith(name)) {
+            return ((String)_lines.elementAt(i)).substring(name.length() + 1);
+        }
+    }
     return null;
   }
 
   public Hashtable parameters(String name)
   {
-    for (int i = 0; i < _lines.size(); i++)
-      if (((String)_lines.elementAt(i)).startsWith(name))
-	{
-	  Hashtable result = new Hashtable();
-	  StringTokenizer tokens =
-	    new StringTokenizer((String)_lines.elementAt(i), " =");
-	  tokens.nextToken();		// skip name
-	  while (tokens.hasMoreTokens())
-	    result.put(tokens.nextToken(), tokens.nextToken());
-	  return result;
-	}
+    for (int i = 0; i < _lines.size(); i++) {
+        if (((String)_lines.elementAt(i)).startsWith(name)) {
+            Hashtable result = new Hashtable();
+            StringTokenizer tokens =
+                    new StringTokenizer((String)_lines.elementAt(i), " =");
+            tokens.nextToken(); // skip name
+            while (tokens.hasMoreTokens()) {
+                result.put(tokens.nextToken(), tokens.nextToken());
+            }
+            return result;
+        }
+    }
     return null;
   }
 
@@ -177,8 +183,9 @@ public class Schema
 
     // This needs to be replaced with our XML Parser
     String line;
-    while ((line = in.readLine()) != null)
-      _lines.addElement(line);
+    while ((line = in.readLine()) != null) {
+        _lines.addElement(line);
+    }
     in.close();
   }
   

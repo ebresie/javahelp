@@ -63,25 +63,28 @@ class NextDocGeneratorHeap
     if ((_heapSize = _free) > 0)
       {
 	// build heap
-	for (int i = _heapSize/2; i >= 0; i--)
-	  heapify(i);
+	for (int i = _heapSize/2; i >= 0; i--) {
+            heapify(i);
+        }
 	_nonEmpty = true;
       }
-    else
-      _nonEmpty = false;
+    else {
+        _nonEmpty = false;
+    }
   }
   
   public void step() throws Exception
   {
-    if (_heap[0].next() != NonnegativeIntegerGenerator.END)
-      heapify(0);
-    else if (_heapSize > 1)
+    if (_heap[0].next() != NonnegativeIntegerGenerator.END) {
+        heapify(0);
+    } else if (_heapSize > 1)
       {
 	_heap[0] = _heap[--_heapSize];
 	heapify(0);
       }
-    else
-      _nonEmpty = false;
+    else {
+        _nonEmpty = false;
+    }
   }
   
   public int getDocument() {
@@ -114,8 +117,9 @@ class NextDocGeneratorHeap
   {
     int r = (i + 1) << 1, l = r - 1;
     int smallest = l < _heapSize && _heap[l].smallerThan(_heap[i]) ? l : i;
-    if (r < _heapSize && _heap[r].smallerThan(_heap[smallest]))
-      smallest = r;
+    if (r < _heapSize && _heap[r].smallerThan(_heap[smallest])) {
+        smallest = r;
+    }
     if (smallest != i)
       {
 	NextDocGenerator temp = _heap[smallest];

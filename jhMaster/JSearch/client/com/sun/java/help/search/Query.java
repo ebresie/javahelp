@@ -62,10 +62,11 @@ class Query
     _vote = false;
     _currentStandard = (nColumns - 1) * 10.0 + 9.9999;
     _store = new HitStore(_currentStandard);
-    for (int i = 0; i < _nColumns; i++)
-      _missingPenalty[i] = missingPenalties != null
-	? missingPenalties[i]
-	: 10.0;
+    for (int i = 0; i < _nColumns; i++) {
+        _missingPenalty[i] = missingPenalties != null
+                ? missingPenalties[i]
+                : 10.0;
+    }
     makePenaltiesTable();
   }
 
@@ -78,13 +79,14 @@ class Query
 	int N = n;
 	QueryHit qh = _store.firstBestQueryHit();
 	n = N;
-	for ( ; qh != null; qh = --n > 0 ? _store.nextBestQueryHit() : null)
-	  try {
-	    hits.addElement(_env.makeItem(qh));
-	  }
-	catch (Exception e) {
-	  System.err.println(e + "hit not translated");
-	}
+	for ( ; qh != null; qh = --n > 0 ? _store.nextBestQueryHit() : null) {
+            try {
+                hits.addElement(_env.makeItem(qh));
+            }
+            catch (Exception e) {
+                System.err.println(e + "hit not translated");
+            }
+        }
       }
     // Params not know at this time
     searchQuery.itemsFound(true, hits);
@@ -129,14 +131,16 @@ class Query
   public boolean vote()
   {
     double sum = 0.0;
-    for (int i = 0; i < _nColumns; i++)
-      sum += _upperboundTemplate[i];
+    for (int i = 0; i < _nColumns; i++) {
+        sum += _upperboundTemplate[i];
+    }
     return _vote = (sum <= _currentStandard);
   }
 
   public void updateEstimate(int role, double penalty) {
-    if (penalty < _upperboundTemplate[role])
-      _upperboundTemplate[role] = penalty;
+    if (penalty < _upperboundTemplate[role]) {
+        _upperboundTemplate[role] = penalty;
+    }
   }
   
   public void printHits(int n)
@@ -146,13 +150,14 @@ class Query
 	int N = n;
 	QueryHit qh = _store.firstBestQueryHit();
 	n = N;
-	for ( ; qh != null; qh = --n > 0 ? _store.nextBestQueryHit() : null)
-	  try {
-	    System.out.println(_env.hitToString(qh));
-	  }
-	catch (Exception e) {
-	  System.err.println(e + "hit not translated");
-	}
+	for ( ; qh != null; qh = --n > 0 ? _store.nextBestQueryHit() : null) {
+            try {
+                System.out.println(_env.hitToString(qh));
+            }
+            catch (Exception e) {
+                System.err.println(e + "hit not translated");
+            }
+        }
       }
   }
 
@@ -160,16 +165,19 @@ class Query
   {
     int nPatterns = 1 << _nColumns;
     _penalties = new double[nPatterns];
-    for (int i = 0; i < nPatterns; i++)
-      _penalties[i] = computePenalty(i);
+    for (int i = 0; i < nPatterns; i++) {
+        _penalties[i] = computePenalty(i);
+    }
   }
 
   private double computePenalty(int n)
   {
     double penalty = 0.0;
-    for (int i = 0; i < _nColumns; i++)
-      if ((n & 1 << i) == 0)
-	penalty += _missingPenalty[i];
+    for (int i = 0; i < _nColumns; i++) {
+        if ((n & 1 << i) == 0) {
+            penalty += _missingPenalty[i];
+        }
+    }
     return penalty;
   }
 }

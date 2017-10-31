@@ -872,10 +872,11 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		    // named anchor point and we don't want to throw
 		    // it away.
 		    char[] one = new char[1];
-		    if (post4207472)
-			one[0] = '\n';
-		    else
-		        one[0] = ' ';
+		    if (post4207472) {
+                        one[0] = '\n';
+                    } else {
+                        one[0] = ' ';
+                    }
 		    debug ("emptyAnchor currentPos=" + currentPos);
 		    addContent(one, 0, 1);
                 }
@@ -888,8 +889,9 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		    int major = Integer.parseInt(ver.substring(2,3));
 		    int minor = 0;
 		    // allow for FCS case - we leave minor as 0 if dealing with FCS
-		    if (ver.length() > 6)
-		    	minor = Integer.parseInt(ver.substring(6,8)); 
+		    if (ver.length() > 6) {
+                        minor = Integer.parseInt(ver.substring(6,8));
+                       } 
 		    if ((major > 5 ) || (major==5 && minor >= 4)) {
 		    	return true;
 		    } else {
@@ -1210,8 +1212,9 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    String newLang=defaultLang;
 
 	    for (;;) {
-		if (tagStack.empty()) 
-		    break;
+		if (tagStack.empty()) {
+                    break;
+                }
 		el = (LangElement) tagStack.pop();
 		if (el.getTag().toString().compareTo(name) == 0) {
 		    if (tagStack.empty()) {

@@ -77,8 +77,9 @@ class RoleFiller
 	int[] array =
 	  q.getConceptArrayOfNewHit(penalty,
 				    new Location(doc, _begin, _end));
-	for (int i = 0; i < nColumns; i++)
-	  array[i] = (_filled & 1 << i) != 0 ? _fillers[i].getConcept() : 0;
+	for (int i = 0; i < nColumns; i++) {
+            array[i] = (_filled & 1 << i) != 0 ? _fillers[i].getConcept() : 0;
+        }
       }
   }
 
@@ -117,18 +118,21 @@ class RoleFiller
 		    rf._fillers[_fixedRole] = this;
 		    rf._end = _end;
 		  }
-		else
-		  rf.considerReplacementWith(this);
+		else {
+                    rf.considerReplacementWith(this);
+                }
 	      }
 	      
-	    if (rf._next != null)
-	      rf = rf._next;
-	    else
-	      return;
+	    if (rf._next != null) {
+                rf = rf._next;
+            } else {
+                return;
+            }
 	  }
       }
-    else
-      place[index] = this;
+    else {
+        place[index] = this;
+    }
   }
   
   private void considerReplacementWith(RoleFiller replacement)
@@ -136,8 +140,9 @@ class RoleFiller
     // !!! simplistic for now
     // needs gap and out of order
     int role = replacement._fixedRole;
-    if (replacement.getScore() > _fillers[role].getScore())
-      _fillers[role] = replacement;
+    if (replacement.getScore() > _fillers[role].getScore()) {
+        _fillers[role] = replacement;
+    }
   }
 
   private double penalty(Query query, int nColumns)
@@ -146,16 +151,19 @@ class RoleFiller
     double penalty = query.lookupPenalty(_filled);
     // !!! here is a chance to check against query if hit worth scoring further
     // might not be if query already has lots of good hits
-    for (int i = 0; i < nColumns; i++)
-      if ((_filled & (1 << i)) != 0)
-	{
-	  penalty += _fillers[i]._conceptData.getPenalty();
-	  length -= _fillers[i]._conceptData.getConceptLength() + 1;
-	  if ((_filled >> (i + 1)) != 0)
-	    for (int j = i + 1; j < nColumns; j++)
-	      if ((_filled & 1 << j) != 0 && _fillers[j]._begin < _begin)
-		penalty += query.getOutOufOrderPenalty();
-	}
+    for (int i = 0; i < nColumns; i++) {
+        if ((_filled & (1 << i)) != 0) {
+            penalty += _fillers[i]._conceptData.getPenalty();
+            length -= _fillers[i]._conceptData.getConceptLength() + 1;
+            if ((_filled >> (i + 1)) != 0) {
+                for (int j = i + 1; j < nColumns; j++) {
+                    if ((_filled & 1 << j) != 0 && _fillers[j]._begin < _begin) {
+                        penalty += query.getOutOufOrderPenalty();
+                    }
+                }
+            }
+        }
+    }
     return penalty + length*query.getGapPenalty();
   }
   
@@ -175,23 +183,24 @@ class RoleFiller
 
     double penalty = candidateHit.penalty(query, nColumns);
   
-    for (next = candidateHit._next; next != null; next = next._next)
-      if (next._end < candidateHit._begin) // no overlap
-	{
-	  candidateHit.makeQueryHit(query, nColumns, document, penalty);
-	  candidateHit = next;
-	  penalty = candidateHit.penalty(query, nColumns);
-	}
-      else
-	{
-	  // !!! can be computed in two steps
-	  double penalty2 = next.penalty(query, nColumns);
-	  if (penalty2 <= penalty)	// prefer next, disregard candidateHit
-	    {
-	      penalty = penalty2;
-	      candidateHit = next;
-	    }
-	}
+    for (next = candidateHit._next; next != null; next = next._next) {
+        if (next._end < candidateHit._begin) // no overlap
+        {
+            candidateHit.makeQueryHit(query, nColumns, document, penalty);
+            candidateHit = next;
+            penalty = candidateHit.penalty(query, nColumns);
+        }
+        else
+        {
+            // !!! can be computed in two steps
+            double penalty2 = next.penalty(query, nColumns);
+            if (penalty2 <= penalty)	// prefer next, disregard candidateHit
+            {
+                penalty = penalty2;
+                candidateHit = next;
+            }
+        }
+    }
     candidateHit.makeQueryHit(query, nColumns, document, penalty);
   }
 

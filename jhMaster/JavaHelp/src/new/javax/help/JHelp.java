@@ -102,10 +102,11 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 		 HelpSet.Presentation hsPres){
         super();
         
-        if(history == null)
+        if(history == null) {
             this.historyModel = new DefaultHelpHistoryModel(this);
-        else
+        } else {
             this.historyModel = history;
+        }
 
 	this.hsPres = hsPres;
         

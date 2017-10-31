@@ -75,10 +75,11 @@ public class BasicIndexCellRenderer extends DefaultTreeCellRenderer {
 	}
 
         setText(stringValue);
-        if (sel)
+        if (sel) {
             setForeground(getTextSelectionColor());
-        else
+        } else {
             setForeground(getTextNonSelectionColor());
+        }
 
         setIcon(null);
         

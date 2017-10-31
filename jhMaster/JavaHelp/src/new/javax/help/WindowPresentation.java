@@ -427,10 +427,11 @@ public abstract class WindowPresentation extends Presentation {
 			if (m != null) {
 			    int value =((Integer)(m.invoke(frame, 
 							   (java.lang.Object[])null))).intValue();
-			    if (value == 0)
-				return true;
-			    else 
-				return false;
+			    if (value == 0) {
+                                return true;
+                            } else {
+                                return false;
+                            }
 
 			}
 		    } catch (NoSuchMethodError | NoSuchMethodException | java.lang.reflect.InvocationTargetException | java.lang.IllegalAccessException ex) {
@@ -949,8 +950,9 @@ public abstract class WindowPresentation extends Presentation {
 			if (dialog.isShowing()) {
 			    dialog.hide();
 			}
-			if (ownerWindow != null)
-			    ownerWindow.removeWindowListener(dl);
+			if (ownerWindow != null) {
+                            ownerWindow.removeWindowListener(dl);
+                        }
 			ownerWindow = null;
 			modalDeactivated = true;
 		    }

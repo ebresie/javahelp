@@ -59,10 +59,12 @@ class HitStoreNode
   {
     _hitCount++;
     _divider += hit.getScore();
-    if (hit.getScore() > _max)
-      _max = hit.getScore();
-    if (hit.getScore() < _min)
-      _min = hit.getScore();
+    if (hit.getScore() > _max) {
+        _max = hit.getScore();
+    }
+    if (hit.getScore() < _min) {
+        _min = hit.getScore();
+    }
     _array[_free++] = hit;
   }
 
@@ -103,8 +105,9 @@ class HitStoreNode
     _children[0] = new HitStoreNode(_size);
     _children[1] = new HitStoreNode(_size);
     _divider /= _hitCount;	// becomes average
-    for (int i = 0; i < _free; i++)
-      _children[_array[i].getScore() > _divider ? 1 : 0].fastAdd(_array[i]);
+    for (int i = 0; i < _free; i++) {
+        _children[_array[i].getScore() > _divider ? 1 : 0].fastAdd(_array[i]);
+    }
     _array = null;			// becomes internal
   }
   public int getCount() {
@@ -138,9 +141,9 @@ class HitStoreNode
 
   public void gatherLeaves(Vector vector)
   {
-    if (isLeaf())
-      vector.addElement(this);
-    else
+    if (isLeaf()) {
+        vector.addElement(this);
+    } else
       {
 	getLChild().gatherLeaves(vector);
 	getRChild().gatherLeaves(vector);
@@ -164,8 +167,9 @@ class HitStoreNode
 	    _array[i] = _array[j];
 	    _array[j] = t;
 	  }
-	else
-	  return j;
+	else {
+            return j;
+        }
       }
   }
 
@@ -203,8 +207,9 @@ class HitStore
   }
   
   public void addQueryHit(QueryHit hit) {
-    if(_root.add(hit))
-      adapt();
+    if(_root.add(hit)) {
+        adapt();
+    }
   }
   
   private HitStoreNode getNextNode()
@@ -216,8 +221,9 @@ class HitStore
 	node.sort();
 	return node;
       }
-    else
-      return null;
+    else {
+        return null;
+    }
   }
 
   public QueryHit firstBestQueryHit()
@@ -231,12 +237,13 @@ class HitStore
   public QueryHit nextBestQueryHit()
   {
     QueryHit result = _current.getNextHit();
-    if (result != null)
-      return result;
-    else if ((_current = getNextNode()) != null)
-      return _current.getNextHit();
-    else
-      return null;
+    if (result != null) {
+        return result;
+    } else if ((_current = getNextNode()) != null) {
+        return _current.getNextHit();
+    } else {
+        return null;
+    }
   }
   
   double getCurrentStandard() {
@@ -245,30 +252,27 @@ class HitStore
   
   private void adapt()
   {
-    if (_root.getCount() > _limit)
-      if (!_root.isLeaf())
-	{
-	  HitStoreNode ptr = _root;
-	  // find rightmost internal
-	  while (!ptr.getRChild().isLeaf())
-	    ptr = ptr.getRChild();
-      
-	  _standard = ptr.getDivider();
-      
-	  if (ptr == _root)
-	    _root = ptr.getLChild();
-	  else
-	    {
-	      int count = ptr.getRChild().getCount();
-	      HitStoreNode ptr2 = _root;
-	      while (ptr2.getRChild() != ptr)
-		{
-		  ptr2.decrementCount(count);
-		  ptr2 = ptr2.getRChild();
-		}
-	      ptr2.setRChild(ptr.getLChild());
-	    }
-	  ptr.setLChild(null);
-	}
+    if (_root.getCount() > _limit) {
+        if (!_root.isLeaf()) {
+            HitStoreNode ptr = _root;
+            while (!ptr.getRChild().isLeaf()) {
+                ptr = ptr.getRChild();
+            }
+            _standard = ptr.getDivider();
+            if (ptr == _root) {
+                _root = ptr.getLChild();
+            } else {
+                int count = ptr.getRChild().getCount();
+                HitStoreNode ptr2 = _root;
+                while (ptr2.getRChild() != ptr)
+                {
+                    ptr2.decrementCount(count);
+                    ptr2 = ptr2.getRChild();
+                }
+                ptr2.setRChild(ptr.getLChild());
+            }
+            ptr.setLChild(null);
+        }
+    }
   }
 }

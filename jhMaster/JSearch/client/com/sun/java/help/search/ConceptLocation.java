@@ -59,8 +59,9 @@ class ConceptLocation
 	      array[i] = array[j];
 	      array[j] = t;
 	    }
-	  else
-	    return j;
+	  else {
+              return j;
+          }
 	}
     }
 
@@ -150,20 +151,24 @@ class ConceptLocation
   {
     int limit = 30, b;
     ConceptLocation[] array = new ConceptLocation[limit];
-    for (int i = 0; i < limit; i++)
-      array[i] = new ConceptLocation((int)(Math.random()*1000),
-				     b = (int)(Math.random()*1000),
-				     b + (int)(Math.random()*10));
-    for (int i = 0; i < limit; i++)
-      array[i].print();
+    for (int i = 0; i < limit; i++) {
+        array[i] = new ConceptLocation((int)(Math.random()*1000),
+                b = (int)(Math.random()*1000),
+                b + (int)(Math.random()*10));
+    }
+    for (int i = 0; i < limit; i++) {
+        array[i].print();
+    }
     ConceptLocation.sortByConcept(array, 0, limit);
     System.out.println("----------------------------------");
-    for (int i = 0; i < limit; i++)
-      array[i].print();
+    for (int i = 0; i < limit; i++) {
+        array[i].print();
+    }
     ConceptLocation.sortByPosition(array, 0, limit);
     System.out.println("----------------------------------");
-    for (int i = 0; i < limit; i++)
-      array[i].print();
+    for (int i = 0; i < limit; i++) {
+        array[i].print();
+    }
   }
 }
 

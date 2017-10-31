@@ -138,15 +138,16 @@ public class QueryEngine
 		search.addTerm(id.col, id.concept, id.score, 0);
 		children.clear();
 		_env.getChildren(id.concept, children);
-		if (children.cardinality() > 0)
-		    for (int j = 0; j < children.cardinality(); j++)
-			{
-			    search.addTerm(id.col, children.at(j), 
-					   id.score + 0.1, 0);
-			    // appending (grand)+children
-			    //!!! as it is too many duplicates are added
-			    _env.getChildren(children.at(j), children);
-			}
+		if (children.cardinality() > 0) {
+                    for (int j = 0; j < children.cardinality(); j++)
+                    {
+                        search.addTerm(id.col, children.at(j),
+                                id.score + 0.1, 0);
+                        // appending (grand)+children
+                        //!!! as it is too many duplicates are added
+                        _env.getChildren(children.at(j), children);
+                    }
+                }
 	    }
 
 	search.startSearch(searchQuery);
@@ -200,9 +201,9 @@ public class QueryEngine
 	    while(true)
 		{
 		    String line = in.readLine();
-		    if (line.equals("."))
-			break;
-		    else
+		    if (line.equals(".")) {
+                        break;
+                    } else
 		      {
 			long start = System.currentTimeMillis();
 			qe.processQuery(line, Locale.getDefault(), null);

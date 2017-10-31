@@ -254,8 +254,9 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
             }
         }
         
-        if(view == null)
+        if(view == null) {
             return;
+        }
                          
         topNode.removeAllChildren();
         searchnav.setSearchEngine(new MergingSearchEngine(view));
@@ -600,14 +601,16 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 			 * the partition element starting from the left Index.
 			 */
 	     
-			while( ( lo < hi0 ) && ( compare(a[lo],a[mid]) > 0 ))
-			    ++lo;
+			while( ( lo < hi0 ) && ( compare(a[lo],a[mid]) > 0 )) {
+                            ++lo;
+                        }
 
 			/* find an element that is smaller than or equal to
 			 * the partition element starting from the right Index.
 			 */
-			while( ( hi > lo0 ) && ( compare(a[hi],a[mid]) < 0 ))
-			    --hi;
+			while( ( hi > lo0 ) && ( compare(a[hi],a[mid]) < 0 )) {
+                            --hi;
+                        }
 
 			// if the indexes have not crossed, swap
 			if( lo <= hi )
@@ -621,14 +624,16 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 		/* If the right index has not reached the left side of array
 		 * must now sort the left partition.
 		 */
-		if( lo0 < hi )
-		    quickSort( a, lo0, hi );
+		if( lo0 < hi ) {
+                    quickSort( a, lo0, hi );
+                }
 
 		/* If the left index has not reached the right side of array
 		 * must now sort the right partition.
 		 */
-		if( lo < hi0 )
-		    quickSort( a, lo, hi0 );
+		if( lo < hi0 ) {
+                    quickSort( a, lo, hi0 );
+                }
 
 	    }
     }

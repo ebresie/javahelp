@@ -96,8 +96,9 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             debug("  type: "+type);
             debug("  kit: "+kit);
             html.setEditorKitForContentType(type, kit);
-            if (debug)
+            if (debug) {
                 debug("  kit got: "+html.getEditorKitForContentType(type));
+            }
         }
     }
     
@@ -450,11 +451,13 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                     title = (String)doc.getProperty(Document.TitleProperty);                    
                     String anchor = url.getRef();
                     //if the title is not known (Hyperlink without anchor activated) parse title
-                    if(title == null)
+                    if(title == null) {
                         title = findTitle(url);
+                    }
                     //in case there is an anchor append it to the title
-                    if(anchor != null)
+                    if(anchor != null) {
                         title = title + "-" + anchor;
+                    }
                     TextHelpModel model = theViewer.getModel();
                     model.setDocumentTitle(title);
                     ID id = model.getHelpSet().getCombinedMap().getIDFromURL(url);

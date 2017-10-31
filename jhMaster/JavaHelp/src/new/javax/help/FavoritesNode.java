@@ -101,8 +101,9 @@ public class FavoritesNode extends DefaultMutableTreeNode  {
         super.remove(child);
         FavoritesItem childItem = (FavoritesItem) ((FavoritesNode) child).getUserObject();
         FavoritesItem ParentItem = (FavoritesItem) getUserObject();
-        if (parent != null)
+        if (parent != null) {
             ParentItem.remove(childItem);
+        }
     }
     /**
      * Returns the number of visible children
@@ -110,13 +111,15 @@ public class FavoritesNode extends DefaultMutableTreeNode  {
      */
     public int getVisibleChildCount(){
         int count = 0;
-        if( item == null)
+        if( item == null) {
             return 0;
+        }
         
         for(Enumeration en = item.getChildren().elements(); en.hasMoreElements();){
             FavoritesItem nItem =(FavoritesItem)en.nextElement();
-            if(nItem.isVisible())
+            if(nItem.isVisible()) {
                 count++;
+            }
         }
         return count;
     }
@@ -131,8 +134,9 @@ public class FavoritesNode extends DefaultMutableTreeNode  {
         if(parent != null){
             parentOffset = parent.getOffset();
             offset = parentOffset + "  ";
-        }else
+        }else {
             offset = "  ";
+        }
         
         return offset;
     }
@@ -167,18 +171,21 @@ public class FavoritesNode extends DefaultMutableTreeNode  {
         FavoritesItem item = (FavoritesItem)getUserObject();        
         writer.write(getOffset()+"<"+getXMLElement()+ " text=\""+item.getName()+"\" ");
         String target = item.getTarget();
-        if(target != null)
+        if(target != null) {
             writer.write("target=\""+target+"\" ");
+        }
         String url = item.getURLSpec();
-        if(url != null)
+        if(url != null) {
             writer.write("url=\""+url+"\"");
+        }
         String hstitle = item.getHelpSetTitle();
-        if(hstitle != null)
+        if(hstitle != null) {
             writer.write(" hstitle=\""+hstitle+"\"");
+        }
         Enumeration chldn = children(); 
-        if(chldn.equals(DefaultMutableTreeNode.EMPTY_ENUMERATION))
+        if(chldn.equals(DefaultMutableTreeNode.EMPTY_ENUMERATION)) {
             writer.write("/>\n");
-        else{ 
+        } else{ 
             writer.write(">\n");
             Enumeration offspring = children.elements();
             while(offspring.hasMoreElements()){

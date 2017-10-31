@@ -188,8 +188,9 @@ public abstract class LiteMorph {
 
 	debug(" analyzing: " +word+" at depth "+depth);
 
-	if (depth > 2)
-	    return;
+	if (depth > 2) {
+            return;
+        }
 
 	// if a word is found among exceptions, don't try rules
 
@@ -199,16 +200,18 @@ public abstract class LiteMorph {
 	}
 	if (exceptionList.length() > 0) {
 	    StringTokenizer tokens = new StringTokenizer(exceptionList, " ");
-	    while (tokens.hasMoreTokens())
-		addVariant(tokens.nextToken());
+	    while (tokens.hasMoreTokens()) {
+                addVariant(tokens.nextToken());
+            }
 	    debug("   "+word+": found match in exceptions -- "+
 		  exceptionList+", at depth "+depth);
 	    return;
 	}
     
-	if (word.indexOf('-') >= 0)
-	    return;
-	//don't apply rules to words with internal hyphens (but check exceptions)
+	if (word.indexOf('-') >= 0) {
+            return;
+            //don't apply rules to words with internal hyphens (but check exceptions)
+        }
 
 	Rule[] rules = null;
 	int skipnum = 0;

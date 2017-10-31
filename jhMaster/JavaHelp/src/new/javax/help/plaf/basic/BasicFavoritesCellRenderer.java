@@ -70,18 +70,20 @@ public class BasicFavoritesCellRenderer extends DefaultTreeCellRenderer {
         
         setText(stringValue);
         
-        if (sel)
+        if (sel) {
             setForeground(getTextSelectionColor());
-        else
+        } else {
             setForeground(getTextNonSelectionColor());
+        }
         selected = sel;
         
-        if(leaf)
+        if(leaf) {
             setIcon(getDefaultLeafIcon());
-        else if(expanded)
+        } else if(expanded) {
             setIcon(getDefaultOpenIcon());
-        else
-            setIcon(getDefaultClosedIcon());        
+        } else {
+            setIcon(getDefaultClosedIcon());
+        }        
        
         return this;
     }    

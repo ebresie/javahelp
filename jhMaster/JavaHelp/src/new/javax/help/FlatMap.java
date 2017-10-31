@@ -182,7 +182,9 @@ public class FlatMap implements Map, Serializable {
     public ID getIDFromURL(URL url) {
 	String tmp;
 	URL tmpURL;
-	if (url == null) return null;
+	if (url == null) {
+            return null;
+        }
 	String urlString = url.toExternalForm();
 	for (Enumeration e = resource.getKeys() ; e.hasMoreElements() ;) {
 	    String key = (String) e.nextElement();
@@ -191,7 +193,9 @@ public class FlatMap implements Map, Serializable {
 		tmpURL = new URL(base, tmp);
 
 		// Sometimes tmp will be null because not all keys are ids
-		if (tmpURL == null) continue;
+		if (tmpURL == null) {
+                    continue;
+                }
 		String tmpString = tmpURL.toExternalForm();
 		if (urlString.compareTo(tmpString) == 0) {
 		    return ID.create(key, helpset);

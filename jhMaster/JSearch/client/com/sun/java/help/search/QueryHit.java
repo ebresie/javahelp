@@ -77,12 +77,24 @@ class QueryHit
 
   public boolean betterThan(QueryHit x)
   {
-    if (_score < x._score) return true;
-    if (_score > x._score) return false;
-    if (_begin < x._begin) return true;
-    if (_begin > x._begin) return false;
-    if (_end < x._end) return true;
-    if (_end > x._end) return false;
+    if (_score < x._score) {
+        return true;
+    }
+    if (_score > x._score) {
+        return false;
+    }
+    if (_begin < x._begin) {
+        return true;
+    }
+    if (_begin > x._begin) {
+        return false;
+    }
+    if (_end < x._end) {
+        return true;
+    }
+    if (_end > x._end) {
+        return false;
+    }
     return false;
   }
 }

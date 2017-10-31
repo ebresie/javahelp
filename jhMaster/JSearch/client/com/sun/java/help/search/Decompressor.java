@@ -50,20 +50,23 @@ abstract class Decompressor
     
   private int countZeroes() throws Exception
   {
-    for (int count = 0;; _readByte = getNextByte(), _toRead = BitsInByte)
-      while (_toRead-- > 0)
-	if ((_readByte & (1 << _toRead)) != 0)
-	  return count;
-	else
-	  ++count;
+    for (int count = 0;; _readByte = getNextByte(), _toRead = BitsInByte) {
+        while (_toRead-- > 0) {
+            if ((_readByte & (1 << _toRead)) != 0) {
+                return count;
+            } else {
+                ++count;
+            }
+        }
+    }
   }
   
   // reads 1 bit; returns non-0 for bit "1"
   private int read() throws Exception
   {
-    if (_toRead-- > 0)
-      return _readByte & (1 << _toRead);
-    else
+    if (_toRead-- > 0) {
+        return _readByte & (1 << _toRead);
+    } else
       {  // get next word
 	_toRead = BitsInByte - 1;
 	return (_readByte = getNextByte()) & 0x80;
@@ -73,19 +76,20 @@ abstract class Decompressor
   public int read(int kBits) throws Exception
   {
     int shift = BitsInByte - _toRead;
-    if (kBits <= _toRead)
-      return ((_readByte<<shift) & 0xFF) >>> (shift + (_toRead-=kBits));
-    else
+    if (kBits <= _toRead) {
+        return ((_readByte<<shift) & 0xFF) >>> (shift + (_toRead-=kBits));
+    } else
       {
 	int result = _toRead > 0
 	  ? ((_readByte << shift) & 0xFF) >>> shift
 	  : 0;
-	for (kBits -= _toRead; kBits >= BitsInByte; kBits -= BitsInByte)
-	  result = (result << BitsInByte) | getNextByte();
-	if (kBits > 0)
-	  return (result << kBits)
-	    | ((_readByte = getNextByte()) >>> (_toRead = BitsInByte - kBits));
-	else
+	for (kBits -= _toRead; kBits >= BitsInByte; kBits -= BitsInByte) {
+            result = (result << BitsInByte) | getNextByte();
+        }
+	if (kBits > 0) {
+            return (result << kBits)
+                    | ((_readByte = getNextByte()) >>> (_toRead = BitsInByte - kBits));
+        } else
 	  {
 	    _toRead = 0;
 	    return result;
@@ -104,82 +108,87 @@ abstract class Decompressor
 	it.value(_path | read(k));
 	return true;
       }
-    else
-      for (int count = 1;; _readByte = getNextByte(), _toRead = BitsInByte)
-	while (_toRead-- > 0)
-	  if ((_readByte & (1 << _toRead)) != 0)
-	    {
-	      int saved = _path;
-	      _path = ((_path >>> (k + count) << count) | read(count)) << k;
-	      if (_path != saved)
-		{
-		  it.value(_path | read(k));
-		  return true;
-		}
-	      else
-		return false;
-	    }
-	  else
-	    ++count;
+    else {
+        for (int count = 1;; _readByte = getNextByte(), _toRead = BitsInByte) {
+            while (_toRead-- > 0) {
+                if ((_readByte & (1 << _toRead)) != 0) {
+                    int saved = _path;
+                    _path = ((_path >>> (k + count) << count) | read(count)) << k;
+                    if (_path != saved) {
+                        it.value(_path | read(k));
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    ++count;
+                }
+            }
+        }
+    }
   }
   
   public void decode(int k, IntegerArray array) throws Exception
   {
-    for (int path = 0;;)
-      if (read() != 0)
-	array.add(path | read(k));
-      else
-	{
-	  int count = countZeroes() + 1;
-	  int saved = path;
-	  path = ((path >>> (k + count) << count) | read(count)) << k;
-	  if (path != saved)	// convention for end
-	    array.add(path | read(k));
-	  else
-	    break;
-	}
+    for (int path = 0;;) {
+        if (read() != 0) {
+            array.add(path | read(k));
+        } else {
+            int count = countZeroes() + 1;
+            int saved = path;
+            path = ((path >>> (k + count) << count) | read(count)) << k;
+            if (path != saved) {
+                array.add(path | read(k));
+            } else {
+                break;
+            }
+        }
+    }
   }
 
   public void ascDecode(int k, IntegerArray array) throws Exception
   {
-    for (int path = 0, start = 0;;)
-      if (read() != 0)
-	array.add(start += path | read(k));
-      else
-	{
-	  int count = countZeroes() + 1;
-	  int saved = path;
-	  path = ((path >>> (k + count) << count) | read(count)) << k;
-	  if (path != saved)	// convention for end
-	    array.add(start += path | read(k));
-	  else
-	    break;
-	}
+    for (int path = 0, start = 0;;) {
+        if (read() != 0) {
+            array.add(start += path | read(k));
+        } else {
+            int count = countZeroes() + 1;
+            int saved = path;
+            path = ((path >>> (k + count) << count) | read(count)) << k;
+            if (path != saved) {
+                array.add(start += path | read(k));
+            } else {
+                break;
+            }
+        }
+    }
   }
   
   public int ascendingDecode(int k, int start, int[] array) throws Exception
   {
     int path = 0, index = 0;
   LOOP:
-    while (true)
-      if (read() != 0)
-	array[index++] = (start += path | read(k));
-      else
-	for (int cnt = 0;; _readByte = getNextByte(), _toRead = BitsInByte)
-	  while (_toRead-- > 0)
-	    if ((_readByte & (1 << _toRead)) != 0)
-	      {
-		++cnt;
-		int Path = ((path >>> (k + cnt) << cnt) | read(cnt)) << k;
-		if (Path != path)
-		  {
-		    array[index++] = (start += (path = Path) | read(k));
-		    continue LOOP;
-		  }
-		else
-		  return index;
-	      }
-	    else
-	      ++cnt;
+    while (true) {
+        if (read() != 0) {
+            array[index++] = (start += path | read(k));
+        } else {
+            for (int cnt = 0;; _readByte = getNextByte(), _toRead = BitsInByte) {
+                while (_toRead-- > 0) {
+                    if ((_readByte & (1 << _toRead)) != 0) {
+                        ++cnt;
+                        int Path = ((path >>> (k + cnt) << cnt) | read(cnt)) << k;
+                        if (Path != path) {
+                            array[index++] = (start += (path = Path) | read(k));
+                            continue LOOP;
+                        } else {
+                            return index;
+                        }
+                    } else {
+                        ++cnt;
+                    }
+                }
+            }
+        }
+    }
   }
 }

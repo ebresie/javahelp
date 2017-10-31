@@ -143,14 +143,16 @@ public class HeaderParser {
     }
 
     public String findKey(int i) {
-	if (i < 0 || i > 10)
-	    return null;
+	if (i < 0 || i > 10) {
+            return null;
+        }
 	return tab[i][0];
     }
 
     public String findValue(int i) {
-	if (i < 0 || i > 10)
-	    return null;
+	if (i < 0 || i > 10) {
+            return null;
+        }
 	return tab[i][1];
     }
 
@@ -159,8 +161,9 @@ public class HeaderParser {
     }
 
     public String findValue(String k, String Default) {
-	if (k == null)
-	    return Default;
+	if (k == null) {
+            return Default;
+        }
 	k.toLowerCase();
 	for (int i = 0; i < 10; ++i) {
 	    if (tab[i][0] == null) {

@@ -58,8 +58,9 @@ class IntegerArray
 
   public void add(int value)
   {
-    if (_free == _size)
-      growArray(_size * 2);
+    if (_free == _size) {
+        growArray(_size * 2);
+    }
     _array[_free++] = value;
   }
   
@@ -80,26 +81,30 @@ class IntegerArray
   
   public void toDifferences(IntegerArray result)
   {
-    if (result._size < _size)
-      result.growArray(_size);
+    if (result._size < _size) {
+        result.growArray(_size);
+    }
     if ((result._free = _free) > 0)
       {
 	result._array[0] = _array[0];
-	for (int i = 1; i < _free; i++)
-	  result._array[i] = _array[i] - _array[i - 1];
+	for (int i = 1; i < _free; i++) {
+            result._array[i] = _array[i] - _array[i - 1];
+        }
       }
   }
   
   public int indexOf(int value)
   {
     int i = 0, j = _free, k;
-    while (i <= j)
-      if (_array[k = (i + j)/2] < value)
-	i = k + 1;
-      else if (value < _array[k])
-	j = k - 1;
-      else
-	return k;
+    while (i <= j) {
+        if (_array[k = (i + j)/2] < value) {
+            i = k + 1;
+        } else if (value < _array[k]) {
+            j = k - 1;
+        } else {
+            return k;
+        }
+    }
     return -1;
   }
   

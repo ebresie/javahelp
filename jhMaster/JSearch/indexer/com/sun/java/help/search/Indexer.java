@@ -157,9 +157,11 @@ public class Indexer {
 		    System.out.println (args[i] + "-logfile requires argument");
 		}
 	    }	   
-	    else if(args[i].equals("-verbose")) verbose = System.out;
-	    else if(args[i].equals("-nostopwords")) nostopwords = true;
-	    else if(args[i].equals("-c")) {
+	    else if(args[i].equals("-verbose")) {
+                verbose = System.out;
+            } else if(args[i].equals("-nostopwords")) {
+                nostopwords = true;
+            } else if(args[i].equals("-c")) {
 		if ((i + 1) < args.length) {
 		    configFile = args[++i];
 		} else {
@@ -218,7 +220,9 @@ public class Indexer {
 		    in.close();
 		    continue;
 		} catch (IOException e) {
-		    if (debugFlag) e.printStackTrace();
+		    if (debugFlag) {
+                        e.printStackTrace();
+                    }
 		    System.out.println("I/O exception occurred in file '" + sourcepath+file + "'");
 		    in.close();
 		    continue;
@@ -497,7 +501,9 @@ public class Indexer {
                 k = (IndexerKit) c.newInstance();
                 kitRegistry.put(type, k);
             } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-                if (debugFlag) e.printStackTrace();
+                if (debugFlag) {
+                    e.printStackTrace();
+                }
                 k = null;
             }
         }

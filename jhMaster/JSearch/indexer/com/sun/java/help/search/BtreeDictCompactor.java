@@ -54,8 +54,9 @@ public class BtreeDictCompactor extends FullBtreeDict
       int howMany = entryKeyLength(entry);
       int where = entryCompression(entry);
       int from = entryKey(entry);
-      while (howMany-- > 0)
-	buffer[where++] = data[from++];
+      while (howMany-- > 0) {
+          buffer[where++] = data[from++];
+      }
       return where;
     }
   
@@ -65,12 +66,12 @@ public class BtreeDictCompactor extends FullBtreeDict
       byte[] buffer = new byte[MaxKeyLength];
       final int freeSpace = free();
       int entry = firstEntry();
-      if (isLeaf)
-	while (entry < freeSpace) {
-	  target.store(buffer, restoreKey1(entry, buffer), entryID(entry));
-	  entry = nextEntry(entry);
-	}
-      else
+      if (isLeaf) {
+          while (entry < freeSpace) {
+              target.store(buffer, restoreKey1(entry, buffer), entryID(entry));
+              entry = nextEntry(entry);
+          }
+      } else
 	{
 	  owner.lock(this);
 	  int entryIndex  = 0;
@@ -120,8 +121,9 @@ public class BtreeDictCompactor extends FullBtreeDict
     {
       //      System.out.println(new String(buffer, 0, keyLen) + " " + id);
       int cpr = 0;
-      while (cpr < _lastKeyLength && _lastKey[cpr] == buffer[cpr])
-	++cpr;
+      while (cpr < _lastKeyLength && _lastKey[cpr] == buffer[cpr]) {
+          ++cpr;
+      }
       int needed = ENTHEADERLEN + keyLen - cpr;
       if (_entry + needed <= _limit)
 	{
@@ -138,8 +140,9 @@ public class BtreeDictCompactor extends FullBtreeDict
 	  debug("NEW: SPLIT INTERNAL");
 	  _block.setFree(_entry);
 	  _block.setNumberOfEntries(_nEntries);
-	  if (_parent == null)
-	    _parent = new InternalBlockState(_block.number);
+	  if (_parent == null) {
+              _parent = new InternalBlockState(_block.number);
+          }
 	  _parent.store(buffer, keyLen, id, newBlock(_block));
 	  init(newBlock);
 	}
@@ -150,10 +153,11 @@ public class BtreeDictCompactor extends FullBtreeDict
       _block.setFree(_entry);
       _block.setNumberOfEntries(_nEntries);
       blockManager.writeBlock(_block);
-      if (_parent == null)
-	debug("root: " + _block.number);
-      else
-	_parent.close();
+      if (_parent == null) {
+          debug("root: " + _block.number);
+      } else {
+          _parent.close();
+      }
     }
   } // end of internal class
 
@@ -181,8 +185,9 @@ public class BtreeDictCompactor extends FullBtreeDict
     if (id > 0)
       {
 	int cpr = 0;
-	while (cpr < _lastKeyLength && _lastKey[cpr] == buffer[cpr])
-	  ++cpr;
+	while (cpr < _lastKeyLength && _lastKey[cpr] == buffer[cpr]) {
+            ++cpr;
+        }
 	int needed = ENTHEADERLEN + keyLen - cpr;
 	if (_entry + needed <= _limit)
 	  {
@@ -196,8 +201,9 @@ public class BtreeDictCompactor extends FullBtreeDict
 	  {
 	    _currentLeaf.setFree(_entry);
 	    _currentLeaf.setNumberOfEntries(_nEntries);
-	    if (_parent == null)
-	      _parent = new InternalBlockState(_currentLeaf.number);
+	    if (_parent == null) {
+                _parent = new InternalBlockState(_currentLeaf.number);
+            }
 	    _parent.store(buffer, keyLen, id, newBlock(_currentLeaf));
 	    _entry = _currentLeaf.firstEntry();
 	    _nEntries = 0;
@@ -226,10 +232,11 @@ public class BtreeDictCompactor extends FullBtreeDict
     _currentLeaf.setFree(_entry);
     _currentLeaf.setNumberOfEntries(_nEntries);
     blockManager.writeBlock(_currentLeaf);
-    if (_parent == null)
-      debug("root: " + _currentLeaf.number);
-    else
-      _parent.close();
+    if (_parent == null) {
+        debug("root: " + _currentLeaf.number);
+    } else {
+        _parent.close();
+    }
     blockManager.close();
   }
 

@@ -130,12 +130,14 @@ class SearchEnvironment {
     int[] concepts = hit.getArray();
     for (int i = 0; i < concepts.length; i++)
       {
-	if (concepts[i] > 0)
-	  result.append(fetch(concepts[i]));
-	else
-	  result.append("--");
-	if (i < concepts.length - 1)
-	  result.append(", ");
+	if (concepts[i] > 0) {
+            result.append(fetch(concepts[i]));
+        } else {
+            result.append("--");
+        }
+	if (i < concepts.length - 1) {
+            result.append(", ");
+        }
       }
     result.append("}");
     return result.toString();
@@ -172,19 +174,21 @@ class SearchEnvironment {
   public NonnegativeIntegerGenerator getDocumentIterator(int concept)
   {
     int index = concepts.indexOf(concept);
-    if (index >= 0)
-      return new ConceptList(allLists, offsets.at(index));
-    else
-      return null;
+    if (index >= 0) {
+        return new ConceptList(allLists, offsets.at(index));
+    } else {
+        return null;
+    }
   }
   
   public NonnegativeIntegerGenerator getChildIterator(int concept)
   {
     int index = concepts3.indexOf(concept);
-    if (index >= 0)
-      return new ConceptList(allChildren, offsets3.at(index));
-    else
-      return null;
+    if (index >= 0) {
+        return new ConceptList(allChildren, offsets3.at(index));
+    } else {
+        return null;
+    }
   }
   
   public void getChildren(int concept, IntegerArray array) throws Exception

@@ -657,8 +657,9 @@ public class HelpSet implements Serializable{
 	    factory.reportMessage("Got an IOException ("+
 				       ex.getMessage()+
 				       ")", false);
-	    if(debug)
+	    if(debug) {
                 ex.printStackTrace();
+            }
 	}
 
 	// Now add any subhelpsets
@@ -941,11 +942,12 @@ public class HelpSet implements Serializable{
 		for (Enumeration e = messages.elements();
 		     e.hasMoreElements();) {
 		    String msg = (String) e.nextElement();
-                    if(debug)
-                        System.err.println(msg);                        
-                    if(HelpSet.errorMsg == null)
+                    if(debug) {
+                        System.err.println(msg);
+                    }                        
+                    if(HelpSet.errorMsg == null) {
                         HelpSet.errorMsg = msg;
-                    else{
+                    } else{
                        HelpSet.errorMsg = HelpSet.errorMsg+"\n"; 
                        HelpSet.errorMsg = HelpSet.errorMsg + msg;
                     }
@@ -1871,8 +1873,9 @@ public class HelpSet implements Serializable{
 	    Locale newLocale = null;
 
 	    for (;;) {
-		if (tagStack.empty()) 
-		    unbalanced(name);
+		if (tagStack.empty()) {
+                    unbalanced(name);
+                }
 		el = (LangElement) tagStack.pop();
 		if (el.getTag().name.equals(name)) {
 		    if (tagStack.empty()) {

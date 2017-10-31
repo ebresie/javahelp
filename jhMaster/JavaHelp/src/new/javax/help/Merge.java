@@ -73,8 +73,9 @@ public abstract class Merge {
         }
                        
         locale = master.getHelpSet().getLocale();
-        if(locale == null)
+        if(locale == null) {
             locale = Locale.getDefault();
+        }
     }
     
     /**

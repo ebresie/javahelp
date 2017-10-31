@@ -137,9 +137,9 @@ public abstract class DocumentParser {
      * Bug 4058915: File->HTML Source ... menu item shows edited source.
      */
     public String getDocumentSource() {
-        if (!shouldCacheSource)
-	    return null;
-        else {
+        if (!shouldCacheSource) {
+            return null;
+        } else {
 	    int offset = 
 		(0 == documentSource.length()) ? 0 : documentSource.length() - 1;
             return new String(documentSource.buf, 0, offset) +"\n";
@@ -155,11 +155,12 @@ public abstract class DocumentParser {
 	    c = readChar();
 	}			// YK: checking for null
         for (;;){
-	    if (c == EOF)
-		break;
-	    if (c == DocPConst.AMPERSAND)
-		c = parseEscape();
-	    else if (c == DocPConst.LANGLE){
+	    if (c == EOF) {
+                break;
+            }
+	    if (c == DocPConst.AMPERSAND) {
+                c = parseEscape();
+            } else if (c == DocPConst.LANGLE){
 		buffer.flush(this);
 		c = parseTag();
 	    } else {
@@ -175,8 +176,9 @@ public abstract class DocumentParser {
 
 		// fixes bug 4056036 - cannot open bat-text files
 		// (monsanto)
-		if (c != DocPConst.RETURN)
-		    buffer.buf[buffer.buflen++] = c;
+		if (c != DocPConst.RETURN) {
+                    buffer.buf[buffer.buflen++] = c;
+                }
 
 		// ................................................. 
 		// Inlining the data access gives BIG performance win 
@@ -201,8 +203,9 @@ public abstract class DocumentParser {
 		    }    
 		}
 		// ..........REMIND - removed .......// readOffset++;
-		if (shouldCacheSource)
-		    documentSource.add(cb[myCount]);
+		if (shouldCacheSource) {
+                    documentSource.add(cb[myCount]);
+                }
 		c = cb[myCount++];
 	    }
         }
@@ -220,8 +223,9 @@ public abstract class DocumentParser {
 	buffer.clear();
 	c = readChar();
 	for (;;) {
-	    if (c == EOF)
-		break;
+	    if (c == EOF) {
+                break;
+            }
 	    buffer.add(c);
 	    c = readChar();
 	}
@@ -315,8 +319,9 @@ public abstract class DocumentParser {
 	buffer.add(c);
 	for(;;){
 	    c = readChar();
-	    if (c == DocPConst.RANGLE)
-	    	break;
+	    if (c == DocPConst.RANGLE) {
+                break;
+            }
 	    buffer.add(c);
 	}
 	buffer.add(c);
@@ -568,8 +573,9 @@ public abstract class DocumentParser {
 		    eofError();
 		    return c;
 		}
-		if (c == DocPConst.QUESTION)
-		    break;
+		if (c == DocPConst.QUESTION) {
+                    break;
+                }
 
 		offset = buffer.length();
 		c = scanIdentifier(c);
@@ -580,8 +586,9 @@ public abstract class DocumentParser {
 		}
 		String attname = buffer.extract(offset);
 		c = skipWhite(c);
-		if (attributes == null)
-		    attributes = new TagProperties();
+		if (attributes == null) {
+                    attributes = new TagProperties();
+                }
 		String	attvalue;
 		if (c == DocPConst.EQUALS) {		// parsing attribute value
 		    buffer.add(c);
@@ -602,11 +609,13 @@ public abstract class DocumentParser {
 				eofError();
 				return c;
 			    }
-			    if (c == DocPConst.DQUOTE)
-				break;
+			    if (c == DocPConst.DQUOTE) {
+                                break;
+                            }
 			    // transform &
-			    if (c == DocPConst.AMPERSAND)
-				c = parseEscape();
+			    if (c == DocPConst.AMPERSAND) {
+                                c = parseEscape();
+                            }
 			    buffer.add(c);
 			}
 			attvalue = buffer.extract(voff);
@@ -625,11 +634,13 @@ public abstract class DocumentParser {
 				c == DocPConst.SPACE  ||
 				c == DocPConst.TAB    ||
 				c == DocPConst.NEWLINE ||
-				c == DocPConst.QUESTION)
-				break;
+				c == DocPConst.QUESTION) {
+                                break;
+                            }
 			    // transform &
-			    if (c == DocPConst.AMPERSAND)
-				c = parseEscape();
+			    if (c == DocPConst.AMPERSAND) {
+                                c = parseEscape();
+                            }
 			    buffer.add(c);
 			}
 			attvalue = buffer.extract(voff);
@@ -681,8 +692,9 @@ public abstract class DocumentParser {
 		return c;
 	    }
 
-	    if (c == DocPConst.RANGLE)
-		break;
+	    if (c == DocPConst.RANGLE) {
+                break;
+            }
 
 	    if (c == DocPConst.SLASH) {
 		buffer.add(c);
@@ -726,8 +738,9 @@ public abstract class DocumentParser {
 	    }
 	    String attname = buffer.extract(offset);
 	    c = skipWhite(c);
-	    if (attributes == null)
-		attributes = new TagProperties();
+	    if (attributes == null) {
+                attributes = new TagProperties();
+            }
 	    String	attvalue;
 	    if (c == DocPConst.EQUALS) {		// parsing attribute value
 		buffer.add(c);
@@ -748,11 +761,13 @@ public abstract class DocumentParser {
 			    eofError();
 			    return c;
 			}
-			if (c == DocPConst.DQUOTE)
-			    break;
+			if (c == DocPConst.DQUOTE) {
+                            break;
+                        }
 			// transform &
-			if (c == DocPConst.AMPERSAND)
-			    c = parseEscape();
+			if (c == DocPConst.AMPERSAND) {
+                            c = parseEscape();
+                        }
 			buffer.add(c);
 		    }
 		    attvalue = buffer.extract(voff);
@@ -771,11 +786,13 @@ public abstract class DocumentParser {
 			    c == DocPConst.SPACE  ||
 			    c == DocPConst.TAB    ||
 			    c == DocPConst.NEWLINE ||
-			    c == DocPConst.RANGLE)
-			    break;
+			    c == DocPConst.RANGLE) {
+                            break;
+                        }
 			// transform &
-			if (c == DocPConst.AMPERSAND)
-			    c = parseEscape();
+			if (c == DocPConst.AMPERSAND) {
+                            c = parseEscape();
+                        }
 			buffer.add(c);
 		    }
 		    attvalue = buffer.extract(voff);
@@ -830,8 +847,9 @@ public abstract class DocumentParser {
 	    buffer.add((char)x);
 	} else if (Character.isLowerCase(c) ||
 		   Character.isUpperCase(c)){
-	    if (entities == null)
-		initEntities();
+	    if (entities == null) {
+                initEntities();
+            }
 
 	    escapeBuffer.clear();
 	    escapeBuffer.add(c);
@@ -847,8 +865,9 @@ public abstract class DocumentParser {
 		    escapeBuffer.add(c);
 		    if (entities.get(escapeBuffer.extract(0)) != null) {
 			c = readChar();
-			if (c == DocPConst.SEMICOLON)
-			    c = DocPConst.NULL;
+			if (c == DocPConst.SEMICOLON) {
+                            c = DocPConst.NULL;
+                        }
 			break;
 		    }
 		} else if (c == DocPConst.SEMICOLON) {
@@ -874,8 +893,9 @@ public abstract class DocumentParser {
 		if (a != null){
 		    int	i;
 
-		    for (i = 0; i < a.length(); i++)
-			buffer.add(a.charAt(i));
+		    for (i = 0; i < a.length(); i++) {
+                        buffer.add(a.charAt(i));
+                    }
 		}
 	    }
 	} else {
@@ -883,10 +903,11 @@ public abstract class DocumentParser {
 	    generateError(offset);
 	    return c;
 	}
-	if (c != DocPConst.NULL)
-	    return c;
-	else
-	    return readChar();
+	if (c != DocPConst.NULL) {
+            return c;
+        } else {
+            return readChar();
+        }
     }
 
     Hashtable<String, Character> entities;
@@ -1019,8 +1040,9 @@ public abstract class DocumentParser {
 		}
 	    }
 	    //...........REMIND............removed......// readOffset++;
-	    if (shouldCacheSource)
-		documentSource.add(cb[myCount]);
+	    if (shouldCacheSource) {
+                documentSource.add(cb[myCount]);
+            }
 	    c = cb[myCount++];
         }
         return c;
@@ -1099,8 +1121,9 @@ public abstract class DocumentParser {
 		}
 	    }
 	    //...........REMIND............removed......// readOffset++;
-	    if (shouldCacheSource)
-		documentSource.add(cb[myCount]);
+	    if (shouldCacheSource) {
+                documentSource.add(cb[myCount]);
+            }
 	    c = cb[myCount++];
 	}
 	return c;
@@ -1136,8 +1159,9 @@ public abstract class DocumentParser {
 	    }
 	}
 	//...........REMIND............removed......// readOffset++;
-	if (shouldCacheSource)
-	    documentSource.add(cb[myCount]);
+	if (shouldCacheSource) {
+            documentSource.add(cb[myCount]);
+        }
 	return cb[myCount++];
     }  
 

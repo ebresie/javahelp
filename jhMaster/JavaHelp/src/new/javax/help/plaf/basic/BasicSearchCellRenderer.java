@@ -222,8 +222,9 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
      */
     @Override
     public void setBackground(Color color) {
-	if(color instanceof ColorUIResource)
-	    color = null;
+	if(color instanceof ColorUIResource) {
+            color = null;
+        }
 	super.setBackground(color);
     }
 
@@ -254,8 +255,9 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	    title.setBackground(getBackgroundSelectionColor());
 	} else {
 	    Color bColor = getBackgroundNonSelectionColor();
-	    if(bColor == null)
-		bColor = getBackground();
+	    if(bColor == null) {
+                bColor = getBackground();
+            }
 	    hits.setForeground(getTextNonSelectionColor());
 	    title.setForeground(getTextNonSelectionColor());
 	    title.setBackground(bColor);
@@ -327,8 +329,9 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	    bColor = getBackgroundSelectionColor();
 	} else {
 	    bColor = getBackgroundNonSelectionColor();
-	    if(bColor == null)
-		bColor = getBackground();
+	    if(bColor == null) {
+                bColor = getBackground();
+            }
 	}
 	int imageOffset = -1;
 	if(bColor != null) {
@@ -401,9 +404,10 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	// Add 3 to the width for good measure
 	width += 3;
 
-	if(retDimension != null)
-	    retDimension = new Dimension(retDimension.width + 3,
-					 retDimension.height);
+	if(retDimension != null) {
+            retDimension = new Dimension(retDimension.width + 3,
+                    retDimension.height);
+        }
 	retDimension.setSize(width, height);
 	return retDimension;
     }

@@ -262,7 +262,9 @@ public class JHelpPrintHandler implements ActionListener {
      * @param pageFormat New value of property pageFormat.
      */
     public void setPageFormat(PageFormat pageFormat) {
-        if (this.pageFormat == pageFormat) return;
+        if (this.pageFormat == pageFormat) {
+            return;
+        }
         PageFormat oldPageFormat = this.pageFormat;
         this.pageFormat = pageFormat;
         firePropertyChange("pageFormat", oldPageFormat, pageFormat);

@@ -51,9 +51,11 @@ class Entry
 
   public boolean smallerThan(Entry other)
   {
-    for (int i = 0; i < Math.min(key.length, other.key.length); i++)
-      if (key[i] != other.key[i])
-	return (key[i]&0xFF) - (other.key[i]&0xFF) < 0;
+    for (int i = 0; i < Math.min(key.length, other.key.length); i++) {
+        if (key[i] != other.key[i]) {
+            return (key[i]&0xFF) - (other.key[i]&0xFF) < 0;
+        }
+    }
     return false;
   }
 }

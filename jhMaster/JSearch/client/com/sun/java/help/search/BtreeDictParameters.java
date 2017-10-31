@@ -71,8 +71,9 @@ class BtreeDictParameters extends BlockManagerParameters
 	setFreeID(integerParameter("id1"));
 	return true;
       }
-    else
-      return false;
+    else {
+        return false;
+    }
   }
 
   public void writeState() {

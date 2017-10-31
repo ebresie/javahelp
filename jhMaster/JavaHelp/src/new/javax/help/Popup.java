@@ -534,10 +534,11 @@ public class Popup extends Presentation implements ActionListener{
 	      parent = parent.getParent() );
 
 	// return the dialog if we got one
-        if ( parent instanceof Dialog )
+        if ( parent instanceof Dialog ) {
             return (Dialog) parent;
-        else
+        } else {
             return null;
+        }
     }
 
     private boolean inModalDialog() {
@@ -632,8 +633,9 @@ public class Popup extends Presentation implements ActionListener{
 	    Component[] component = c.getComponents();
 	    for (int i = 0 ; i < ncomponents ; i++) {
 		Component comp = component[i];
-		if(!comp.isVisible())
-		    continue;
+		if(!comp.isVisible()) {
+                    continue;
+                }
 		comp.addMouseListener(pma);
 		comp.addMouseMotionListener(pma);
 		if (on1dot4) {

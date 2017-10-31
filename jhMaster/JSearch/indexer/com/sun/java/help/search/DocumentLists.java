@@ -103,14 +103,16 @@ class DocumentLists
 	    }
 	  _decmp.initReading(_data, index);
 	  _nc = _decmp.ascendingDecode(_kTable.at(_group*2), shift, _concepts);
-	  if (_group < _limit)
-	    _concepts[_nc++] = _maxConcepts.at(_group);
+	  if (_group < _limit) {
+              _concepts[_nc++] = _maxConcepts.at(_group);
+          }
 	  _currentRange = _concepts[_ix = 0]/RANGE;
 	  _group++;
 	  return true;
 	}
-      else
-	return false;
+      else {
+          return false;
+      }
     }
   
     private void openDocumentIndex() throws Exception
@@ -156,18 +158,20 @@ class DocumentLists
 	      _currentRange = _concepts[_ix = stop]/RANGE;
 	      return true;
 	    }
-	  else if (next())
-	    firstTime = false;
-	  else
-	    return false;
+	  else if (next()) {
+              firstTime = false;
+          } else {
+              return false;
+          }
 	}
     }
   }
 
   private DocumentLists(String indexDir) throws Exception
   {
-    for (int i = 0; i < RANGE; i++)
-      _arrays[i] = new IntegerArray();
+    for (int i = 0; i < RANGE; i++) {
+        _arrays[i] = new IntegerArray();
+    }
     _mainFile = new DataOutputStream
       (new BufferedOutputStream
        (new FileOutputStream(indexDir + "DOCS")));
@@ -190,22 +194,24 @@ class DocumentLists
     in.close();
     // build heap
     _heap = new MicroIndex[_heapSize = array.cardinality()];
-    for (int i = 0; i < array.cardinality(); i++)
-      _heap[i] = new MicroIndex(i, positions, offsetArray.at(i));
+    for (int i = 0; i < array.cardinality(); i++) {
+        _heap[i] = new MicroIndex(i, positions, offsetArray.at(i));
+    }
     debug(array.cardinality() + " documents");
-    for (int i = _heapSize/2; i >= 0; i--)
-      heapify(i);
+    for (int i = _heapSize/2; i >= 0; i--) {
+        heapify(i);
+    }
     // process till exhausted
-    while (true)
-      if (_heap[0].process(this))
-	heapify(0);
-      else if (_heapSize > 1)
-	{
-	  _heap[0] = _heap[--_heapSize];
-	  heapify(0);
-	}
-      else
-	break;
+    while (true) {
+        if (_heap[0].process(this)) {
+            heapify(0);
+        } else if (_heapSize > 1) {
+            _heap[0] = _heap[--_heapSize];
+            heapify(0);
+        } else {
+            break;
+        }
+    }
     // closing
     flush();
     _mainFile.close();
@@ -225,11 +231,13 @@ class DocumentLists
 		       boolean firstTime)
     throws IOException
   {
-    if (firstTime && concepts[start] >= _limit)
-      flush();
+    if (firstTime && concepts[start] >= _limit) {
+        flush();
+    }
     concepts[n] = _limit; // sentinel
-    while (concepts[start] < _limit)
-      _arrays[concepts[start++] - _minConcept].add(documentNumber);
+    while (concepts[start] < _limit) {
+        _arrays[concepts[start++] - _minConcept].add(documentNumber);
+    }
     return start;
   }
   
@@ -237,8 +245,9 @@ class DocumentLists
   {
     int r = (i + 1) << 1, l = r - 1;
     int smallest = l < _heapSize && _heap[l].smallerThan(_heap[i]) ? l : i;
-    if (r < _heapSize && _heap[r].smallerThan(_heap[smallest]))
-      smallest = r;
+    if (r < _heapSize && _heap[r].smallerThan(_heap[smallest])) {
+        smallest = r;
+    }
     if (smallest != i)
       {
 	MicroIndex temp = _heap[smallest];
@@ -250,18 +259,19 @@ class DocumentLists
   
   private void flush() throws IOException
   {
-    for (int i = 0; i < RANGE; i++)
-      if (_arrays[i].cardinality() > 0)
-	{
-	  _arrays[i].toDifferences(_diffs);
-	  _mainFile.write(_compr.minimize(_diffs, K)); // write k
-	  _offsets.add(_compr.byteCount() + 1);
-	  _compr.write(_mainFile);
-	  _concepts.add(_minConcept + i);
-	  _arrays[i].clear();
-	  _diffs.clear();
-	  _compr.clear();
-	}
+    for (int i = 0; i < RANGE; i++) {
+        if (_arrays[i].cardinality() > 0)
+        {
+            _arrays[i].toDifferences(_diffs);
+            _mainFile.write(_compr.minimize(_diffs, K)); // write k
+            _offsets.add(_compr.byteCount() + 1);
+            _compr.write(_mainFile);
+            _concepts.add(_minConcept + i);
+            _arrays[i].clear();
+            _diffs.clear();
+            _compr.clear();
+        }
+    }
     _limit += RANGE;
     _minConcept += RANGE;
   }

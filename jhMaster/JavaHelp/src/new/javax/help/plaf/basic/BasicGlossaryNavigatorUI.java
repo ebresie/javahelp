@@ -264,8 +264,9 @@ PropertyChangeListener, ActionListener, Serializable {
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
             for(int i = 0; i < views.length; i++){
-                if(glossary.canMerge(views[i]))
+                if(glossary.canMerge(views[i])) {
                     merge(views[i]);
+                }
             }
             addSubHelpSets( ehs );
         }
@@ -316,9 +317,9 @@ PropertyChangeListener, ActionListener, Serializable {
             debug(" node :"+ node.toString());
             if(node != null){
                 IndexItem indexItem = (IndexItem)node.getUserObject();
-                if(indexItem == null)
+                if(indexItem == null) {
                     debug("indexItem is null");
-                else{
+                } else{
                     Map.ID id = indexItem.getID();
                     if(id != null){
                         debug("id name :"+id.id);
@@ -331,8 +332,9 @@ PropertyChangeListener, ActionListener, Serializable {
                             System.err.println("Not valid ID :"+target );
                             break;
                         }
-                        if(id.equals(itemID))
+                        if(id.equals(itemID)) {
                             nodeFound.addElement(node);
+                        }
                     }
                 }
             }

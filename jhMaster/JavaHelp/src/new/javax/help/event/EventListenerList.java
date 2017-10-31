@@ -146,8 +146,9 @@ public class EventListenerList implements Serializable {
 	int count = 0;
 	Object[] lList = listenerList;
 	for (int i = 0; i < lList.length; i+=2) {
-	    if (t == (Class)lList[i])
-		count++;
+	    if (t == (Class)lList[i]) {
+                count++;
+            }
 	}
 	return count;
     }
@@ -219,9 +220,10 @@ public class EventListenerList implements Serializable {
 	    // Copy from two past the index, up to
 	    // the end of tmp (which is two elements
 	    // shorter than the old list)
-	    if (index < tmp.length)
-		System.arraycopy(listenerList, index+2, tmp, index, 
-				 tmp.length - index);
+	    if (index < tmp.length) {
+                System.arraycopy(listenerList, index+2, tmp, index,
+                        tmp.length - index);
+            }
 	    // set the listener array to the new array or null
 	    listenerList = (tmp.length == 0) ? NULL_ARRAY : tmp;
 	    }

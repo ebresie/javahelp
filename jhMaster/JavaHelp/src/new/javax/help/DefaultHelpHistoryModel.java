@@ -67,14 +67,17 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      */
     @Override
     public void setHelpModel(HelpModel model){
-        if(model == helpModel)
+        if(model == helpModel) {
             return;
-        else
+        } else {
             discard();
-        if(helpModel != null)
+        }
+        if(helpModel != null) {
             helpModel.removeHelpModelListener(this);
-        if(model != null)
+        }
+        if(model != null) {
             model.addHelpModelListener(this);
+        }
          helpModel = model;        
     }
         
@@ -128,8 +131,9 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      */
     public void removeLastEntry(){
         int size = history.size();
-        if(size > 0)
+        if(size > 0) {
             history.removeElementAt(history.size() -1);
+        }
     }
     /**
      * Returns a current history position
@@ -225,8 +229,9 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
             try {
                 debug("  setCurrentID"+id);
                 helpModel.setCurrentID(id, e.getHistoryName(),e.getNavigator());
-                if(navigator != null)
+                if(navigator != null) {
                     help.setCurrentNavigator(navigator);
+                }
                 return;
             } catch (InvalidHelpSetContextException ex) {
                 // fall through
@@ -237,8 +242,9 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
             try {
                 debug("  setCurrentURL"+url);
                 helpModel.setCurrentURL(url,e.getHistoryName(),e.getNavigator());
-                if(navigator != null)
-                    help.setCurrentNavigator(navigator);                    
+                if(navigator != null) {
+                    help.setCurrentNavigator(navigator);
+                }                    
                 return;
             } catch (Exception ex) {
                 // fall through

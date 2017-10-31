@@ -160,7 +160,9 @@ public class DefaultIndexBuilder extends IndexBuilder
   {
     // next line is temporary until Jacek provides support for stop words in
     // indexes
-    if (isStopWord(text)) return;
+    if (isStopWord(text)) {
+        return;
+    }
     if (free == size) {
       ConceptLocation[] newArray = new ConceptLocation[size *= 2];
       System.arraycopy(locations, 0, newArray, 0, free);
@@ -180,9 +182,9 @@ public class DefaultIndexBuilder extends IndexBuilder
   private int intern(String name) throws Exception
   {
     Integer cached = (Integer)cache.get(name);
-    if (cached != null)
-      return cached.intValue();
-    else
+    if (cached != null) {
+        return cached.intValue();
+    } else
       {
 	int id = dict.fetch(name);
 	if (id == 0) {

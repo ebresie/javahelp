@@ -320,8 +320,9 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         
         // Discard any history
         HelpHistoryModel historyModel = getHistoryModel();
-        if(historyModel != null)
+        if(historyModel != null) {
             historyModel.discard();
+        }
         
         try {
 	    Map.ID currentID = hm.getCurrentID();

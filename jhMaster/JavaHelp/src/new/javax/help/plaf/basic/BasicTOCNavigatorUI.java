@@ -313,8 +313,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
             for(int i = 0; i < views.length; i++){
-                if(toc.canMerge(views[i]))
+                if(toc.canMerge(views[i])) {
                     doMerge(views[i]);
+                }
             }
             addSubHelpSets( ehs );
 	}
@@ -365,9 +366,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
                 debug(" node :"+ node.toString());
                 if(node != null){
                     TOCItem tocItem = (TOCItem)node.getUserObject();
-                    if(tocItem == null)
+                    if(tocItem == null) {
                         debug("tocItem is null");
-                    else{
+                    } else{
                         Map.ID id = tocItem.getID();
                         if(id != null){
                             debug("id name :"+id.id);
@@ -380,8 +381,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
                                 System.err.println("Not valid ID :"+target );
                                 break;
                             }
-                            if(id.equals(itemID))
+                            if(id.equals(itemID)) {
                                 nodeFound.addElement(node);
+                            }
                         }
                     }
                 }

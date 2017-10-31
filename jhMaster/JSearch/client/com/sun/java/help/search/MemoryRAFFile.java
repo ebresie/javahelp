@@ -126,8 +126,9 @@ public class MemoryRAFFile extends RAFFile {
 	int ch2 = this.read();
 	int ch3 = this.read();
 	int ch4 = this.read();
-	if ((ch1 | ch2 | ch3 | ch4) < 0)
-	    throw new EOFException();
+	if ((ch1 | ch2 | ch3 | ch4) < 0) {
+            throw new EOFException();
+        }
 	return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
     }
 
@@ -141,8 +142,9 @@ public class MemoryRAFFile extends RAFFile {
         int n = 0;
 	do {
 	    int count = this.read(b, off + n, len - n);
-	    if (count < 0)
-		throw new EOFException();
+	    if (count < 0) {
+                throw new EOFException();
+            }
 	    n += count;
 	} while (n < len);
     }

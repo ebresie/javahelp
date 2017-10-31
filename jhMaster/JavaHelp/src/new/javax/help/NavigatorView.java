@@ -74,8 +74,9 @@ public abstract class NavigatorView implements Serializable{
         this.imageID = null;
         if (params != null) {
             String imageID = (String)params.get("imageID");
-            if (imageID != null)
+            if (imageID != null) {
                 this.imageID = Map.ID.create(imageID, hs);
+            }
             this.mergeType = (String)params.get("mergetype");
         }
         this.hs = hs;

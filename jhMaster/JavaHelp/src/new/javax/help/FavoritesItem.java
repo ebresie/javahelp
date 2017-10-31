@@ -231,7 +231,9 @@ public class FavoritesItem extends TreeItem implements Transferable, Serializabl
         if (df.equals(FAVORITES_FLAVOR)) {
             return this;
         }
-        else throw new UnsupportedFlavorException(df);
+        else {
+            throw new UnsupportedFlavorException(df);
+        }
     }
     
     /**

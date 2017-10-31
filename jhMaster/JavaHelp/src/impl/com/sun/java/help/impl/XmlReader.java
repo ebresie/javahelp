@@ -213,24 +213,26 @@ final public class XmlReader extends Reader
     public static Reader createReader (InputStream in, String encoding)
     throws IOException
     {
-	if (encoding == null)
-	    return new XmlReader (in);
+	if (encoding == null) {
+            return new XmlReader (in);
+        }
 
 	// UTF-16 == ISO-10646-UCS-2 plus surrogates.
 	// The sun.io "Unicode" encoders/decoders don't check
 	// for correctly paired surrogates, so they accept UTF-16.
 
 	if ("UTF-16".equalsIgnoreCase (encoding)
-		|| "ISO-106460-UCS-2".equalsIgnoreCase (encoding))
-	    encoding = "Unicode";
-	else if ("UTF-8".equalsIgnoreCase (encoding))
-	    return new XmlReader (in, "UTF-8");
-	else if ("EUC-JP".equalsIgnoreCase (encoding))
-	    encoding = "EUCJIS";	// works on JDK 1.1 and 1.2
-	else if (isAsciiName (encoding))
-	    return new XmlReader (in, "US-ASCII");
-	else if (isLatinName (encoding))
-	    return new XmlReader (in, "ISO-8859-1");
+		|| "ISO-106460-UCS-2".equalsIgnoreCase (encoding)) {
+            encoding = "Unicode";
+        } else if ("UTF-8".equalsIgnoreCase (encoding)) {
+            return new XmlReader (in, "UTF-8");
+        } else if ("EUC-JP".equalsIgnoreCase (encoding)) {
+            encoding = "EUCJIS";	// works on JDK 1.1 and 1.2
+        } else if (isAsciiName (encoding)) {
+            return new XmlReader (in, "US-ASCII");
+        } else if (isLatinName (encoding)) {
+            return new XmlReader (in, "ISO-8859-1");
+        }
 
 	// XXX we should provide provide better "unsupported encoding"
 	// diagnostics than this produces...
@@ -243,14 +245,15 @@ final public class XmlReader extends Reader
 	buffer = new byte [8 * 1024];
 	length = 0;
 	raw = in;
-	if ("US-ASCII".equals (encoding))
-	    setASCII ();
-	else if ("ISO-8859-1".equals (encoding))
-	    setLatin1 ();
-	else if (!"UTF-8".equals (encoding))
-	    throw new UnsupportedEncodingException (encoding);
-	else
-	    setUTF8 ();
+	if ("US-ASCII".equals (encoding)) {
+            setASCII ();
+        } else if ("ISO-8859-1".equals (encoding)) {
+            setLatin1 ();
+        } else if (!"UTF-8".equals (encoding)) {
+            throw new UnsupportedEncodingException (encoding);
+        } else {
+            setUTF8 ();
+        }
     }
 
     private static boolean isAsciiName (String encoding)
@@ -357,8 +360,9 @@ final public class XmlReader extends Reader
                 // 3c 3f 78 6d == ASCII and supersets '<?xm'
                 case '?': 
                   if (read () != 'x' || read () != 'm'
-			  || read () != 'l' || read () != ' ')
-		      break;
+			  || read () != 'l' || read () != ' ') {
+                      break;
+        }
 		  //
 		  // One of several encodings could be used:
                   // Shift-JIS, ASCII, UTF-8, ISO-8859-*, etc
@@ -370,16 +374,18 @@ final public class XmlReader extends Reader
 
             // UTF-16 big-endian
             case 0xfe:
-              if ((c = read ()) != 0xff)
+              if ((c = read ()) != 0xff) {
                   break;
+        }
 	      setSwitchover ("UnicodeBig");
 	      offset = 2;	// skip BOM
               return;
 
             // UTF-16 little-endian
             case 0xff:
-              if ((c = read ()) != 0xfe)
+              if ((c = read ()) != 0xfe) {
                   break;
+        }
 	      setSwitchover ("UnicodeLittle");
 	      offset = 2;	// skip BOM
               return;
@@ -417,8 +423,9 @@ final public class XmlReader extends Reader
     // which will decode the rest of the (non-ASCII) input
     private void doSwitchover () throws IOException
     {
-	if (offset != switchover)
-	    throw new InternalError ();
+	if (offset != switchover) {
+            throw new InternalError ();
+        }
 	in = new InputStreamReader (raw, encodingAssigned);
 	buffer = null;
 	switchover = -1;
@@ -455,23 +462,26 @@ final public class XmlReader extends Reader
 	    }
 
 	    // ignore whitespace before/between "key = 'value'"
-	    if (Character.isWhitespace ((char) c))
-		continue;
+	    if (Character.isWhitespace ((char) c)) {
+                continue;
+            }
 	    
 	    // terminate the loop ASAP
-	    if (c == '?')
-		sawQuestion = true;
-	    else if (sawQuestion) {
-		if (c == '>')
-		    break;
+	    if (c == '?') {
+                sawQuestion = true;
+            } else if (sawQuestion) {
+		if (c == '>') {
+                    break;
+                }
 		sawQuestion = false;
 	    }
 	    
 	    // did we get the "key =" bit yet?
 	    if (key == null || !sawEq) {
 		if (keyBuf == null) {
-		    if (Character.isWhitespace ((char) c))
-			continue;
+		    if (Character.isWhitespace ((char) c)) {
+                        continue;
+                    }
 		    keyBuf = buf;
 		    buf.setLength (0);
 		    buf.append ((char)c);
@@ -479,19 +489,22 @@ final public class XmlReader extends Reader
 		} else if (Character.isWhitespace ((char) c)) {
 		    key = keyBuf.toString ();
 		} else if (c == '=') {
-		    if (key == null)
-			key = keyBuf.toString ();
+		    if (key == null) {
+                        key = keyBuf.toString ();
+                    }
 		    sawEq = true;
 		    keyBuf = null;
 		    quoteChar = 0;
-		} else
-		    keyBuf.append ((char)c);
+		} else {
+                    keyBuf.append ((char)c);
+                }
 		continue;
 	    }
 
 	    // space before quoted value
-	    if (Character.isWhitespace ((char) c))
-		continue;
+	    if (Character.isWhitespace ((char) c)) {
+                continue;
+            }
 	    if (c == '"' || c == '\'') {
 		if (quoteChar == 0) {
 		    quoteChar = (char) c;
@@ -505,12 +518,14 @@ final public class XmlReader extends Reader
 			for (i = 0; i < encoding.length(); i++) {
 			    c = encoding.charAt (i);
 			    if ((c >= 'A' && c <= 'Z')
-				    || (c >= 'a' && c <= 'z'))
-				continue;
+				    || (c >= 'a' && c <= 'z')) {
+                                continue;
+                            }
 			    if (i > 0 && (c == '-'
 				    || (c >= '0' && c <= '9')
-				    || c == '.' || c == '_'))
-				continue;
+				    || c == '.' || c == '_')) {
+                                continue;
+                            }
 			    // map errors to UTF-8 default
 			    break XmlDecl;
 			}
@@ -530,12 +545,14 @@ final public class XmlReader extends Reader
 			// and UTF-8
 			if ("UTF-8".equalsIgnoreCase (encoding)
 				|| "UTF8".equalsIgnoreCase (encoding)
-				)
-			    break XmlDecl;
+				) {
+                            break XmlDecl;
+                        }
 
 			// JDK uses nonstandard names internally
-			if ("EUC-JP".equalsIgnoreCase (encoding))
-			    encoding = "EUCJIS";
+			if ("EUC-JP".equalsIgnoreCase (encoding)) {
+                            encoding = "EUCJIS";
+                        }
 
 			// other encodings ... use a reader.
 			setSwitchover (encoding);
@@ -587,9 +604,10 @@ final public class XmlReader extends Reader
 	    offset++;
 	    return retval;
 	}
-	if (isASCII)
-	    throw new CharConversionException ("Not US-ASCII:  0x"
-			+ Integer.toHexString (retval & 0xff));
+	if (isASCII) {
+            throw new CharConversionException ("Not US-ASCII:  0x"
+                    + Integer.toHexString (retval & 0xff));
+            }
 	
 	//
 	// Multibyte sequences -- check offsets optimistically,
@@ -618,11 +636,12 @@ final public class XmlReader extends Reader
 		character -= 0x10000;
 		retval = (char) (0xD800 + (character >> 10));
 		character = 0xDC00 + (character & 0x03ff);
-	    } else
-		// XXX actually a WF error ...
-		throw new CharConversionException ("Illegal XML character"
-		    + " 0x" + Integer.toHexString (buffer [offset] & 0xff)
-		);
+	    } else {
+                // XXX actually a WF error ...
+                throw new CharConversionException ("Illegal XML character"
+                        + " 0x" + Integer.toHexString (buffer [offset] & 0xff)
+                );
+            }
 
 	} catch (ArrayIndexOutOfBoundsException e) {
 	    // that is, off > length && length >= buffer.length
@@ -640,8 +659,9 @@ final public class XmlReader extends Reader
 	    length -= offset;
 	    offset = 0;
 	    off = raw.read (buffer, length, buffer.length - length);
-	    if (off < 0)
-		throw new CharConversionException ("Partial UTF-8 char");
+	    if (off < 0) {
+                throw new CharConversionException ("Partial UTF-8 char");
+            }
 	    length += off;
 	    return utf8char ();
 	}
@@ -649,9 +669,11 @@ final public class XmlReader extends Reader
 	//
 	// check the format of the non-initial bytes, and return
 	//
-	for (offset++; offset < off; offset++)
-	    if ((buffer [offset] & 0xC0) != 0x80)
-		throw new CharConversionException ("Malformed UTF-8 char");
+	for (offset++; offset < off; offset++) {
+                if ((buffer [offset] & 0xC0) != 0x80) {
+                    throw new CharConversionException ("Malformed UTF-8 char");
+                }
+            }
 	nextChar = (char) character;
 	return retval;
     }
@@ -664,25 +686,32 @@ final public class XmlReader extends Reader
     {
 	int	i;
 
-	if (closed)
-	    return -1;
-	if (switchover > 0 && offset == switchover)
-	    doSwitchover ();
-	if (in != null)
-	    return in.read (buf, off, len);
+	if (closed) {
+            return -1;
+        }
+	if (switchover > 0 && offset == switchover) {
+            doSwitchover ();
+        }
+	if (in != null) {
+            return in.read (buf, off, len);
+        }
 
 	if (offset >= length) {
 	    offset = 0;
 	    length = raw.read (buffer, 0, buffer.length);
 	}
-	if (length <= 0)
-	    return -1;
-	if (encodingAssigned == null || isLatin1)
-	    for (i = 0; i < len && offset < length; i++)
-		buf [off++] = (char) (buffer [offset++] & 0xff);
-	else
-	    for (i = 0; i < len && offset < length; i++)
-		buf [off++] = utf8char ();
+	if (length <= 0) {
+            return -1;
+        }
+	if (encodingAssigned == null || isLatin1) {
+            for (i = 0; i < len && offset < length; i++) {
+                buf [off++] = (char) (buffer [offset++] & 0xff);
+            }
+        } else {
+            for (i = 0; i < len && offset < length; i++) {
+                buf [off++] = utf8char ();
+            }
+        }
 	return i;
     }
 
@@ -692,34 +721,41 @@ final public class XmlReader extends Reader
     @Override
     public int read () throws IOException
     {
-	if (closed)
-	    return -1;
-	if (switchover > 0 && offset == switchover)
-	    doSwitchover ();
-	if (in != null)
-	    return in.read ();
+	if (closed) {
+            return -1;
+        }
+	if (switchover > 0 && offset == switchover) {
+            doSwitchover ();
+        }
+	if (in != null) {
+            return in.read ();
+        }
 
 	if (offset >= length) {
 	    if (encodingAssigned == null) {
 		// minimize readahead we might regret...
-		if (length == buffer.length)
-		    throw new InternalError ("too much peekahead");
+		if (length == buffer.length) {
+                    throw new InternalError ("too much peekahead");
+                }
 		int len = raw.read (buffer, offset, 1);
-		if (len <= 0)
-		    return -1;
+		if (len <= 0) {
+                    return -1;
+                }
 		length += len;
 	    } else {
 		offset = 0;
 		length = raw.read (buffer, 0, buffer.length);
-		if (length <= 0)
-		    return -1;
+		if (length <= 0) {
+                    return -1;
+                }
 	    }
 	}
 
-	if (isLatin1 || encodingAssigned == null)
-	    return buffer [offset++] & 0x0ff;
-	else
-	    return utf8char ();
+	if (isLatin1 || encodingAssigned == null) {
+            return buffer [offset++] & 0x0ff;
+        } else {
+            return utf8char ();
+        }
     }
 
     /**
@@ -739,8 +775,9 @@ final public class XmlReader extends Reader
     @Override
     public void mark (int value) throws IOException
     {
-	if (in != null)
-	    in.mark (value);
+	if (in != null) {
+            in.mark (value);
+        }
     }
 
     /**
@@ -749,8 +786,9 @@ final public class XmlReader extends Reader
     @Override
     public void reset () throws IOException
     {
-	if (in != null)
-	    in.reset ();
+	if (in != null) {
+            in.reset ();
+        }
     }
 
     /**
@@ -759,10 +797,12 @@ final public class XmlReader extends Reader
     @Override
     public long skip (long value) throws IOException
     {
-	if (value < 0)
-	    return 0;
-	if (in != null)
-	    return in.skip (value);
+	if (value < 0) {
+            return 0;
+        }
+	if (in != null) {
+            return in.skip (value);
+        }
 	long avail = length - offset;
 	if (avail >= value) {
 	    offset += (int) value;
@@ -778,8 +818,9 @@ final public class XmlReader extends Reader
     @Override
     public boolean ready () throws IOException
     {
-	if (in != null)
-	    return in.ready ();
+	if (in != null) {
+            return in.ready ();
+        }
 	return (length > offset) || raw.available () != 0;
     }
 
@@ -789,12 +830,14 @@ final public class XmlReader extends Reader
     @Override
     public void close () throws IOException
     {
-	if (closed)
-	    return;
-	if (in != null)
-	    in.close ();
-	else
-	    raw.close ();
+	if (closed) {
+            return;
+        }
+	if (in != null) {
+            in.close ();
+        } else {
+            raw.close ();
+        }
 	closed = true;
     }
 

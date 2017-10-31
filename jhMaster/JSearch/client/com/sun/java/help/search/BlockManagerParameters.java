@@ -65,8 +65,9 @@ class BlockManagerParameters extends DBPartParameters
 	root = integerParameter("rt");
 	return true;
       }
-    else
-      return false;
+    else {
+        return false;
+    }
   }
 
   @Override

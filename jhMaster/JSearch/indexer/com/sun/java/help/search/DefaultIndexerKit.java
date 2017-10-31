@@ -170,7 +170,9 @@ public class DefaultIndexerKit extends IndexerKit {
 		startStoreDocument(file);
 		documentStarted = true;
 	    } catch (Exception e) {
-		if (debugFlag) e.printStackTrace();
+		if (debugFlag) {
+                    e.printStackTrace();
+                }
 		throw new IOException("Can't store Document");
 	    }
 	}

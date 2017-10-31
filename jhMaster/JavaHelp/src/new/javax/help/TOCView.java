@@ -712,8 +712,9 @@ public class TOCView extends NavigatorView {
 	    Locale newLocale = null;
 
 	    for (;;) {
-		if (tagStack.empty()) 
-		    break;
+		if (tagStack.empty()) {
+                    break;
+                }
 		el = (LangElement) tagStack.pop();
 		if (el.getTag().name.equals(name)) {
 		    if (tagStack.empty()) {

@@ -71,8 +71,9 @@ class Block
   
   public void setIntegerAt(int i, int value)
   {
-    for (int j = i + 3; j >= i; j--, value >>>= 8)
-      data[j] = (byte)(value & 0xFF);
+    for (int j = i + 3; j >= i; j--, value >>>= 8) {
+        data[j] = (byte)(value & 0xFF);
+    }
   }
 
   public static Block readIn(RAFFile in, Block block)
