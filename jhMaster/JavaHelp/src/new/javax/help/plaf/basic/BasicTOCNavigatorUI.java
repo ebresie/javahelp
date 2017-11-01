@@ -30,7 +30,6 @@
 
 package javax.help.plaf.basic;
 
-import com.sun.java.help.impl.SwingWorker;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -41,7 +40,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.help.*;
 import javax.help.Map.ID;
 import javax.help.event.HelpModelEvent;
@@ -52,6 +55,7 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.RepaintManager;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.event.*;
 import javax.swing.plaf.ComponentUI;
@@ -76,7 +80,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
     protected DefaultMutableTreeNode topNode;
     protected JTree tree;
     private boolean inInstallUI = false;
-    private SwingWorker worker = null;
+    private SwingWorker<Object, Void> worker = null;
 
     public static ComponentUI createUI(JComponent x) {
         return new BasicTOCNavigatorUI((JHelpTOCNavigator) x);
@@ -189,10 +193,10 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 
 	if (worker != null) {
 	    // Something is still going on. Stop it and start over
-	    worker.interrupt();
+	    worker.cancel(true);
 	}
 	worker = new NavSwingWorker(view);
-	worker.start(Thread.MIN_PRIORITY);
+	worker.execute();
     }
 
     /**
@@ -249,7 +253,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	}
     }
 
-    private class NavSwingWorker extends SwingWorker {
+    private class NavSwingWorker extends SwingWorker<Object, Void> {
 	TOCView view;
 
 	public NavSwingWorker (TOCView view) {
@@ -258,16 +262,20 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	}
 
         @Override
-	public Object construct() {
-	    return loadData(view);
+	public void done() {
+            try {
+                if (Objects.equals((Boolean)get(), Boolean.TRUE)) {
+                    presentData();
+                }
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(BasicTOCNavigatorUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
         @Override
-	public void finished() {
-	    if ((Boolean)get() == Boolean.TRUE) {
-		presentData();
-	    }
-	}
+        protected Object doInBackground() throws Exception {
+	    return loadData(view);
+        }
     }
 
 
@@ -296,10 +304,10 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         
 	if (worker != null) {
 	    // Something is still going on. Stop it and start over
-	    worker.interrupt();
+	    worker.cancel(true);
 	}
 	worker = new NavSwingWorker(view);
-	worker.start(Thread.MIN_PRIORITY);
+	worker.execute();
     }
 
     /** Adds subhelpsets

@@ -30,7 +30,6 @@
 
 package javax.help.plaf.basic;
 
-import com.sun.java.help.impl.SwingWorker;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
@@ -42,7 +41,11 @@ import java.text.Collator;
 import java.text.RuleBasedCollator;
 import java.util.Enumeration;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.help.*;
 import javax.help.Map.ID;
 import javax.help.event.HelpModelEvent;
@@ -57,6 +60,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.RepaintManager;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.event.*;
 import javax.swing.plaf.ComponentUI;
@@ -86,7 +90,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
     protected RuleBasedCollator rbc;
     protected String oldText;
     protected DefaultMutableTreeNode currentFindNode;
-    private SwingWorker worker = null;
+    private SwingWorker<Object, Void> worker = null;
 
 
     public static ComponentUI createUI(JComponent x) {
@@ -209,10 +213,10 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	IndexView view = (IndexView) index.getNavigatorView();
 	if (worker != null) {
 	    // Something is still going on. Stop it and start over
-	    worker.interrupt();
+	    worker.cancel(true);
 	}
 	worker = new NavSwingWorker(view);
-	worker.start(Thread.MIN_PRIORITY);
+	worker.execute();
     }
 
     /**
@@ -269,7 +273,7 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	}
     }
 
-    private class NavSwingWorker extends SwingWorker {
+    private class NavSwingWorker extends SwingWorker<Object, Void> {
 	IndexView view;
 
 	public NavSwingWorker (IndexView view) {
@@ -278,16 +282,20 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
 	}
 
         @Override
-	public Object construct() {
-	    return loadData(view);
+	public void done() {
+            try {
+                if (Objects.equals((Boolean)get(), Boolean.TRUE)) {
+                    presentData();
+                }
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(BasicIndexNavigatorUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
         @Override
-	public void finished() {
-	    if ((Boolean)get() == Boolean.TRUE) {
-		presentData();
-	    }
-	}
+        protected Object doInBackground() throws Exception {
+	    return loadData(view);
+        }
     }
 
     /**
@@ -315,10 +323,10 @@ public class BasicIndexNavigatorUI extends HelpNavigatorUI
         
 	if (worker != null) {
 	    // Something is still going on. Stop it and start over
-	    worker.interrupt();
+	    worker.cancel(true);
 	}
 	worker = new NavSwingWorker(indexView);
-	worker.start(Thread.MIN_PRIORITY);
+	worker.execute();
     }
     
     /** Adds subhelpsets
