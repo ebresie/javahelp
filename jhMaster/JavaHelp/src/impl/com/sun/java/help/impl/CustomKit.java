@@ -147,7 +147,7 @@ public class CustomKit extends HTMLEditorKit {
 
 	    if (!editor.isEditable()) {
 		Point pt = new Point(e.getX(), e.getY());
-		int pos = editor.viewToModel(pt);
+		int pos = editor.viewToModel2D(pt);
 		if (pos >= 0) {
 		    Document doc = editor.getDocument();
 		    if (doc instanceof HTMLDocument) {
