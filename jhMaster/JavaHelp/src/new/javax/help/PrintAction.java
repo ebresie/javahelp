@@ -103,7 +103,7 @@ public class PrintAction extends AbstractHelpAction implements PropertyChangeLis
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("enabled")) {
-            setEnabled(((Boolean)evt.getNewValue()).booleanValue());
+            setEnabled(((Boolean)evt.getNewValue()));
         }
     }
 }

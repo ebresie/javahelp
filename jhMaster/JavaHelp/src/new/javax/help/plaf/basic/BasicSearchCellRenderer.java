@@ -110,8 +110,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	setBackgroundNonSelectionColor(UIManager.getColor("Tree.textBackground"));
 	setBorderSelectionColor(UIManager.getColor("Tree.selectionBorderColor"));
 	Object value = UIManager.get("Tree.drawsFocusBorderAroundIcon");
-	drawsFocusBorderAroundIcon = (value != null && ((Boolean)value).
-				      booleanValue());
+	drawsFocusBorderAroundIcon = (value != null && ((Boolean)value));
 
 	setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 	hits = new ValueJLabel();
@@ -278,10 +277,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	    int hitCount = item.hitCount();
 	    hits.setText(String.valueOf(hitCount));
 	    hits.setAccessibility(null, 
-				  HelpUtilities.getString(locale, "search.hitDesc"),
-				  new Integer(hitCount),
-				  new Integer(hitCount),
-				  new Integer(hitCount));
+				  HelpUtilities.getString(locale, "search.hitDesc"), hitCount, hitCount, hitCount);
 
 	    String qualityLevel=null;
 	    // Set the quality index
@@ -304,10 +300,7 @@ public class BasicSearchCellRenderer extends JPanel implements TreeCellRenderer
 	    }
 
 	    quality.setAccessibility(qualityLevel, 
-				     HelpUtilities.getString(locale, "search.qualityDesc"),
-				     new Double(penalty),
-				     new Double(penalty),
-				     new Double(penalty));
+				     HelpUtilities.getString(locale, "search.qualityDesc"), penalty, penalty, penalty);
 	    
 	    // Finally set the title
 	    title.setText(stringValue);

@@ -245,7 +245,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
         @Override
         public void propertyChange(PropertyChangeEvent evt) {
             if (evt.getPropertyName().equals("enabled")) {
-                setEnabled(((Boolean)evt.getNewValue()).booleanValue());
+                setEnabled(((Boolean)evt.getNewValue()));
             }
         }
             
@@ -362,7 +362,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
                         nav.setFont(newFont);
                     }   break;
                 case "navigatorDisplayed":
-                    boolean display = ((Boolean)event.getNewValue()).booleanValue();
+                    boolean display = ((Boolean)event.getNewValue());
                     if (display) {
                         // assume we're not displayed
                         help.add("Center", splitPane);
@@ -370,7 +370,7 @@ public class BasicHelpUI extends HelpUI implements PropertyChangeListener, Seria
                         help.add("Center", help.getContentViewer());
                     }   break;
                 case "toolbarDisplayed":
-                    toolbar.setVisible(((Boolean)event.getNewValue()).booleanValue());
+                    toolbar.setVisible(((Boolean)event.getNewValue()));
                     break;
                 default:
                     break;

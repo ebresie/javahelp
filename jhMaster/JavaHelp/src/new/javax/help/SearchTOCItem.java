@@ -132,7 +132,7 @@ public class SearchTOCItem extends TOCItem {
 	    public Object nextElement() {
 		synchronized (sivec) {
 		    if (count < sivec.size()) {
-			return new Double(((SearchHit)sivec.elementAt(count++)).getConfidence());
+			return ((SearchHit)sivec.elementAt(count++)).getConfidence();
 		    }
 		}
 		throw new NoSuchElementException("Vector Enumeration");

@@ -886,7 +886,7 @@ public abstract class DocumentParser {
 	    Character x = entities.get(s);
 
 	    if (x != null){
-		return x.charValue();
+		return x;
 	    } else {
 		String a = documentAttribute(s);
 
@@ -915,79 +915,79 @@ public abstract class DocumentParser {
     protected void initEntities() {
 	entities = new Hashtable<>();
 
-	entities.put("quot",	Character.valueOf(DocPConst.DQUOTE));
-	entities.put("amp",	Character.valueOf(DocPConst.AMPERSAND));
-	entities.put("gt",	Character.valueOf(DocPConst.RANGLE));
-	entities.put("lt",	Character.valueOf(DocPConst.LANGLE));
+	entities.put("quot", DocPConst.DQUOTE);
+	entities.put("amp", DocPConst.AMPERSAND);
+	entities.put("gt", DocPConst.RANGLE);
+	entities.put("lt", DocPConst.LANGLE);
 
-	entities.put("nbsp",	Character.valueOf((char)160));
+	entities.put("nbsp", (char)160);
 
-	entities.put("copy",	Character.valueOf((char)169));
+	entities.put("copy", (char)169);
 
-	entities.put("Agrave",	Character.valueOf((char)192));
-	entities.put("Aacute",	Character.valueOf((char)193));
-	entities.put("Acirc",	Character.valueOf((char)194));
-	entities.put("Atilde",	Character.valueOf((char)195));
-	entities.put("Auml",	Character.valueOf((char)196));
-	entities.put("Aring",	Character.valueOf((char)197));
-	entities.put("AElig",	Character.valueOf((char)198));
-	entities.put("Ccedil",	Character.valueOf((char)199));
-	entities.put("Egrave",	Character.valueOf((char)200));
-	entities.put("Eacute",	Character.valueOf((char)201));
-	entities.put("Ecirc",	Character.valueOf((char)202));
-	entities.put("Euml",	Character.valueOf((char)203));
-	entities.put("Igrave",	Character.valueOf((char)204));
-	entities.put("Iacute",	Character.valueOf((char)205));
-	entities.put("Icirc",	Character.valueOf((char)206));
-	entities.put("Iuml",	Character.valueOf((char)207));
+	entities.put("Agrave", (char)192);
+	entities.put("Aacute", (char)193);
+	entities.put("Acirc", (char)194);
+	entities.put("Atilde", (char)195);
+	entities.put("Auml", (char)196);
+	entities.put("Aring", (char)197);
+	entities.put("AElig", (char)198);
+	entities.put("Ccedil", (char)199);
+	entities.put("Egrave", (char)200);
+	entities.put("Eacute", (char)201);
+	entities.put("Ecirc", (char)202);
+	entities.put("Euml", (char)203);
+	entities.put("Igrave", (char)204);
+	entities.put("Iacute", (char)205);
+	entities.put("Icirc", (char)206);
+	entities.put("Iuml", (char)207);
 
-	entities.put("Ntilde",	Character.valueOf((char)209));
-	entities.put("Ograve",	Character.valueOf((char)210));
-	entities.put("Oacute",	Character.valueOf((char)211));
-	entities.put("Ocirc",	Character.valueOf((char)212));
-	entities.put("Otilde",	Character.valueOf((char)213));
-	entities.put("Ouml",	Character.valueOf((char)214));
+	entities.put("Ntilde", (char)209);
+	entities.put("Ograve", (char)210);
+	entities.put("Oacute", (char)211);
+	entities.put("Ocirc", (char)212);
+	entities.put("Otilde", (char)213);
+	entities.put("Ouml", (char)214);
 
-	entities.put("Oslash",	Character.valueOf((char)216));
-	entities.put("Ugrave",	Character.valueOf((char)217));
-	entities.put("Uacute",	Character.valueOf((char)218));
-	entities.put("Ucirc",	Character.valueOf((char)219));
-	entities.put("Uuml",	Character.valueOf((char)220));
-	entities.put("Yacute",	Character.valueOf((char)221));
-	entities.put("THORN",	Character.valueOf((char)222));
-	entities.put("szlig",	Character.valueOf((char)223));
-	entities.put("agrave",	Character.valueOf((char)224));
-	entities.put("aacute",	Character.valueOf((char)225));
-	entities.put("acirc",	Character.valueOf((char)226));
-	entities.put("atilde",	Character.valueOf((char)227));
-	entities.put("auml",	Character.valueOf((char)228));
-	entities.put("aring",	Character.valueOf((char)229));
-	entities.put("aelig",	Character.valueOf((char)230));
-	entities.put("ccedil",	Character.valueOf((char)231));
-	entities.put("egrave",	Character.valueOf((char)232));
-	entities.put("eacute",	Character.valueOf((char)233));
-	entities.put("ecirc",	Character.valueOf((char)234));
-	entities.put("euml",	Character.valueOf((char)235));
-	entities.put("igrave",	Character.valueOf((char)236));
-	entities.put("iacute",	Character.valueOf((char)237));
-	entities.put("icirc",	Character.valueOf((char)238));
-	entities.put("iuml",	Character.valueOf((char)239));
-	entities.put("eth",	Character.valueOf((char)240));
-	entities.put("ntilde",	Character.valueOf((char)241));
-	entities.put("ograve",	Character.valueOf((char)242));
-	entities.put("oacute",	Character.valueOf((char)243));
-	entities.put("ocirc",	Character.valueOf((char)244));
-	entities.put("otilde",	Character.valueOf((char)245));
-	entities.put("ouml",	Character.valueOf((char)246));
+	entities.put("Oslash", (char)216);
+	entities.put("Ugrave", (char)217);
+	entities.put("Uacute", (char)218);
+	entities.put("Ucirc", (char)219);
+	entities.put("Uuml", (char)220);
+	entities.put("Yacute", (char)221);
+	entities.put("THORN", (char)222);
+	entities.put("szlig", (char)223);
+	entities.put("agrave", (char)224);
+	entities.put("aacute", (char)225);
+	entities.put("acirc", (char)226);
+	entities.put("atilde", (char)227);
+	entities.put("auml", (char)228);
+	entities.put("aring", (char)229);
+	entities.put("aelig", (char)230);
+	entities.put("ccedil", (char)231);
+	entities.put("egrave", (char)232);
+	entities.put("eacute", (char)233);
+	entities.put("ecirc", (char)234);
+	entities.put("euml", (char)235);
+	entities.put("igrave", (char)236);
+	entities.put("iacute", (char)237);
+	entities.put("icirc", (char)238);
+	entities.put("iuml", (char)239);
+	entities.put("eth", (char)240);
+	entities.put("ntilde", (char)241);
+	entities.put("ograve", (char)242);
+	entities.put("oacute", (char)243);
+	entities.put("ocirc", (char)244);
+	entities.put("otilde", (char)245);
+	entities.put("ouml", (char)246);
 
-	entities.put("oslash",	Character.valueOf((char)248));
-	entities.put("ugrave",	Character.valueOf((char)249));
-	entities.put("uacute",	Character.valueOf((char)250));
-	entities.put("ucirc",	Character.valueOf((char)251));
-	entities.put("uuml",	Character.valueOf((char)252));
-	entities.put("yacute",	Character.valueOf((char)253));
-	entities.put("thorn",	Character.valueOf((char)254));
-	entities.put("yuml",	Character.valueOf((char)255));
+	entities.put("oslash", (char)248);
+	entities.put("ugrave", (char)249);
+	entities.put("uacute", (char)250);
+	entities.put("ucirc", (char)251);
+	entities.put("uuml", (char)252);
+	entities.put("yacute", (char)253);
+	entities.put("thorn", (char)254);
+	entities.put("yuml", (char)255);
     }
 
     // ....................................................

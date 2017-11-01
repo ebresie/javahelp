@@ -183,14 +183,14 @@ public class DefaultIndexBuilder extends IndexBuilder
   {
     Integer cached = (Integer)cache.get(name);
     if (cached != null) {
-        return cached.intValue();
+        return cached;
     } else
       {
 	int id = dict.fetch(name);
 	if (id == 0) {
 	  dict.store(name, id = freeID++);
 	}
-	cache.put(name, new Integer(id));
+	cache.put(name, id);
 	return id;
       }
   }

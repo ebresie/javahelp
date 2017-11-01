@@ -378,7 +378,7 @@ public abstract class WindowPresentation extends Presentation {
 		Method m = Frame.class.getMethod("setState", types);
 
 		if (m != null) {
-		    Object args[] = {new Integer(0)}; // Frame.NORMAL
+		    Object args[] = {0}; // Frame.NORMAL
 		    m.invoke(frame, args);
 		}
 	    } catch (NoSuchMethodError | NoSuchMethodException | java.lang.reflect.InvocationTargetException | java.lang.IllegalAccessException ex) {
@@ -426,7 +426,7 @@ public abstract class WindowPresentation extends Presentation {
 
 			if (m != null) {
 			    int value =((Integer)(m.invoke(frame, 
-							   (java.lang.Object[])null))).intValue();
+                                    (java.lang.Object[])null)));
 			    if (value == 0) {
                                 return true;
                             } else {
@@ -1107,5 +1107,3 @@ public abstract class WindowPresentation extends Presentation {
     }
  
 }
-
-
