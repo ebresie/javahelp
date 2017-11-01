@@ -10,7 +10,6 @@ TAGEXTPKGDIR=$(PKGDIR)/tagext
 ALL_CLASSES=\
 	$(PARSER_CLASSES) \
 	$(HELP_CLASSES) \
-	$(MISC_IMPL_CLASSES) \
 	$(EDITORKIT_CLASSES) \
 	$(OBJECT_CLASSES) \
 	$(PRINTING_CLASSES) \
@@ -40,9 +39,6 @@ PARSER_CLASSES=\
 	$(CLASSDIR)/$(PKGDIRIMPL)/impl/ParserEvent.class \
 	$(CLASSDIR)/$(PKGDIRIMPL)/impl/ParserListener.class \
 	$(CLASSDIR)/$(PKGDIRIMPL)/impl/HeaderParser.class
-
-MISC_IMPL_CLASSES=\
-	$(CLASSDIR)/$(PKGDIRIMPL)/impl/SwingWorker.class \
 
 EDITORKIT_CLASSES=\
 	$(CLASSDIR)/$(PKGDIRIMPL)/impl/CustomKit.class \
