@@ -107,36 +107,25 @@ public class Schema
     return null;
   }
 
-  public URL getURL(String name) throws Exception
-  {
-    URL baseURL=null, url, tmapURL=null;
+  public URL getURL(String name) throws Exception {
+    URL baseURL = null, url, tmapURL = null;
     URLConnection connect;
     File file;
-    
-    debug("getURL " + name);
-    debug("dirName=" + _dirName + " hsBase= " + _hsBase);
+
+    System.out.println("getURL " + name);
+    System.out.println("dirName=" + _dirName + " hsBase= " + _hsBase);
 
     if (_hsBase == null) {
-	file = new File(_dirName);
-	if (file.exists()) {
-	    // On Win32 we need to convert all "\" to "/"
-	    if (File.separatorChar != '/') {
-		_dirName = _dirName.replace(File.separatorChar, '/');
-	    }
-	    // Make sure the last character is a file separator
-	    if (_dirName.lastIndexOf('/')
-		!= _dirName.length() - 1) {
-		_dirName = _dirName.concat("/");
-	    }
-	    debug ("file:" + _dirName);
-	    // Use a file protocol
-	    baseURL = new URL("file", "", _dirName);
-	} else {
-	// Assume that some protocol was specified and try it
-	baseURL = new URL(_dirName);
+      file = new File(_dirName);
+      if (file.exists()) {
+        // use File to create a valid base URL
+        baseURL = file.toURI().toURL();
+      } else {
+        // Assume that some protocol was specified and try it
+        baseURL = new URL(_dirName);
       }
     }
-      
+
     // Read the SCHEMA data
     if (_hsBase != null) {
       return new URL(_hsBase, _dirName + "/" + name);

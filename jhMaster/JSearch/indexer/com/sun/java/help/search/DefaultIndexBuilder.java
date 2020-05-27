@@ -112,14 +112,18 @@ public class DefaultIndexBuilder extends IndexBuilder
     
     debug("compacting...");
     BtreeDictCompactor source = new BtreeDictCompactor(_tmapParams, false);
-    URL url = new URL("file", "", indexDir + "compacted");
+    File compactedFile = new File(indexDir + "compacted");
+    URL compactedUrl = compactedFile.toURI().toURL();
     BtreeDictParameters params =
-      new BtreeDictParameters(url, _tmapParams.getBlockSize(), 0, freeID);
+      new BtreeDictParameters(compactedUrl, _tmapParams.getBlockSize(), 0, freeID);
     source.compact(params);
-    URL tmapURL = new URL("file", "", indexDir + "TMAP");
+    
+    File tmapFile = new File(indexDir + "TMAP");
+    URL tmapURL = tmapFile.toURI().toURL();
     File tmap = new File(tmapURL.toURI());
     tmap.delete();
-    File compacted = new File(url.toURI());
+    
+    File compacted = new File(compactedUrl.toURI());
     compacted.renameTo(tmap);
     _tmapParams.setRoot(params.getRootPosition());
     _tmapParams.updateSchema();
