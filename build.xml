@@ -1,0 +1,4 @@
+<project name="JavaHelpMaster" default="release" basedir="javahelp_nbproject">
+    <description>Builds, tests, and runs the project JavaHelp.</description>
+    <import file="javahelp_nbproject/build.xml"/>
+</project>
