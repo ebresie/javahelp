@@ -38,13 +38,13 @@ package com.sun.java.help.search;
  * @version	1.12	10/30/06
  */
 
-import java.net.URL;
-import java.net.URLConnection;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 public class MemoryRAFFile extends RAFFile {
 
@@ -69,20 +69,24 @@ public class MemoryRAFFile extends RAFFile {
 	filePointer = 0;
     }
 
+    @Override
     public long length() { 
 	return size;
     }
 
+    @Override
     public void close() throws IOException {
 	filePointer = 0;
 	data = null;
 	size = 0;
     }
 
+    @Override
     public long getFilePointer() throws IOException {
 	return filePointer;
     }
 
+    @Override
     public void seek(long pos) throws IOException {
 	if (pos > size) {
 	    throw new IOException();
@@ -90,6 +94,7 @@ public class MemoryRAFFile extends RAFFile {
 	filePointer = (int)pos;
     }
 
+    @Override
     public int read() throws IOException {
 	if (filePointer >= size) {
 	    return -1;
@@ -109,21 +114,25 @@ public class MemoryRAFFile extends RAFFile {
 	return len;
     }
 
+    @Override
     public int read(byte b[], int off, int len) throws IOException {
 	return readBytes(b, off, len);
     }
 
+    @Override
     public int readInt() throws IOException {
 	debug ("readInt");
 	int ch1 = this.read();
 	int ch2 = this.read();
 	int ch3 = this.read();
 	int ch4 = this.read();
-	if ((ch1 | ch2 | ch3 | ch4) < 0)
-	    throw new EOFException();
+	if ((ch1 | ch2 | ch3 | ch4) < 0) {
+            throw new EOFException();
+        }
 	return ((ch1 << 24) + (ch2 << 16) + (ch3 << 8) + (ch4 << 0));
     }
 
+    @Override
     public final void readFully(byte b[]) throws IOException {
 	readFully(b, 0, b.length);
     }
@@ -133,16 +142,19 @@ public class MemoryRAFFile extends RAFFile {
         int n = 0;
 	do {
 	    int count = this.read(b, off + n, len - n);
-	    if (count < 0)
-		throw new EOFException();
+	    if (count < 0) {
+                throw new EOFException();
+            }
 	    n += count;
 	} while (n < len);
     }
 
+    @Override
     public void writeInt(int v) throws IOException {
 	throw new IOException("Unsupported Operation");
     }
 
+    @Override
     public void write(byte b[]) throws IOException {
 	throw new IOException("Unsupported Operation");
     }

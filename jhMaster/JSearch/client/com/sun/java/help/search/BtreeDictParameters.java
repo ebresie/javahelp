@@ -31,10 +31,10 @@
 
 package com.sun.java.help.search;
 
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.StringTokenizer;
-import java.io.*;
 
 /**
  *
@@ -63,6 +63,7 @@ class BtreeDictParameters extends BlockManagerParameters
     super(schema, partName);
   }
   
+  @Override
   public boolean readState()
   {
     if (super.readState())
@@ -70,8 +71,9 @@ class BtreeDictParameters extends BlockManagerParameters
 	setFreeID(integerParameter("id1"));
 	return true;
       }
-    else
-      return false;
+    else {
+        return false;
+    }
   }
 
   public void writeState() {
@@ -159,12 +161,19 @@ class BtreeDictParameters extends BlockManagerParameters
     while (tokens.hasMoreTokens())
       {
 	String token = tokens.nextToken();
-	if (token.equals("bs"))
-	  blockSize = Integer.parseInt(tokens.nextToken());
-	else if (token.equals("rt"))
-	  rootPosition = Integer.parseInt(tokens.nextToken());
-	else if (token.equals("id1"))
-	  freeID = Integer.parseInt(tokens.nextToken());
+        switch (token) {
+            case "bs":
+                blockSize = Integer.parseInt(tokens.nextToken());
+                break;
+            case "rt":
+                rootPosition = Integer.parseInt(tokens.nextToken());
+                break;
+            case "id1":
+                freeID = Integer.parseInt(tokens.nextToken());
+                break;
+            default:
+                break;
+        }
       }
 
     if (hsBase != null) {
@@ -187,10 +196,10 @@ class BtreeDictParameters extends BlockManagerParameters
     
   public void write() throws java.io.IOException
   {
-    FileWriter out = new FileWriter(dirName + "/SCHEMA");
-    out.write("JavaSearch 1.0\n");
-    out.write("TMAP bs=2048 rt="+root+" fl=-1 id1="+id1+" id2=1\n");
-    out.close();
+      try (FileWriter out = new FileWriter(dirName + "/SCHEMA")) {
+          out.write("JavaSearch 1.0\n");
+          out.write("TMAP bs=2048 rt="+root+" fl=-1 id1="+id1+" id2=1\n");
+      }
   }
 
   /**

@@ -46,6 +46,7 @@ public class Constants_de extends ListResourceBundle {
     /**
      * Overrides ListResourceBundle
      */
+    @Override
     public Object[][] getContents() {
         return new Object[][] {
 	    //  Constant strings and patterns

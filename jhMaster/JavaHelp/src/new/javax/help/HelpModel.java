@@ -27,12 +27,10 @@
 
 package javax.help;
 
-import java.net.URL;
-import java.util.Vector;
-import java.util.Enumeration;
-import javax.help.event.*;
-import javax.help.Map.ID;
 import java.beans.*;
+import java.net.URL;
+import javax.help.Map.ID;
+import javax.help.event.*;
 
 /**
  * The interface to the model of a JHelp that represents the 

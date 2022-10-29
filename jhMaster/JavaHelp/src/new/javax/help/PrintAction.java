@@ -27,6 +27,7 @@
 
 package javax.help;
 
+import com.sun.java.help.impl.JHelpPrintHandler;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -34,7 +35,6 @@ import java.beans.PropertyChangeListener;
 import java.net.URL;
 import java.util.Locale;
 import javax.swing.UIManager;
-import com.sun.java.help.impl.JHelpPrintHandler;
 
 /**
  *
@@ -74,6 +74,7 @@ public class PrintAction extends AbstractHelpAction implements PropertyChangeLis
         
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         if (handler != null) {
             JHelp help = (JHelp)getControl();
@@ -99,9 +100,10 @@ public class PrintAction extends AbstractHelpAction implements PropertyChangeLis
      * @param evt A PropertyChangeEvent object describing the event source
      *  	and the property that has changed.
      */
+    @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (evt.getPropertyName().equals("enabled")) {
-            setEnabled(((Boolean)evt.getNewValue()).booleanValue());
+            setEnabled(((Boolean)evt.getNewValue()));
         }
     }
 }

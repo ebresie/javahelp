@@ -27,8 +27,8 @@
 
 package javax.help;
 
-import javax.help.Map.ID;
 import java.util.Locale;
+import javax.help.Map.ID;
 
 /**
  * A class for individual TOC items

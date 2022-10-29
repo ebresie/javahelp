@@ -27,19 +27,18 @@
 
 package javax.help;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.LookAndFeel;
-import javax.swing.UIDefaults;
-import javax.swing.plaf.ComponentUI;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.swing.ImageIcon;
+import javax.swing.LookAndFeel;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 
 /**
  * Provides a number of utility functions:
@@ -76,6 +75,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
      * via the "lookAndFeel" property.
      */
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	String changeName = event.getPropertyName();
 	if (changeName.equals("lookAndFeel")) {
@@ -108,7 +108,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 		Class c = Class.forName(cvUI);
 		// an error will be thrown if the class doesn't exist
 		contentViewerUI = cvUI;
-	    } catch (Throwable e) {
+	    } catch (ClassNotFoundException e) {
 		System.out.println("ContentViewerClass " + cvUI + " doesn't exist");
 	    }
 	}
@@ -124,16 +124,21 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	debug("installLookAndFeelDefaults - " + lnf);
 
         if ((lnf != null) && (table != null)) {
-	    if (lnf.getID().equals("Motif")) {
-		installMotifDefaults(table);
-	    } else if (lnf.getID().equals("Windows")) {
-		installWindowsDefaults(table);
-	    } else if (lnf.getID().equals("GTK")) {
-		installGTKDefaults(table);
-	    } else {
-		// Default
-		installMetalDefaults(table);
-	    }
+            switch (lnf.getID()) {
+                case "Motif":
+                    installMotifDefaults(table);
+                    break;
+                case "Windows":
+                    installWindowsDefaults(table);
+                    break;
+                case "GTK":
+                    installGTKDefaults(table);
+                    break;
+                default:
+                    // Default
+                    installMetalDefaults(table);
+                    break;
+            }
 	}
 	debug ("verifing UIDefaults; HelpUI=" + table.getString("HelpUI"));
 
@@ -158,12 +163,13 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	    Method m = klass.getMethod(method, types);
 	    Object back = m.invoke(null, args);
 	    return back;
-	} catch (Exception ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    return null;
 	}
     }
 
     static Object basicOnItemCursor = new UIDefaults.LazyValue() {
+        @Override
 	public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.basic.BasicCursorFactory",
 			      "getOnItemCursor");
@@ -171,6 +177,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     };
 
     static Object basicDnDCursor = new UIDefaults.LazyValue() {
+        @Override
         public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.basic.BasicCursorFactory",
 			      "getDnDCursor");
@@ -178,6 +185,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     };
 
     static Object gtkOnItemCursor = new UIDefaults.LazyValue() {
+        @Override
 	public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.gtk.GTKCursorFactory",
 			      "getOnItemCursor");
@@ -185,6 +193,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
     };
 
     static Object gtkDnDCursor = new UIDefaults.LazyValue() {
+        @Override
         public Object createValue(UIDefaults table) {
 	    return createIcon("javax.help.plaf.gtk.GTKCursorFactory",
 			      "getDnDCursor");
@@ -201,6 +210,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
      */
     static private Object makeBasicIcon(final String image) {
         return new UIDefaults.LazyValue() {
+            @Override
             public Object createValue(UIDefaults table) {
                 return SwingHelpUtilities.getImageIcon(javax.help.plaf.basic.BasicHelpUI.class, image);
             }
@@ -276,6 +286,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
      */
     static private Object makeGTKIcon(final String image) {
         return new UIDefaults.LazyValue() {
+            @Override
             public Object createValue(UIDefaults table) {
                 return SwingHelpUtilities.getImageIcon(javax.help.plaf.gtk.GTKCursorFactory.class, 
 						       image);
@@ -345,14 +356,15 @@ public class SwingHelpUtilities implements PropertyChangeListener {
 	    if (resource == null) {
 		return null; 
 	    }
-	    BufferedInputStream in = new BufferedInputStream(resource);
-	    ByteArrayOutputStream out = new ByteArrayOutputStream(1024);
-	    buffer[0] = new byte[1024];
-	    int n;
-	    while ((n = in.read(buffer[0])) > 0) {
-		out.write(buffer[0], 0, n);
-	    }
-	    in.close();
+            ByteArrayOutputStream out;
+            try (BufferedInputStream in = new BufferedInputStream(resource)) {
+                out = new ByteArrayOutputStream(1024);
+                buffer[0] = new byte[1024];
+                int n;
+                while ((n = in.read(buffer[0])) > 0) {
+                    out.write(buffer[0], 0, n);
+                }
+            }
 	    out.flush();
 	    buffer[0] = out.toByteArray();
 	} catch (IOException ioe) {
@@ -378,7 +390,7 @@ public class SwingHelpUtilities implements PropertyChangeListener {
             Class types[] = { PropertyChangeListener.class };
             Object args[] = { listener };
             object.getClass().getMethod("addPropertyChangeListener", types).invoke(object, args);
-        } catch (Exception ex) {
+        } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
         }
     }
 

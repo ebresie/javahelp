@@ -96,8 +96,9 @@ class ConceptData
   public void setConceptLength(int length)
   {
     _conceptLength = length;
-    if (_next != null)
-      _next.setConceptLength(length);
+    if (_next != null) {
+        _next.setConceptLength(length);
+    }
   }
   
   public void setNext(ConceptData next) {
@@ -119,10 +120,11 @@ class ConceptData
   
   void addLast(ConceptData other)
   {
-    if (_next != null)
-      _next.addLast(other);
-    else
-      _next = other;
+    if (_next != null) {
+        _next.addLast(other);
+    } else {
+        _next = other;
+    }
   }
 
   boolean compareWith(ConceptData other) {
@@ -134,17 +136,19 @@ class ConceptData
   public void runBy(Query[] queries)
   {
     ConceptData cd = this;
-    do
-      queries[cd._query].updateEstimate(cd._role, cd._penalty);
-    while ((cd = cd._next) != null);
+    do {
+        queries[cd._query].updateEstimate(cd._role, cd._penalty);
+    } while ((cd = cd._next) != null);
   }
 
   public void generateFillers(RoleFiller[] array, int pos)
   {
-    if (array[_query] != RoleFiller.STOP) // 'prohibited'
-      (new RoleFiller(_nColumns, this, _role, pos, pos + _proximity))
-	.use(array, _query);
-    if (_next != null)
-      _next.generateFillers(array, pos);
+    if (array[_query] != RoleFiller.STOP) { // 'prohibited'
+        (new RoleFiller(_nColumns, this, _role, pos, pos + _proximity))
+                .use(array, _query);
+    }
+    if (_next != null) {
+        _next.generateFillers(array, pos);
+    }
   }
 }

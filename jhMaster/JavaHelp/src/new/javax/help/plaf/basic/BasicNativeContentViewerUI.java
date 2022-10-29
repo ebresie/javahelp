@@ -30,27 +30,19 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.plaf.HelpContentViewerUI;
-import javax.help.event.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Hashtable;
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.TextUI;
-import javax.swing.border.*;
-import javax.swing.event.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URLConnection;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.net.URL;
+import java.util.Locale;
+import javax.help.*;
 import javax.help.Map.ID;
+import javax.help.event.*;
+import javax.help.plaf.HelpContentViewerUI;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.plaf.ComponentUI;
 import org.jdesktop.jdic.browser.WebBrowser;
 
 /**
@@ -79,6 +71,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         debug("createUI - sort of");
     }
     
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         theViewer = (JHelpContentViewer)c;
@@ -123,6 +116,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         theViewer.add("Center", scroller);
     }
     
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         JHelpContentViewer viewer = (JHelpContentViewer) c;
@@ -140,19 +134,23 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
         viewer.removeAll();
     }
     
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return PREF_SIZE;
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return MIN_SIZE;
     }
     
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // This doesn't seem right. But I'm not sure what to do for now
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         ID id = e.getID();
         URL url = e.getURL();
@@ -198,45 +196,50 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
                 String name = HelpUtilities.getString(locale, "history.homePage");
                 model.setCurrentID(homeID, name, (JHelpNavigator)null);
                 html.setURL(model.getCurrentURL());
-            } catch (Exception e) {
+            } catch (InvalidHelpSetContextException e) {
                 // ignore
             }
         }
         debug("rebuild-end");
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getPropertyName() + "\n\toldValue:" + event.getOldValue() + "\n\tnewValue:" + event.getNewValue());
         
         if (event.getSource() == theViewer) {
             String changeName = event.getPropertyName();
-            if (changeName.equals("helpModel")) {
-                TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
-                TextHelpModel newModel = (TextHelpModel) event.getNewValue();
-                if (oldModel != null) {
-                    oldModel.removeHelpModelListener(this);
-                    oldModel.removeTextHelpModelListener(this);
-                }
-                if (newModel != null) {
-                    newModel.addHelpModelListener(this);
-                    newModel.addTextHelpModelListener(this);
-                }
-                rebuild();
-            } else if (changeName.equals("font")) {
-                debug("font changed");
-                Font newFont = (Font)event.getNewValue();
-		/**
-		 * ~~
-		 * Put font change handling code here
-		 */
-            }else if (changeName.equals("clear")) {
-		/**
-		 * html future additions
-		 * do not know how to do this at the current time
-		 */
-                // a~~ html.setText("");
-            }else if (changeName.equals("reload")) {
-		html.refresh();
+            switch (changeName) {
+                case "helpModel":
+                    TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
+                    TextHelpModel newModel = (TextHelpModel) event.getNewValue();
+                    if (oldModel != null) {
+                        oldModel.removeHelpModelListener(this);
+                        oldModel.removeTextHelpModelListener(this);
+                    }   if (newModel != null) {
+                        newModel.addHelpModelListener(this);
+                        newModel.addTextHelpModelListener(this);
+                    }   rebuild();
+                    break;
+                case "font":
+                    debug("font changed");
+                    Font newFont = (Font)event.getNewValue();
+                    /**
+                     * ~~
+                     * Put font change handling code here
+                     */ break;
+            /**
+             * html future additions
+             * do not know how to do this at the current time
+             */
+            // a~~ html.setText("");
+                case "clear":
+                    break;
+                case "reload":
+                    html.refresh();
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -247,6 +250,7 @@ implements HelpModelListener, TextHelpModelListener, PropertyChangeListener, Ser
      *
      * @param e The TextHelpModelEvent.
      */
+    @Override
     public void highlightsChanged(TextHelpModelEvent e) {
         debug("highlightsChanged "+e);
  

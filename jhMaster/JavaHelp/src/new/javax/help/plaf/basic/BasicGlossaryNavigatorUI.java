@@ -27,34 +27,25 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.plaf.HelpNavigatorUI;
-import javax.help.plaf.HelpUI;
-import javax.help.plaf.basic.BasicHelpUI;
-import javax.help.plaf.basic.BasicIndexCellRenderer;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
-import java.util.EventObject;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.tree.*;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.Reader;
-import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import javax.help.Map.ID;
+import java.io.Serializable;
 import java.text.Collator;
 import java.text.RuleBasedCollator;
+import java.util.Enumeration;
 import java.util.Locale;
-import java.util.Stack;
+import java.util.Vector;
+import javax.help.*;
+import javax.help.Map.ID;
+import javax.help.event.HelpModelEvent;
+import javax.help.event.HelpModelListener;
+import javax.help.plaf.HelpNavigatorUI;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.tree.*;
 
 /**
  * The default UI for JHelpNavigator of type Glossary.
@@ -93,6 +84,7 @@ PropertyChangeListener, ActionListener, Serializable {
 	}
     }
     
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         
@@ -158,6 +150,7 @@ PropertyChangeListener, ActionListener, Serializable {
     /**
      * Uninstalls UI
      */
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         HelpModel model = glossary.getModel();
@@ -176,16 +169,19 @@ PropertyChangeListener, ActionListener, Serializable {
     }
     
  
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         
         return new Dimension(200,100);
         
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return new Dimension(100,100);
     }
  
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -244,9 +240,9 @@ PropertyChangeListener, ActionListener, Serializable {
         GlossaryView oldView = (GlossaryView) glossary.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof GlossaryView){
                     glossaryView = (GlossaryView) tempView;
                     break;
@@ -267,9 +263,10 @@ PropertyChangeListener, ActionListener, Serializable {
             HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if(glossary.canMerge(views[i]))
-                    merge(views[i]);
+            for (NavigatorView view : views) {
+                if (glossary.canMerge(view)) {
+                    merge(view);
+                }
             }
             addSubHelpSets( ehs );
         }
@@ -320,9 +317,9 @@ PropertyChangeListener, ActionListener, Serializable {
             debug(" node :"+ node.toString());
             if(node != null){
                 IndexItem indexItem = (IndexItem)node.getUserObject();
-                if(indexItem == null)
+                if(indexItem == null) {
                     debug("indexItem is null");
-                else{
+                } else{
                     Map.ID id = indexItem.getID();
                     if(id != null){
                         debug("id name :"+id.id);
@@ -335,8 +332,9 @@ PropertyChangeListener, ActionListener, Serializable {
                             System.err.println("Not valid ID :"+target );
                             break;
                         }
-                        if(id.equals(itemID))
+                        if(id.equals(itemID)) {
                             nodeFound.addElement(node);
+                        }
                     }
                 }
             }
@@ -394,6 +392,7 @@ PropertyChangeListener, ActionListener, Serializable {
      * so it replaces the correct NavigatorUI method.
      */
     
+    @Override
     public void merge(NavigatorView view) {
         debug("merging data");
 	doMerge(view);
@@ -410,6 +409,7 @@ PropertyChangeListener, ActionListener, Serializable {
      * so it replaces the correct NavigatorUI method.
      */
     
+    @Override
     public void remove(NavigatorView view) {
         debug("removing "+view);
         
@@ -511,6 +511,7 @@ PropertyChangeListener, ActionListener, Serializable {
 
     // Process and idChanged event
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         ID id = e.getID();
         HelpModel helpModel = glossary.getModel();
@@ -598,6 +599,7 @@ PropertyChangeListener, ActionListener, Serializable {
         return glossary;
     }
 
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -634,34 +636,43 @@ PropertyChangeListener, ActionListener, Serializable {
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getSource() + " "  +
         event.getPropertyName());
         
         if (event.getSource() == glossary) {
             String changeName = event.getPropertyName();
-            if (changeName.equals("helpModel")) {
-                debug("model changed");
-                reloadData((HelpModel)event.getNewValue());
-            } else  if (changeName.equals("font")) {
-                debug("Font change");
-                Font newFont = (Font)event.getNewValue();
-                tree.setFont(newFont);
-                RepaintManager.currentManager(tree).markCompletelyDirty(tree);
-            }else if(changeName.equals("expand")){
-                debug("Expand change");
-                expand((String)event.getNewValue());
-            } else if(changeName.equals("collapse")){
-                debug("Collapse change");
-                collapse((String)event.getNewValue());
-            }
+            switch (changeName) {
+                case "helpModel":
+                    debug("model changed");
+                    reloadData((HelpModel)event.getNewValue());
+                    break;
             // changes to UI property?
+                case "font":
+                    debug("Font change");
+                    Font newFont = (Font)event.getNewValue();
+                    tree.setFont(newFont);
+                    RepaintManager.currentManager(tree).markCompletelyDirty(tree);
+                    break;
+                case "expand":
+                    debug("Expand change");
+                    expand((String)event.getNewValue());
+                    break;
+                case "collapse":
+                    debug("Collapse change");
+                    collapse((String)event.getNewValue());
+                    break;
+                default:
+                    break;
+            }
         }
     }
     
     /**
      *  Handles Action from the JTextField component for searching.
      */
+    @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource()==searchField) {
             

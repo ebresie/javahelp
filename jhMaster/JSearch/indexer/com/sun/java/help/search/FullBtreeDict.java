@@ -57,9 +57,11 @@ public class FullBtreeDict extends BtreeDict
   
     public boolean smallerThan(Entry other)
     {
-      for (int i = 0; i < Math.min(key.length, other.key.length); i++)
-	if (key[i] != other.key[i])
-	  return (key[i]&0xFF) < (other.key[i]&0xFF);
+      for (int i = 0; i < Math.min(key.length, other.key.length); i++) {
+          if (key[i] != other.key[i]) {
+              return (key[i]&0xFF) < (other.key[i]&0xFF);
+          }
+      }
       return false;
     }
   }
@@ -67,6 +69,7 @@ public class FullBtreeDict extends BtreeDict
   
   protected class FullDictBlock extends DictBlock
   {
+    @Override
     public void setFree(int free)
     {
       this.free = free - firstEntry();
@@ -98,17 +101,18 @@ public class FullBtreeDict extends BtreeDict
 
       for (int entryIndex = 0;;)
 	{
-	  if (entryPtr == freeSpace)
-	    return insert(entry, entryPtr, nCharsEqual, 0, numberOfEntries());
-	  else if (compression == nCharsEqual)
+	  if (entryPtr == freeSpace) {
+              return insert(entry, entryPtr, nCharsEqual, 0, numberOfEntries());
+          } else if (compression == nCharsEqual)
 	    {
 	      int keyLen = entryKeyLength(entryPtr);
 	      int keyPtr = entryKey(entryPtr), i;
 	      prevNCEqual = nCharsEqual;
 	      for (i = 0;
 		   i < keyLen && inkey[nCharsEqual] == data[keyPtr + i];
-		   i++)
-		++nCharsEqual;
+		   i++) {
+                  ++nCharsEqual;
+              }
 	      if (i == keyLen)
 		{
 		  if (nCharsEqual == inputKeyLen)
@@ -117,14 +121,16 @@ public class FullBtreeDict extends BtreeDict
 		      return true;
 		    }
 		}
-	      else if ((inkey[nCharsEqual]&0xFF) < (data[keyPtr + i]&0xFF))
-		return insert(entry, entryPtr, prevNCEqual, nCharsEqual,
-			      entryIndex);
+	      else if ((inkey[nCharsEqual]&0xFF) < (data[keyPtr + i]&0xFF)) {
+                  return insert(entry, entryPtr, prevNCEqual, nCharsEqual,
+                          entryIndex);
+              }
 	    }
-	  else if (compression < nCharsEqual) // compression dropped
-	    return insert(entry, entryPtr, nCharsEqual, compression,
-			  entryPtr == freeSpace
-			  ? numberOfEntries() : entryIndex);
+	  else if (compression < nCharsEqual) { // compression dropped
+              return insert(entry, entryPtr, nCharsEqual, compression,
+                      entryPtr == freeSpace
+                              ? numberOfEntries() : entryIndex);
+          }
 	  do {
 	    entryPtr = nextEntry(entryPtr);
 	    ++entryIndex;
@@ -155,9 +161,11 @@ public class FullBtreeDict extends BtreeDict
       // adding an entry can increase compression in the following entry
       
       int increase = 0;
-      if (entryPtr < freeSpace)
-	if (entryCompression(entryPtr) < compr2)
-	  increase = compr2 - entryCompression(entryPtr);
+      if (entryPtr < freeSpace) {
+          if (entryCompression(entryPtr) < compr2) {
+              increase = compr2 - entryCompression(entryPtr);
+          }
+      }
       /*
       System.err.println("key " + key);
       System.err.println("entryPtr " + entryPtr);
@@ -228,8 +236,9 @@ public class FullBtreeDict extends BtreeDict
 	  
 	  return true;
 	}
-      else
-	return false;
+      else {
+          return false;
+      }
     }
   
     public int insertInternal(Entry entry)
@@ -243,17 +252,18 @@ public class FullBtreeDict extends BtreeDict
 
       for (int entryIndex = 0;;)
 	{
-	  if (entryPtr == freeSpace)
-	    return numberOfEntries();
-	  else if (compression == nCharsEqual)
+	  if (entryPtr == freeSpace) {
+              return numberOfEntries();
+          } else if (compression == nCharsEqual)
 	    {
 	      int i;
 	      int keyLen = entryKeyLength(entryPtr);
 	      int keyPtr = entryKey(entryPtr);
 	      for (i = 0;
 		   i < keyLen && inkey[nCharsEqual] == data[keyPtr + i];
-		   i++)
-		++nCharsEqual;
+		   i++) {
+                  ++nCharsEqual;
+              }
 	      if (i == keyLen)
 		{
 		  if (nCharsEqual == inputKeyLen)
@@ -262,11 +272,13 @@ public class FullBtreeDict extends BtreeDict
 		      return -1;
 		    }
 		}
-	      else if ((inkey[nCharsEqual]&0xFF) < (data[keyPtr + i]&0xFF))
-		return entryIndex;
+	      else if ((inkey[nCharsEqual]&0xFF) < (data[keyPtr + i]&0xFF)) {
+                  return entryIndex;
+              }
 	    }
-	  else if (compression < nCharsEqual) // compression dropped
-	    return entryPtr >= freeSpace ? numberOfEntries() : entryIndex;
+	  else if (compression < nCharsEqual) { // compression dropped
+              return entryPtr >= freeSpace ? numberOfEntries() : entryIndex;
+          }
     
 	  do {
 	    entryPtr = nextEntry(entryPtr);
@@ -341,6 +353,7 @@ public class FullBtreeDict extends BtreeDict
     throws Exception
   {
     init(params, update, new BlockFactory() {
+      @Override
       public Block makeBlock() { return new FullDictBlock(); }
     });
     blocks = new int[300000];	// !!!
@@ -351,8 +364,9 @@ public class FullBtreeDict extends BtreeDict
   public void close(int freeID) throws Exception
   {
     params.setFreeID(freeID);
-    if (update)
-      params.updateSchema();
+    if (update) {
+        params.updateSchema();
+    }
     super.close();
   }
 
@@ -390,37 +404,39 @@ public class FullBtreeDict extends BtreeDict
 
   private Entry insert(FullDictBlock bl, Entry ent) throws Exception
   {
-    if (bl.isLeaf)
-      return insertHere(bl, ent);
-    else
+    if (bl.isLeaf) {
+        return insertHere(bl, ent);
+    } else
       {
 	int index = bl.insertInternal(ent);
-	if (index != -1)
-	  try {
-	    lock(bl);
-	    ent = insert((FullDictBlock)child(bl, index), ent);
-	    return ent == null ? null : insertHere(bl, ent);
-	  }
-	finally {
-	  unlock(bl);
-	}
-	else
-	  return null;
+	if (index != -1) {
+            try {
+                lock(bl);
+                ent = insert((FullDictBlock)child(bl, index), ent);
+                return ent == null ? null : insertHere(bl, ent);
+            }
+            finally {
+                unlock(bl);
+            }
+        } else {
+            return null;
+        }
       }
   }
 
   private Entry insertHere(FullDictBlock bl, Entry ent) throws Exception
   {
     setModified(bl);		// to be modified in any case 
-    if (bl.insert(ent))
-      return null;
-    else
+    if (bl.insert(ent)) {
+        return null;
+    } else
       {
 	FullDictBlock nbl = getNewBlock();
 	Entry middle = bl.split(nbl);
 	nbl.setBlockNumbers(blocks);
-	if ((middle.smallerThan(ent) ? nbl : bl).insert(ent) == false)
-	  throw new Exception("entry didn't fit into a freshly split block");
+	if ((middle.smallerThan(ent) ? nbl : bl).insert(ent) == false) {
+            throw new Exception("entry didn't fit into a freshly split block");
+        }
 	return middle;
       }
   }
@@ -439,22 +455,23 @@ public class FullBtreeDict extends BtreeDict
       FullBtreeDict dict = new FullBtreeDict(tmapParams, true);
       int freeID = tmapParams.getFreeID();
     
-      LineNumberReader in = new LineNumberReader(new BufferedReader
-						 (new FileReader(args[1])));
-      String line;
-      while ((line = in.readLine()) != null)
-	{
-	  StringTokenizer tokens = new StringTokenizer(line, " ");
-	  while (tokens.hasMoreTokens())
-	    {
-	      String token = tokens.nextToken();
-	      if (token.equals("storing"))
-		dict.store(tokens.nextToken(), freeID++);
-	      else if (token.equals("fetching"))
-		  dict.fetch(tokens.nextToken());
-	    }
-	}
-      in.close();
+        try (LineNumberReader in = new LineNumberReader(new BufferedReader
+                                                         (new FileReader(args[1])))) {
+            String line;
+            while ((line = in.readLine()) != null)
+            {
+                StringTokenizer tokens = new StringTokenizer(line, " ");
+                while (tokens.hasMoreTokens())
+                {
+                    String token = tokens.nextToken();
+                    if (token.equals("storing")) {
+                        dict.store(tokens.nextToken(), freeID++);
+                    } else if (token.equals("fetching")) {
+                        dict.fetch(tokens.nextToken());
+                    }
+                }
+            }
+        }
     }
     catch (Exception e) {
       e.printStackTrace();

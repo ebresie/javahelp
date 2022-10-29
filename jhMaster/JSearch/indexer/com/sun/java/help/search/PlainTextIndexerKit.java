@@ -33,10 +33,8 @@ package com.sun.java.help.search;
 
 import java.io.*;
 import java.util.Locale;
-import java.text.*;
-import javax.help.search.IndexerKit;
-import javax.help.search.IndexBuilder;
 import javax.help.search.ConfigFile;
+import javax.help.search.IndexBuilder;
 
 /**
  * This is the set of things needed by an indexing object
@@ -60,6 +58,7 @@ public class PlainTextIndexerKit extends DefaultIndexerKit {
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
         return new PlainTextIndexerKit();
     }
@@ -71,6 +70,7 @@ public class PlainTextIndexerKit extends DefaultIndexerKit {
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
         return "text/plain";
     }
@@ -86,6 +86,7 @@ public class PlainTextIndexerKit extends DefaultIndexerKit {
      * @param config The indexer configuration information
      * @exception IOException on any I/O error
      */
+    @Override
     public void parse(Reader in, String file, boolean ignoreCharset,
 		      IndexBuilder builder, 
 		      ConfigFile config) throws IOException 

@@ -27,12 +27,10 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.Map;
@@ -42,7 +40,8 @@ import javax.help.MergeHelpUtilities;
 import javax.help.NavigatorView;
 import javax.help.TOCItem;
 import javax.help.TOCView;
-import javax.help.SortMerge;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
@@ -105,19 +104,19 @@ public class TOCItemTag extends BodyTagSupport {
 	    }
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-		if (views[i] instanceof TOCView) {
-		    Merge mergeObject = 
-			Merge.DefaultMergeFactory.getMerge(view, views[i]);
-		    if (mergeObject != null) {
-			mergeObject.processMerge(topNode);
-		    }
-		}
+            for (NavigatorView view1 : views) {
+                if (view1 instanceof TOCView) {
+                    Merge mergeObject = Merge.DefaultMergeFactory.getMerge(view, view1);
+                    if (mergeObject != null) {
+                        mergeObject.processMerge(topNode);
+                    }
+                }
             }
             addSubHelpSets( ehs );
 	}
     }    
 
+    @Override
     public int doStartTag() {
 	initialize();
 	if(treeEnum.hasMoreElements()) {
@@ -139,6 +138,7 @@ public class TOCItemTag extends BodyTagSupport {
 	}
     }
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {

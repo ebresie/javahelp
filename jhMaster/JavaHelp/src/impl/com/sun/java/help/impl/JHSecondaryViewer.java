@@ -27,39 +27,34 @@
 
 package com.sun.java.help.impl;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Rectangle;
-import java.awt.Point;
-import java.awt.Color;
-import java.awt.FontMetrics;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Insets;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.*;
+import java.net.*;
+import javax.help.*;
+import javax.help.Map.ID;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.border.EmptyBorder;
-import javax.swing.text.View;
-import javax.swing.text.Element;
+import javax.swing.plaf.basic.BasicButtonUI;
 import javax.swing.text.AttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.View;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.StyleSheet;
-import javax.help.*;
-import javax.help.Map.ID;
-import java.awt.event.*;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.net.*;
-import java.util.Hashtable;
-import java.beans.PropertyChangeEvent;
-import java.util.Enumeration;
-import java.awt.Cursor;
 
 /**
  * This class is a secondary viewer to be included in HTML content within
@@ -154,20 +149,25 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	addActionListener(this);
 	origCursor = getCursor();
 	addMouseListener(new MouseListener() {
+            @Override
 	    public void mouseClicked(MouseEvent e) {
 	    }
 
+            @Override
 	    public void mouseEntered(MouseEvent e) {
 		setCursor(handCursor);
 	    }
 
+            @Override
 	    public void mouseExited(MouseEvent e) {
 		setCursor(origCursor);
 	    }
 
+            @Override
 	    public void mousePressed(MouseEvent e) {
 	    }
 
+            @Override
 	    public void mouseReleased(MouseEvent e) {
 	    }
 	});
@@ -176,6 +176,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
     /**
      * Sets data optained from the View
      */
+    @Override
     public void setViewData(View v) {
 	myView = v;
 	doc = (HTMLDocument) myView.getDocument();
@@ -187,14 +188,10 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	textAttribs.removeAttribute(StyleConstants.FontSize);
 	textAttribs.removeAttribute(StyleConstants.Bold);
 	textAttribs.removeAttribute(StyleConstants.Italic);
-	textAttribs.addAttribute(StyleConstants.FontFamily,
-				 font.getName());
-	textAttribs.addAttribute(StyleConstants.FontSize,
-				 new Integer(font.getSize()));
-	textAttribs.addAttribute(StyleConstants.Bold,
-				 new Boolean(font.isBold()));
-	textAttribs.addAttribute(StyleConstants.Italic,
-				 new Boolean(font.isItalic()));
+	textAttribs.addAttribute(StyleConstants.FontFamily, font.getName());
+	textAttribs.addAttribute(StyleConstants.FontSize, font.getSize());
+	textAttribs.addAttribute(StyleConstants.Bold, font.isBold());
+	textAttribs.addAttribute(StyleConstants.Italic, font.isItalic());
 
 
 	// Loop through and find the JHelpContentViewer
@@ -250,7 +247,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    try {
 	    URL url = map.getURLFromID(ident);
 	    return (url.toExternalForm());
-	    } catch (Exception ex) {
+	    } catch (MalformedURLException ex) {
 	    }
 	}
 
@@ -449,7 +446,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
      */
     public void setViewerLocation(String location) {
 	debug("setViewerLocation");
-	int comma = location.indexOf(",");
+	int comma = location.indexOf(',');
 	if (comma != -1) {
 	    String x = location.substring(0,comma).trim();
 	    String y = location.substring(comma+1).trim();
@@ -498,7 +495,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
      */
     public void setViewerSize(String size) {
 	debug ("setViewerSize");
-	int comma = size.indexOf(",");
+	int comma = size.indexOf(',');
 	if (comma != -1) {
 	    String width = size.substring(0,comma).trim();
 	    String height = size.substring(comma+1).trim();
@@ -673,8 +670,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    return;
 	}
 	textAttribs.removeAttribute(StyleConstants.FontSize);
-	textAttribs.addAttribute(StyleConstants.FontSize,
-				 new Integer(newsize));
+	textAttribs.addAttribute(StyleConstants.FontSize, newsize);
 	setFont(getAttributeSetFont(textAttribs));
 	Font font = getFont();
     }
@@ -702,7 +698,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    isBold = false;
 	}
 	textAttribs.removeAttribute(StyleConstants.Bold);
-	textAttribs.addAttribute(StyleConstants.Bold, new Boolean(isBold));
+	textAttribs.addAttribute(StyleConstants.Bold, isBold);
 	setFont(getAttributeSetFont(textAttribs));
 	Font font = getFont();
     }
@@ -733,7 +729,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 	    isItalic = false;
 	}
 	textAttribs.removeAttribute(StyleConstants.Italic);
-	textAttribs.addAttribute(StyleConstants.Italic, new Boolean(isItalic));
+	textAttribs.addAttribute(StyleConstants.Italic, isItalic);
 	setFont(getAttributeSetFont(textAttribs));
 	Font font = getFont();
     }
@@ -853,6 +849,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
     /**
      * Displays the viewer according to the viewerType
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
 	debug ("actionPerformed");
 
@@ -868,7 +865,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    debug ("ident=" + ident);
 		    try {
 			sw.setCurrentID(ident);
-		    } catch (Exception ex) {
+		    } catch (InvalidHelpSetContextException ex) {
 			debug ("error setting CurrentID");
 			// do nothing
 		    }
@@ -877,7 +874,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    try {
 			URL url = new URL(base, content);
 			sw.setCurrentURL(url);
-		    } catch (Exception ex) {
+		    } catch (MalformedURLException ex) {
 			debug ("error setting URL");
 		    }
 		}
@@ -906,7 +903,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    debug ("ident=" + ident);
 		    try {
 			popup.setCurrentID(ident);
-		    } catch (Exception ex) {
+		    } catch (InvalidHelpSetContextException ex) {
 			debug ("error setting CurrentID");
 			// do nothing
 		    }
@@ -915,7 +912,7 @@ public class JHSecondaryViewer extends JButton implements ActionListener, ViewAw
 		    try {
 			URL url = new URL(base, content);
 			popup.setCurrentURL(url);
-		    } catch (Exception ex) {
+		    } catch (MalformedURLException ex) {
 			debug ("error setting URL");
 		    }
 		}

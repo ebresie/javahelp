@@ -27,13 +27,11 @@
 
 package javax.help;
 
-import java.awt.*;
 import java.awt.event.*;
-import javax.help.*;
-import javax.help.event.*;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Stack;
+import javax.help.event.*;
 import javax.swing.*;
 
 /**
@@ -75,12 +73,14 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
     /**
      * Invoked when the mouse exits a component.
      */
+    @Override
     public void mouseExited(MouseEvent e) {
     }
     
     /**
      * Invoked when a mouse button has been released on a component.
      */
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (timer != null) {
             timer.stop();
@@ -90,6 +90,7 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
     /**
      * Invoked when a mouse button has been pressed on a component.
      */
+    @Override
     public void mousePressed(MouseEvent e) {
         timer = new Timer(DELAY, new TimeListener(e));
         timer.start();
@@ -98,6 +99,7 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
     /**
      * Invoked when the mouse has been clicked on a component.
      */
+    @Override
     public void mouseClicked(MouseEvent e) {
         if ((historyModel != null) && isEnabled()) {
             historyModel.goBack();
@@ -107,6 +109,7 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
     /**
      * Invoked when the mouse enters a component.
      */
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
@@ -118,6 +121,7 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
             this.e = e;
         }
         
+        @Override
         public void actionPerformed(ActionEvent evt) {
             timer.stop();
             if (BackAction.this.isEnabled()) {
@@ -134,6 +138,7 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
             this.index = index;          
         }
         
+        @Override
         public void actionPerformed(java.awt.event.ActionEvent event) {
             if(historyModel != null) {
                 historyModel.setHistoryEntry(index);
@@ -181,6 +186,7 @@ public class BackAction extends AbstractHelpAction implements MouseListener, Hel
      *
      * @param e The HelpHistoryModelEvent
      */
+    @Override
     public void historyChanged(HelpHistoryModelEvent e) {
         setEnabled(e.isPrevious());
     }

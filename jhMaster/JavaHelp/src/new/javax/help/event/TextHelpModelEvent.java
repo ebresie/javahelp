@@ -27,12 +27,6 @@
 
 package javax.help.event;
 
-import java.net.URL;
-import java.util.Vector;
-import java.util.Enumeration;
-import javax.help.HelpSet;
-import javax.help.Map.ID;
-
 /**
  * Notifies interested parties when a change in a
  * TextHelpModel occurs.  The listener should query the source

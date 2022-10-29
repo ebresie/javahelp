@@ -41,6 +41,7 @@ public class JHSecondaryViewerBeanInfo extends SimpleBeanInfo {
     public JHSecondaryViewerBeanInfo() {
     }
     
+    @Override
     public PropertyDescriptor[] getPropertyDescriptors() {
 	PropertyDescriptor back[] = new PropertyDescriptor[15];
 	try {
@@ -60,7 +61,7 @@ public class JHSecondaryViewerBeanInfo extends SimpleBeanInfo {
 	    back[13] = new PropertyDescriptor("textFontStyle", JHSecondaryViewer.class);
 	    back[14] = new PropertyDescriptor("textColor", JHSecondaryViewer.class);
 	    return back;
-	} catch (Exception ex) {
+	} catch (IntrospectionException ex) {
 	    return null;
 	}
     }

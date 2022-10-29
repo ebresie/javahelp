@@ -27,8 +27,8 @@
 
 package javax.help;
 
-import java.util.Hashtable;
 import java.awt.Component;
+import java.util.Hashtable;
 import java.util.Locale;
 
 /**
@@ -76,6 +76,7 @@ public class SearchView extends NavigatorView {
     /**
      * Creates a navigator for a given model.
      */
+    @Override
     public Component createNavigator(HelpModel model) {
 	return new JHelpSearchNavigator(this, model);
     }

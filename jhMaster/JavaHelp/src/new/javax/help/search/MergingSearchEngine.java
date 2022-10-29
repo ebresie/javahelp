@@ -27,20 +27,16 @@
 
 package javax.help.search;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.net.URL;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Vector;
 import javax.help.HelpSet;
 import javax.help.HelpUtilities;
 import javax.help.NavigatorView;
-import javax.help.search.SearchListener;
-import javax.help.search.SearchEvent;
-import javax.help.search.SearchEngine;
-import javax.help.search.SearchQuery;
 
 /*
  * A class that provides a merging/removing layer for the search.
@@ -72,6 +68,7 @@ public class MergingSearchEngine extends SearchEngine {
     /**
      * Creates the query for this helpset.
      */
+    @Override
     public SearchQuery createQuery() {
 	return new MergingSearchQuery(this);
     }
@@ -153,13 +150,12 @@ public class MergingSearchEngine extends SearchEngine {
 	    } else {
 		klass = loader.loadClass(engineName);
 	    }
-	} catch (Throwable t) {
+	} catch (ClassNotFoundException t) {
 	    throw new Error("Could not load engine named "+engineName+" for view: "+view);
 	}
-
 	try {
 	    konstructor = klass.getConstructor(types);
-	} catch (Throwable t) {
+	} catch (NoSuchMethodException | SecurityException t) {
 	    throw new Error("Could not find constructor for "+engineName+". For view: "+view);
 	}
 	try {
@@ -167,7 +163,7 @@ public class MergingSearchEngine extends SearchEngine {
 	} catch (InvocationTargetException e) {
             System.err.println("Exception while creating engine named "+engineName+" for view: "+view);
             e.printStackTrace();
-	} catch (Throwable t) {
+	} catch (IllegalAccessException | IllegalArgumentException | InstantiationException t) {
 	    throw new Error("Could not create engine named "+engineName+" for view: "+view);
 	}
 	return back;
@@ -187,6 +183,7 @@ public class MergingSearchEngine extends SearchEngine {
 	}
 
 	// Start all the search engines
+        @Override
 	public synchronized void start(String searchparams, Locale l)
 	    throws IllegalArgumentException, IllegalStateException
 	{
@@ -224,6 +221,7 @@ public class MergingSearchEngine extends SearchEngine {
 	// This is an override of the SearchQuery.stop
 	// Donnot call super.stop in this method as an
 	// extra fireSearchStopped will be genertated
+        @Override
 	public synchronized void stop() throws IllegalStateException {
 	    // Can't stop what is already stopped silly
 	    if (queries == null) {
@@ -264,6 +262,7 @@ public class MergingSearchEngine extends SearchEngine {
 	    queries = null;
 	}
 
+        @Override
 	public boolean isActive() {
 
 	    // if there aren't any queries we aren't alive
@@ -284,10 +283,12 @@ public class MergingSearchEngine extends SearchEngine {
 	    return false;
 	}
 
+        @Override
 	public SearchEngine getSearchEngine() {
 	    return mhs;
 	}
 
+        @Override
 	public synchronized void itemsFound(SearchEvent e) {
 	    SearchQuery queryin = (SearchQuery) e.getSource();
 
@@ -308,12 +309,14 @@ public class MergingSearchEngine extends SearchEngine {
 	    }
 	}
 
+        @Override
 	public void searchStarted(SearchEvent e) {
 	    // Ignore these events as this class already informed
 	    // the listeners the search was started so we don't have 
 	    // to do anything else
 	}
 
+        @Override
 	public synchronized void searchFinished(SearchEvent e) {
 	    SearchQuery queryin = (SearchQuery) e.getSource();
 		

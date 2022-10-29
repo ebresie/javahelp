@@ -33,8 +33,6 @@
 
 package com.sun.java.help.search;
 
-import java.io.InputStream;
-
 class ConceptGroupGenerator implements CompressorIterator
 {
   private static final int NConceptsInGroup =
@@ -70,8 +68,9 @@ class ConceptGroupGenerator implements CompressorIterator
     _k1 = k;
     _bits = new ByteArrayDecompressor(bytes, index);
     _last = 0;
-    for (int i = 0; i < NConceptsInGroup; i++)
-      _table[i] = null;
+    for (int i = 0; i < NConceptsInGroup; i++) {
+        _table[i] = null;
+    }
   }
 
   public void addTerms(int index, ConceptData terms) {
@@ -86,6 +85,7 @@ class ConceptGroupGenerator implements CompressorIterator
     return _last;
   }
   
+  @Override
   public void value(int value) {
     _last += value;
   }
@@ -93,9 +93,11 @@ class ConceptGroupGenerator implements CompressorIterator
   boolean next() throws Exception
   {
     try {
-      while (_bits.readNext(_k1, this))
-	if ((_cData = _table[_bits.read(_k2)]) != null)
-	  return true;
+      while (_bits.readNext(_k1, this)) {
+          if ((_cData = _table[_bits.read(_k2)]) != null) {
+              return true;
+          }
+      }
       return false;
     }
     catch (Exception e) {

@@ -27,8 +27,6 @@
 
 package javax.help;
 
-import java.util.Locale;
-
 /**
  * This exeception reports generic failures in HelpSet.
  *

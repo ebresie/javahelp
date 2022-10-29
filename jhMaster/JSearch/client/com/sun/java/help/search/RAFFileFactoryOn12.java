@@ -33,11 +33,10 @@ package com.sun.java.help.search;
 
 import java.io.*;
 import java.net.URLConnection;
-import java.security.Permission;
 import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
+import java.security.Permission;
 import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 /**
  * This Factory assumes we are on JDK 1.2
@@ -66,6 +65,7 @@ final public class RAFFileFactoryOn12 {
 		AccessController.doPrivileged(new PrivilegedExceptionAction() {
 		    
 		    RAFFile back = null;
+                    @Override
 		    public Object run() throws IOException {
 			InputStream in = null;
 			OutputStream out = null;
@@ -96,9 +96,7 @@ final public class RAFFileFactoryOn12 {
 			return back;
 		    }
 		});
-	} catch (PrivilegedActionException pae) {
-	    topBack = new MemoryRAFFile(connection);
-	} catch (SecurityException se) {
+	} catch (PrivilegedActionException | SecurityException pae) {
 	    topBack = new MemoryRAFFile(connection);
 	}
 	return topBack;

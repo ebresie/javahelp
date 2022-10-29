@@ -28,8 +28,6 @@
 package javax.help;
 
 import javax.swing.tree.*;
-import java.util.*;
-import java.text.*;
 
 /**
  * No merge type
@@ -56,6 +54,7 @@ public class NoMerge extends Merge{
      * @param node The master node
      * @return the master node
      */
+    @Override
     public TreeNode processMerge(TreeNode node){
        debug("start merge");
        DefaultMutableTreeNode masterNode = (DefaultMutableTreeNode)node;

@@ -27,10 +27,11 @@
 
 package javax.help;
 
-import java.util.Locale;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Locale;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 /**
  * Common superclass for all merge types
@@ -72,8 +73,9 @@ public abstract class Merge {
         }
                        
         locale = master.getHelpSet().getLocale();
-        if(locale == null)
+        if(locale == null) {
             locale = Locale.getDefault();
+        }
     }
     
     /**
@@ -144,7 +146,7 @@ public abstract class Merge {
 		    }
 		    konstructor = klass.getConstructor(types);
 		    mergeObject = (Merge) konstructor.newInstance(args);
-		} catch (Exception ex) {
+		} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 		    ex.printStackTrace();
 		    throw new RuntimeException("Could not create Merge type " +
 					       mergeType);

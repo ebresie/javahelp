@@ -32,8 +32,8 @@
 
 package com.sun.java.help.search;
 
-import java.util.Hashtable;
 import java.net.URL;
+import java.util.Hashtable;
 
 public class DBPartParameters
 {

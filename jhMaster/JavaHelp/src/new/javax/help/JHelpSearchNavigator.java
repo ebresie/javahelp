@@ -28,8 +28,8 @@
 package javax.help;
 
 import java.net.URL;
-import javax.help.search.SearchEngine;
 import javax.help.search.MergingSearchEngine;
+import javax.help.search.SearchEngine;
 
 /**
  * A JHelpNavigator for search data.
@@ -89,6 +89,7 @@ public class JHelpSearchNavigator extends JHelpNavigator {
     /**
      * The UID for this JComponent.
      */
+    @Override
     public String getUIClassID() {
 	return "HelpSearchNavigatorUI";
     }
@@ -138,6 +139,7 @@ public class JHelpSearchNavigator extends JHelpNavigator {
      * @see merge(NavigatorView)
      * @see remove(NavigatorView)
      */
+    @Override
     public boolean canMerge(NavigatorView view) {
 	if (view instanceof SearchView &&
 	    getNavigatorName().equals(view.getName())) {
@@ -158,6 +160,7 @@ public class JHelpSearchNavigator extends JHelpNavigator {
      * @see canMerge(NavigatorView)
      * @see remove(NavigatorView)
      */
+    @Override
     public void merge(NavigatorView view) {
 	// Add the requested query engine to our list of engines
 	debug("JHelpSearchNavigator.merge invoked");
@@ -180,6 +183,7 @@ public class JHelpSearchNavigator extends JHelpNavigator {
      * @see canMerge(NavigatorView)
      * @see merge(NavigatorView)
      */
+    @Override
     public void remove(NavigatorView view) {
 	// Remove the requested query engine from our list of engines
 	debug("JHelpSearchNavigator.remove invoked");

@@ -58,21 +58,24 @@ class BitBuffer
 
   public void close()
   {
-    if (_avail < NBits)
-      store(_word << _avail);
-    else
-      _avail = 0;
+    if (_avail < NBits) {
+        store(_word << _avail);
+    } else {
+        _avail = 0;
+    }
   }
   
   public void write(DataOutput out) throws IOException
   {
-    for (int i = 0; i < _free - 1; i++)
-      out.writeInt(_array[i]);
+    for (int i = 0; i < _free - 1; i++) {
+        out.writeInt(_array[i]);
+    }
     int word = _array[_free - 1];
     int bytes = BytesInInt - _avail/BitsInByte;
     int shift = NBits;
-    while (bytes-- > 0)
-      out.writeByte((word >>> (shift -= BitsInByte)) & 0xFF);
+    while (bytes-- > 0) {
+        out.writeByte((word >>> (shift -= BitsInByte)) & 0xFF);
+    }
   }
 
   public void clear()
@@ -94,8 +97,9 @@ class BitBuffer
   {
     _word  = rhs._word;
     _avail = rhs._avail;
-    if ((_free = rhs._free) > _size)
-      _array = new int[_size = rhs._free];
+    if ((_free = rhs._free) > _size) {
+        _array = new int[_size = rhs._free];
+    }
     System.arraycopy(rhs._array, 0, _array, 0, _free);
   }
   
@@ -108,8 +112,9 @@ class BitBuffer
 
   private void store(int value)
   {
-    if (_free == _size)
-      growArray(_size * 2);
+    if (_free == _size) {
+        growArray(_size * 2);
+    }
     _array[_free++] = value;
   }
 
@@ -148,8 +153,9 @@ class BitBuffer
   
   public void concatenate(BitBuffer bb)
   {
-    if (NBits*(_size - _free) + _avail < bb.bitCount())
-      growArray(_free + bb._free + 1);
+    if (NBits*(_size - _free) + _avail < bb.bitCount()) {
+        growArray(_free + bb._free + 1);
+    }
 
     if (_avail == 0)
       {

@@ -27,21 +27,20 @@
 
 package javax.help;
 
+import com.sun.java.help.impl.*;
 import java.awt.Component;
+import java.io.IOException;
+import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.io.Reader;
-import java.io.IOException;
-import java.util.Stack;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
+import java.util.Stack;
 import java.util.Vector;
-import java.util.Enumeration;
 import javax.help.Map.ID;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import com.sun.java.help.impl.*;
 
 
 /**
@@ -107,6 +106,7 @@ public class IndexView extends NavigatorView {
      * is valid.
      * @return The appropriate Component for this view.
      */
+    @Override
     public Component createNavigator(HelpModel model) {
 	return new JHelpIndexNavigator(this, model);
     }
@@ -115,6 +115,7 @@ public class IndexView extends NavigatorView {
     /**
      * Get the Index navigators mergeType. Overrides getMergeType in NavigatorView
      */
+    @Override
     public String getMergeType() {
 	String mergeType = super.getMergeType();
 	if (mergeType == null) {
@@ -148,7 +149,7 @@ public class IndexView extends NavigatorView {
 
 	try {
 	    url = new URL(hs.getHelpSetURL(), (String) params.get("data"));
-	} catch (Exception ex) {
+	} catch (MalformedURLException ex) {
 	    throw new Error("Trouble getting URL to Index data; "+ex);
 	}
         debug("url,hs: "+url.toString()+";"+hs.toString());
@@ -182,7 +183,7 @@ public class IndexView extends NavigatorView {
 	    factory.parsingStarted(url);
 	    node = (new IndexParser(factory)).parse(src, hs, locale);
 	    src.close();
-	} catch (Exception e) {
+	} catch (IOException e) {
 	    factory.reportMessage("Exception caught while parsing "+url+
 				  e.toString(),
 				  false);
@@ -202,6 +203,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * Parsing has started
 	 */
+        @Override
 	public void parsingStarted(URL source) {
 	    if (source == null) {
 		throw new NullPointerException("source");
@@ -212,6 +214,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * Process a DOCTYPE
 	 */
+        @Override
 	public void processDOCTYPE(String root, 
 				   String publicID,
 				   String systemID) {
@@ -225,6 +228,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * We have found a PI; ignore it
 	 */
+        @Override
 	public void processPI(HelpSet hs, String target, String data) {
 	}
 
@@ -240,6 +244,7 @@ public class IndexView extends NavigatorView {
 	 * @returns A fully constructed TreeItem.
 	 * @throws IllegalArgumentException if tagname is null or invalid.
 	 */
+        @Override
 	public TreeItem createItem(String tagName,
 				   Hashtable atts,
 				   HelpSet hs,
@@ -300,6 +305,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * Creates a default IndexItem.
 	 */
+        @Override
 	public TreeItem createItem() {
 	    return new IndexItem();
 	}
@@ -307,6 +313,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * Reports an error message.
 	 */
+        @Override
 	public void reportMessage(String msg, boolean validParse) {
 	    messages.addElement(msg);
 	    this.validParse = this.validParse && validParse;
@@ -315,6 +322,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * Lists all the error messages.
 	 */
+        @Override
 	public Enumeration listMessages() {
 	    return messages.elements();
 	}
@@ -328,6 +336,7 @@ public class IndexView extends NavigatorView {
 	 * @returns A valid DefaultMutableTreeNode if the parsing succeded or null
 	 * if it failed
 	 */
+        @Override
 	public DefaultMutableTreeNode parsingEnded(DefaultMutableTreeNode node) {
 	    DefaultMutableTreeNode back = node;
 	    if (! validParse) {
@@ -409,6 +418,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 *  A Tag was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void tagFound(ParserEvent e) {
 	    Locale locale = null;
 	    Tag tag = e.getTag();
@@ -503,6 +513,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 *  A PI was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void piFound(ParserEvent e) {
 	    // ignore
 	}
@@ -510,6 +521,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 *  A DOCTYPE was parsed.  This method is not intended to be of general use.
 	 */
+        @Override
 	public void doctypeFound(ParserEvent e) {
 	    // ignore for now
 	    factory.processDOCTYPE(e.getRoot(), e.getPublicId(), e.getSystemId());
@@ -518,6 +530,7 @@ public class IndexView extends NavigatorView {
 	/**
 	 * A continous block of text was parsed.
 	 */
+        @Override
 	public void textFound(ParserEvent e) {
 	    if (tagStack.empty()) {
 		return;		// ignore
@@ -536,8 +549,10 @@ public class IndexView extends NavigatorView {
 	}
 
 	// The remaing events from Parser are ignored
+        @Override
 	public void commentFound(ParserEvent e) {}
 
+        @Override
 	public void errorFound(ParserEvent e){
 	    factory.reportMessage(e.getText(), false);
 	}
@@ -574,8 +589,9 @@ public class IndexView extends NavigatorView {
 	    Locale newLocale=null;
 
 	    for (;;) {
-		if (tagStack.empty()) 
-		    break;
+		if (tagStack.empty()) {
+                    break;
+                }
 		el = (LangElement) tagStack.pop();
 		if (! el.getTag().name.equals(name)) {
 		    if (tagStack.empty()) {

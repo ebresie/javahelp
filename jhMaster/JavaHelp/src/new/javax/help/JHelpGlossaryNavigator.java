@@ -27,13 +27,6 @@
 
 package javax.help;
 
-import javax.swing.Icon;
-import javax.swing.UIManager;
-import javax.swing.UIDefaults;
-import javax.swing.LookAndFeel;
-import javax.help.*;
-import java.beans.*;
-
 /**
  * JHelpGlossaryNavigator is a JHelpNavigator for a Glossary
  *
@@ -82,6 +75,7 @@ public class JHelpGlossaryNavigator extends JHelpNavigator {
      *
      * @return The ID of UIClass representing JHelpGlossaryNavigator
      */
+    @Override
     public String getUIClassID() {
 	return "HelpGlossaryNavigatorUI";
     }

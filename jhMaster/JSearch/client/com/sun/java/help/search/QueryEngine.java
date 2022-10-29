@@ -31,17 +31,17 @@
 
 package com.sun.java.help.search;
 
-import java.text.BreakIterator;
-import java.util.Vector;
-import java.util.Locale;
-import java.util.Enumeration;
-import java.lang.reflect.Method;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
-import javax.help.search.SearchQuery;
+import java.text.BreakIterator;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Vector;
 import javax.help.HelpUtilities;
+import javax.help.search.SearchQuery;
 
 /**
  * This class is the initial interface into the search engine. It can be 
@@ -88,12 +88,12 @@ public class QueryEngine
 		    }
 		    if (morph != null) {
 			String [] morphs = morph.variantsOf(term);
-			for (int i=0; i < morphs.length ; i++) {
-			    int id2 = _env.fetch(morphs[i]);
-			    if (id2 > 0) {
-				ids.addElement(new SearchIds(col, id2, 0.1));
-			    }
-			}
+                        for (String morph1 : morphs) {
+                            int id2 = _env.fetch(morph1);
+                            if (id2 > 0) {
+                                ids.addElement(new SearchIds(col, id2, 0.1));
+                            }
+                        }
 		    }
 		} else if (term.length() == 1) {
 		    int charType = Character.getType(term.charAt(0));
@@ -112,12 +112,12 @@ public class QueryEngine
 			}
 			if (morph != null) {
 			    String [] morphs = morph.variantsOf(term);
-			    for (int i=0; i < morphs.length ; i++) {
-				int id2 = _env.fetch(morphs[i]);
-				if (id2 > 0) {
-				    ids.addElement(new SearchIds(col, id2, 0.1));
-				}
-			    }
+                            for (String morph1 : morphs) {
+                                int id2 = _env.fetch(morph1);
+                                if (id2 > 0) {
+                                    ids.addElement(new SearchIds(col, id2, 0.1));
+                                }
+                            }
 			}
 		    }
 		}
@@ -138,15 +138,16 @@ public class QueryEngine
 		search.addTerm(id.col, id.concept, id.score, 0);
 		children.clear();
 		_env.getChildren(id.concept, children);
-		if (children.cardinality() > 0)
-		    for (int j = 0; j < children.cardinality(); j++)
-			{
-			    search.addTerm(id.col, children.at(j), 
-					   id.score + 0.1, 0);
-			    // appending (grand)+children
-			    //!!! as it is too many duplicates are added
-			    _env.getChildren(children.at(j), children);
-			}
+		if (children.cardinality() > 0) {
+                    for (int j = 0; j < children.cardinality(); j++)
+                    {
+                        search.addTerm(id.col, children.at(j),
+                                id.score + 0.1, 0);
+                        // appending (grand)+children
+                        //!!! as it is too many duplicates are added
+                        _env.getChildren(children.at(j), children);
+                    }
+                }
 	    }
 
 	search.startSearch(searchQuery);
@@ -163,7 +164,7 @@ public class QueryEngine
 	ClassLoader cl = QueryEngine.class.getClassLoader();
 	while (enum1.hasMoreElements()) {
 	    String tail = (String) enum1.nextElement();
-	    String name = new String(front + tail);
+	    String name = front + tail;
 	    try {
 		Class klass;
 		if (cl == null) {
@@ -175,7 +176,7 @@ public class QueryEngine
 						 (java.lang.Class[]) null);
 		return (LiteMorph) method.invoke(null, 
 						 (java.lang.Object[]) null);
-	    } catch (Exception e) {
+	    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
 		continue;
 	    }
 	}
@@ -194,15 +195,15 @@ public class QueryEngine
 		// which wouldn't start to read before a lot of chars
 		// were typed
 		new BufferedReader(new InputStreamReader(System.in), 1);
-	    String file = new String (args[0]);
+	    String file = args[0];
 	    QueryEngine qe = new QueryEngine(file, null);
 	    System.out.println("initialized; enter query");
 	    while(true)
 		{
 		    String line = in.readLine();
-		    if (line.equals("."))
-			break;
-		    else
+		    if (line.equals(".")) {
+                        break;
+                    } else
 		      {
 			long start = System.currentTimeMillis();
 			qe.processQuery(line, Locale.getDefault(), null);
@@ -228,6 +229,7 @@ public class QueryEngine
 	    this.score = score;
 	}
 
+        @Override
 	public String toString() {
 	    return "col=" + col + " concept=" + concept + " score=" + score;
 	}

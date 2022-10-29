@@ -57,6 +57,7 @@ public abstract class AbstractHelpAction implements HelpAction {
     /** Add a PropertyChangeListener to the listener list.
      * @param l The listener to add.
      */
+    @Override
     public synchronized void addPropertyChangeListener(PropertyChangeListener l) {
         if (propertyChangeSupport == null) {
             propertyChangeSupport =  new PropertyChangeSupport(this);
@@ -67,6 +68,7 @@ public abstract class AbstractHelpAction implements HelpAction {
     /** Removes a PropertyChangeListener from the listener list.
      * @param l The listener to remove.
      */
+    @Override
     public synchronized void removePropertyChangeListener(PropertyChangeListener l) {
         if (propertyChangeSupport == null) {
             propertyChangeSupport =  new PropertyChangeSupport(this);
@@ -90,6 +92,7 @@ public abstract class AbstractHelpAction implements HelpAction {
     /** Getter for property enabled.
      * @return Value of property enabled.
      */
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
@@ -97,15 +100,17 @@ public abstract class AbstractHelpAction implements HelpAction {
     /** Setter for property enabled.
      * @param enabled New value of property enabled.
      */
+    @Override
     public void setEnabled(boolean enabled) {
         boolean oldEnabled = this.enabled;
         this.enabled = enabled;
-        firePropertyChange("enabled", new Boolean(oldEnabled), new Boolean(enabled));
+        firePropertyChange("enabled", oldEnabled, enabled);
     }
     
     /** Getter for property control.
      * @return Value of property control.
      */
+    @Override
     public Object getControl() {
         return control;
     }
@@ -118,6 +123,7 @@ public abstract class AbstractHelpAction implements HelpAction {
      *		are no keys, it will return <code>null</code>
      * @see Action#getValue
      */
+    @Override
     public Object getValue(String key) {
 	if (table == null) {
 	    return null;
@@ -132,6 +138,7 @@ public abstract class AbstractHelpAction implements HelpAction {
      * @param newValue the <code>Object</code> to store using this key
      * @see Action#putValue 
      */
+    @Override
     public void putValue(String key, Object newValue) {
 	if (table == null) {
 	    table = new Hashtable();

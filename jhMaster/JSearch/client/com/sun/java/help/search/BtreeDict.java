@@ -31,8 +31,6 @@
 
 package com.sun.java.help.search;
 
-import java.io.*;
-
 /**
  * @version	1.5	03/18/98
  * @author Jacek R. Ambroziak
@@ -103,8 +101,9 @@ public class BtreeDict
       int howMany = entryKeyLength(entry);
       int where = entryCompression(entry);
       int from = entryKey(entry);
-      while (howMany-- > 0)
-	buffer[where++] = data[from++];
+      while (howMany-- > 0) {
+          buffer[where++] = data[from++];
+      }
     }
     
     public String restoreKey(int entry, byte[] buffer)
@@ -112,8 +111,9 @@ public class BtreeDict
       int howMany = entryKeyLength(entry);
       int where = entryCompression(entry);
       int from = entryKey(entry);
-      while (howMany-- > 0)
-	buffer[where++] = data[from++];
+      while (howMany-- > 0) {
+          buffer[where++] = data[from++];
+      }
       String string = null;
       try {
 	  string = new String(buffer, 0, where, "UTF8");
@@ -127,18 +127,21 @@ public class BtreeDict
     {
       byte[] buffer = new byte[MaxKeyLength];
       int freeSpace = free();
-      for (int ent = firstEntry(); ent < freeSpace; ent = nextEntry(ent))
-	if (entryID(ent) == id) // found
-	  return restoreKey(ent, buffer);
-	else
-	  restoreKeyInBuffer(ent, buffer);
+      for (int ent = firstEntry(); ent < freeSpace; ent = nextEntry(ent)) {
+          if (entryID(ent) == id) {
+              return restoreKey(ent, buffer);
+          } else {
+              restoreKeyInBuffer(ent, buffer);
+          }
+      }
       throw new Exception("ID not found in block");
     }
   
     protected void setBlockNumbers(final int[] blocks)
     {
-      for (int e = firstEntry(); e < free; e = nextEntry(e))
-	blocks[entryID(e)] = number;
+      for (int e = firstEntry(); e < free; e = nextEntry(e)) {
+          blocks[entryID(e)] = number;
+      }
     }
   
     /*
@@ -182,6 +185,7 @@ public class BtreeDict
   public BtreeDict(BtreeDictParameters params) throws Exception
   {
     init(params, false, new BlockFactory() {
+      @Override
       public Block makeBlock() { return new DictBlock(); }
     });
     blocks = new int[params.getFreeID()];
@@ -247,27 +251,31 @@ public class BtreeDict
 
     for (int entryIdx = 0;;)
       {
-	if (entryPtr == freeSpace)
-	  return find(bl, key, bl.numberOfEntries());
-	else if (compression == nCharsEqual)
+	if (entryPtr == freeSpace) {
+            return find(bl, key, bl.numberOfEntries());
+        } else if (compression == nCharsEqual)
 	  {
 	    int keyLen = bl.entryKeyLength(entryPtr);
 	    int keyPtr = bl.entryKey(entryPtr), i;
 	    for (i = 0;
 		 i < keyLen && key[nCharsEqual] == bl.data[keyPtr + i];
-		 i++)
-	      ++nCharsEqual;
+		 i++) {
+                ++nCharsEqual;
+            }
 	    if (i == keyLen)
 	      {
-		if (nCharsEqual == inputKeyLen)
-		  return bl.entryID(entryPtr);
+		if (nCharsEqual == inputKeyLen) {
+                    return bl.entryID(entryPtr);
+                }
 	      }
-	    else if ((key[nCharsEqual]&0xFF) < (bl.data[keyPtr + i]&0xFF))
-	      return find(bl, key, entryIdx);
+	    else if ((key[nCharsEqual]&0xFF) < (bl.data[keyPtr + i]&0xFF)) {
+                return find(bl, key, entryIdx);
+            }
 	  }
-	else if (compression < nCharsEqual) // compression dropped
-	  return find(bl, key, entryPtr == freeSpace
-		      ? bl.numberOfEntries() : entryIdx);
+	else if (compression < nCharsEqual) { // compression dropped
+            return find(bl, key, entryPtr == freeSpace
+                    ? bl.numberOfEntries() : entryIdx);
+        }
 	do {
 	  entryPtr = bl.nextEntry(entryPtr);
 	  ++entryIdx;
@@ -281,6 +289,7 @@ public class BtreeDict
   {
     long start = System.currentTimeMillis();
     blockManager.mapBlocks(new BlockProcessor() {
+      @Override
       public void process(Block block) {
 	((DictBlock)block).setBlockNumbers(blocks);
       }

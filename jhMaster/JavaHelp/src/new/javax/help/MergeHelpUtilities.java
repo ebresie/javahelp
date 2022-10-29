@@ -27,10 +27,11 @@
 
 package javax.help;
 
-import javax.swing.tree.*;
-import java.util.*;
-import java.text.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.*;
+import java.util.*;
+import javax.swing.tree.*;
 
 /**
  * Common utilities for merge types
@@ -70,7 +71,7 @@ public class MergeHelpUtilities extends Object {
 	    klass = Class.forName(mergeType);
 	    m = klass.getDeclaredMethod("mergeNodes", types);
 	    m.invoke(null, args);
-	} catch (Exception ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    ex.printStackTrace();
 	    throw new RuntimeException
 		("Could not find or execute mergeNodes for " +
@@ -101,7 +102,7 @@ public class MergeHelpUtilities extends Object {
 	    klass = Class.forName(mergeType);
 	    m = klass.getDeclaredMethod("mergeNodeChildren", types);
 	    m.invoke(null, args);
-	} catch (Exception ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    ex.printStackTrace();
 	    throw new RuntimeException
 		("Could not find or execute mergeNodeChildren for " +

@@ -27,10 +27,8 @@
 
 package javax.help.plaf;
 
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.*;
 import javax.help.JHelpNavigator;
-import java.util.Enumeration;
+import javax.swing.plaf.ComponentUI;
 
 /**
  * UI factory interface for JHelp.

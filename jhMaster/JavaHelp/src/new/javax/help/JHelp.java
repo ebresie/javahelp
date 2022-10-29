@@ -28,22 +28,17 @@
 
 package javax.help;
 
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.accessibility.*;
+import javax.help.Map.ID;
+import javax.help.event.HelpSetEvent;
+import javax.help.event.HelpSetListener;
+import javax.help.plaf.HelpUI;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
-import javax.swing.LookAndFeel;
-import javax.accessibility.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.EventListener;
-import java.util.Locale;
-import java.io.InputStream;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import javax.help.plaf.HelpUI;
-import javax.help.event.HelpSetListener;
-import javax.help.event.HelpSetEvent;
-import javax.help.Map.ID;
 
 /**
  * Displays HelpSet data with navigators and a content viewer.
@@ -107,10 +102,11 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 		 HelpSet.Presentation hsPres){
         super();
         
-        if(history == null)
+        if(history == null) {
             this.historyModel = new DefaultHelpHistoryModel(this);
-        else
+        } else {
             this.historyModel = history;
+        }
 
 	this.hsPres = hsPres;
         
@@ -141,23 +137,20 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 
 	debug("views: "+views);
 
-	for (int i=0; i<views.length; i++) {
-	    debug("  processing info: "+views[i]);
-
-	    // We are currently assuming all the Navigators are JComponents
-	    JHelpNavigator nav
-		= (JHelpNavigator) views[i].createNavigator(helpModel);
-	    
-	    if (nav == null) {
-		// For now...
-		debug("no JHelpNavigator for given info");
-	    } else {
-		debug("  adding the navigator");
-		navigators.addElement(nav);
-		// HERE -- I don't think we want to change again the model
-		//		    this.addHelpNavigator(nav);
+        for (NavigatorView view : views) {
+            debug("  processing info: " + view);
+            // We are currently assuming all the Navigators are JComponents
+            JHelpNavigator nav = (JHelpNavigator) view.createNavigator(helpModel);
+            if (nav == null) {
+                // For now...
+                debug("no JHelpNavigator for given info");
+            } else {
+                debug("  adding the navigator");
+                navigators.addElement(nav);
+                // HERE -- I don't think we want to change again the model
+                //		    this.addHelpNavigator(nav);
             }
-	}
+        }
     }
     
     /**
@@ -255,7 +248,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
 	try {
 	    url = new URL(spec);
 	    hs = new HelpSet(loader, url);
-	} catch (Exception ex) {
+	} catch (MalformedURLException | HelpSetException ex) {
 	    System.err.println("Trouble setting HelpSetSpec to spec |"+spec+"|");
 	    System.err.println("  ex: "+ex);
 	    hs = null;
@@ -292,6 +285,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     /**
      * Returns the HelpUI that is providing the current look and feel.
      */
+    @Override
     public HelpUI getUI() {
 	return (HelpUI)ui;
     }
@@ -302,6 +296,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
      *
      * @overrides updateUI in class JComponent
      */
+    @Override
     public void updateUI() {
         SwingHelpUtilities.installUIDefaults();
         setUI((HelpUI)UIManager.getUI(this));
@@ -311,6 +306,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     /**
      * @return "HelpUI"
      */
+    @Override
     public String getUIClassID()
     {
         return "HelpUI";
@@ -340,6 +336,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
      * @see javax.help.event.HelpSetEvent
      * @see javax.help.event.HelpSetListener
      */
+    @Override
     public void helpSetAdded(HelpSetEvent e) {
 	debug("helpSetAdded("+e+")");
 	HelpSet ehs = e.getHelpSet();
@@ -369,28 +366,29 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
         }
         
              
-    	for (int i=0; i<eviews.length; i++) {
-	    String n = eviews[i].getName();
-	    debug("addHelpSet: looking for navigator for "+n);
-	    JHelpNavigator nav = findNavigator(n);
-	    if (nav != null) {
-		debug("   found");
-		if (nav.canMerge(eviews[i])) {
-		    debug("  canMerge: true; merging...");
-		    nav.merge(eviews[i]);
-		} else {
-		    debug("  canMerge: false");
-		}
-	    } else {
-		debug("   not found");
-	    }
-	}
-	// In this version, we can only add views that appear at the top
+        for (NavigatorView eview : eviews) {
+            String n = eview.getName();
+            debug("addHelpSet: looking for navigator for "+n);
+            JHelpNavigator nav = findNavigator(n);
+            if (nav != null) {
+                debug("   found");
+                if (nav.canMerge(eview)) {
+                    debug("  canMerge: true; merging...");
+                    nav.merge(eview);
+                } else {
+                    debug("  canMerge: false");
+                }
+            } else {
+                debug("   not found");
+            }
+        }
+        // In this version, we can only add views that appear at the top
     }
 
     /**
      * Removes a HelpSet from "our" HelpSet.
      */
+    @Override
     public void helpSetRemoved(HelpSetEvent e) {
 	debug("helpSetRemoved("+e+")");
 	HelpSet ehs = e.getHelpSet();
@@ -400,22 +398,22 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
     private void removeHelpSet(HelpSet ehs) {
 	NavigatorView eviews[] = ehs.getNavigatorViews();
 
-	for (int i=0; i<eviews.length; i++) {
-	    String n = eviews[i].getName();
-	    debug("removeHelpSet: looking for navigator for "+n);
-	    JHelpNavigator nav = findNavigator(n);
-	    if (nav != null) {
-		debug("   found");
-		if (nav.canMerge(eviews[i])) {
-		    debug("  canMerge: true; removing...");
-		    nav.remove(eviews[i]);
-		} else {
-		    debug("  canMerge: false");
-		}
-	    } else {
-		debug("   not found");
-	    }
-	}
+        for (NavigatorView eview : eviews) {
+            String n = eview.getName();
+            debug("removeHelpSet: looking for navigator for "+n);
+            JHelpNavigator nav = findNavigator(n);
+            if (nav != null) {
+                debug("   found");
+                if (nav.canMerge(eview)) {
+                    debug("  canMerge: true; removing...");
+                    nav.remove(eview);
+                } else {
+                    debug("  canMerge: false");
+                }
+            } else {
+                debug("   not found");
+            }
+        }
         
         // set the last displayed URL from Help. Set other than removed HelpSet, recount history 
         //helpModel.removeFromHistory(ehs);               
@@ -645,6 +643,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
      *
      * @return The AccessibleContext of this JComponent
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJHelp();
@@ -670,6 +669,7 @@ public class JHelp extends JComponent implements HelpSetListener, Accessible {
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

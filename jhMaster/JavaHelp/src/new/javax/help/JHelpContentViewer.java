@@ -28,18 +28,15 @@
 package javax.help;
 
 import java.net.URL;
-import javax.swing.JComponent;
-import javax.swing.UIManager;
-import javax.swing.LookAndFeel;
-import javax.swing.JEditorPane;
-import javax.accessibility.*;
 import java.util.Hashtable;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import javax.accessibility.*;
+import javax.help.Map.ID;
 import javax.help.event.*;
 import javax.help.plaf.HelpContentViewerUI;
+import javax.swing.JComponent;
+import javax.swing.JEditorPane;
+import javax.swing.UIManager;
 import javax.swing.text.EditorKit;
-import javax.help.Map.ID;
 
 /**
  * A component to represent the Help viewer that can be embedded if desired.
@@ -125,6 +122,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
     /**
      * @return The HelpViewerUI that provides the current look and feel.
      */
+    @Override
     public HelpContentViewerUI getUI() {
 	return (HelpContentViewerUI)ui;
     }
@@ -135,6 +133,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
      *
      * @overrides updateUI in class JComponent
      */
+    @Override
     public void updateUI() {
         SwingHelpUtilities.installUIDefaults();
 	setUI((HelpContentViewerUI)UIManager.getUI(this));
@@ -144,6 +143,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
     /**
      * @return "HelpViewerUI"
      */
+    @Override
     public String getUIClassID()
     {
         return "HelpContentViewerUI";
@@ -299,7 +299,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
 		}
                 k = (EditorKit) c.newInstance();
                 kitRegistry.put(type, k);
-            } catch (Throwable e) {
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
                 e.printStackTrace();
                 k = null;
             }
@@ -392,6 +392,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
      *
      * @return the AccessibleContext of this JComponent
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJHelpContentViewer();
@@ -417,6 +418,7 @@ public class JHelpContentViewer extends JComponent implements Accessible{
          * @return an instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

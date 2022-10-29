@@ -43,6 +43,7 @@ public class SearchTOCItemTEI extends TagExtraInfo {
       super();
    }
 
+   @Override
    public VariableInfo[] getVariableInfo(TagData data) {
        return new VariableInfo[] {
 	   new VariableInfo("name", "java.lang.String", true, 

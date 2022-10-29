@@ -63,10 +63,8 @@ package com.sun.java.help.impl;
  *	   the macro name has a value.
  */
 
-import java.io.CharConversionException;
 import java.io.*;
 import java.util.Hashtable;
-import java.net.*;
 
 public abstract class DocumentParser {
     static final char EOF = (char)-1;
@@ -139,9 +137,9 @@ public abstract class DocumentParser {
      * Bug 4058915: File->HTML Source ... menu item shows edited source.
      */
     public String getDocumentSource() {
-        if (!shouldCacheSource)
-	    return null;
-        else {
+        if (!shouldCacheSource) {
+            return null;
+        } else {
 	    int offset = 
 		(0 == documentSource.length()) ? 0 : documentSource.length() - 1;
             return new String(documentSource.buf, 0, offset) +"\n";
@@ -157,11 +155,12 @@ public abstract class DocumentParser {
 	    c = readChar();
 	}			// YK: checking for null
         for (;;){
-	    if (c == EOF)
-		break;
-	    if (c == DocPConst.AMPERSAND)
-		c = parseEscape();
-	    else if (c == DocPConst.LANGLE){
+	    if (c == EOF) {
+                break;
+            }
+	    if (c == DocPConst.AMPERSAND) {
+                c = parseEscape();
+            } else if (c == DocPConst.LANGLE){
 		buffer.flush(this);
 		c = parseTag();
 	    } else {
@@ -177,8 +176,9 @@ public abstract class DocumentParser {
 
 		// fixes bug 4056036 - cannot open bat-text files
 		// (monsanto)
-		if (c != DocPConst.RETURN)
-		    buffer.buf[buffer.buflen++] = c;
+		if (c != DocPConst.RETURN) {
+                    buffer.buf[buffer.buflen++] = c;
+                }
 
 		// ................................................. 
 		// Inlining the data access gives BIG performance win 
@@ -203,8 +203,9 @@ public abstract class DocumentParser {
 		    }    
 		}
 		// ..........REMIND - removed .......// readOffset++;
-		if (shouldCacheSource)
-		    documentSource.add(cb[myCount]);
+		if (shouldCacheSource) {
+                    documentSource.add(cb[myCount]);
+                }
 		c = cb[myCount++];
 	    }
         }
@@ -222,8 +223,9 @@ public abstract class DocumentParser {
 	buffer.clear();
 	c = readChar();
 	for (;;) {
-	    if (c == EOF)
-		break;
+	    if (c == EOF) {
+                break;
+            }
 	    buffer.add(c);
 	    c = readChar();
 	}
@@ -317,8 +319,9 @@ public abstract class DocumentParser {
 	buffer.add(c);
 	for(;;){
 	    c = readChar();
-	    if (c == DocPConst.RANGLE)
-	    	break;
+	    if (c == DocPConst.RANGLE) {
+                break;
+            }
 	    buffer.add(c);
 	}
 	buffer.add(c);
@@ -364,52 +367,53 @@ public abstract class DocumentParser {
 	String publicId = null;
 	String systemId = null;
 
-	if (name.equals("SYSTEM")) {
-	    c = skipWhite(c);
-
-	    offset = buffer.length();
-	    c = scanQuotedString(c);
-	    systemId = buffer.extract(offset);
-
-	    doctype(root, null, systemId);
-
-	    if (c != DocPConst.RANGLE) {
-		findCloseAngleForComment(c);
-	    }
-	    buffer.clear();
-	    return readChar();
-	} else if (name.equals("PUBLIC")) {
-	    c = skipWhite(c);
-
-	    offset = buffer.length();
-	    c = scanQuotedString(c);
-	    publicId = buffer.extract(offset);
-
-	    c = skipWhite(c);
-
-	    offset = buffer.length();
-	    c = scanQuotedString(c);
-	    systemId = buffer.extract(offset);
-
-	    doctype(root, publicId, systemId);
-
-	    if (c != DocPConst.RANGLE) {
-		findCloseAngleForComment(c);
-	    }
-	    buffer.clear();
-	    return readChar();
-	} else {
-	    // we ignore this; altough it is likely an internal DTD subset
-	    if (c != DocPConst.RANGLE) {
-		findCloseAngleForComment(c);
-	    }
-	    findCloseAngleForComment(c);
-
-	    doctype(root, null, null);
-
-	    buffer.clear();
-	    return readChar();
-	}
+        switch (name) {
+            case "SYSTEM":
+                c = skipWhite(c);
+                
+                offset = buffer.length();
+                c = scanQuotedString(c);
+                systemId = buffer.extract(offset);
+                
+                doctype(root, null, systemId);
+                
+                if (c != DocPConst.RANGLE) {
+                    findCloseAngleForComment(c);
+                }
+                buffer.clear();
+                return readChar();
+            case "PUBLIC":
+                c = skipWhite(c);
+                
+                offset = buffer.length();
+                c = scanQuotedString(c);
+                publicId = buffer.extract(offset);
+                
+                c = skipWhite(c);
+                
+                offset = buffer.length();
+                c = scanQuotedString(c);
+                systemId = buffer.extract(offset);
+                
+                doctype(root, publicId, systemId);
+                
+                if (c != DocPConst.RANGLE) {
+                    findCloseAngleForComment(c);
+                }
+                buffer.clear();
+                return readChar();
+            default:
+                // we ignore this; altough it is likely an internal DTD subset
+                if (c != DocPConst.RANGLE) {
+                    findCloseAngleForComment(c);
+                }
+                findCloseAngleForComment(c);
+                
+                doctype(root, null, null);
+                
+                buffer.clear();
+                return readChar();
+        }
     }
 
 
@@ -569,8 +573,9 @@ public abstract class DocumentParser {
 		    eofError();
 		    return c;
 		}
-		if (c == DocPConst.QUESTION)
-		    break;
+		if (c == DocPConst.QUESTION) {
+                    break;
+                }
 
 		offset = buffer.length();
 		c = scanIdentifier(c);
@@ -581,8 +586,9 @@ public abstract class DocumentParser {
 		}
 		String attname = buffer.extract(offset);
 		c = skipWhite(c);
-		if (attributes == null)
-		    attributes = new TagProperties();
+		if (attributes == null) {
+                    attributes = new TagProperties();
+                }
 		String	attvalue;
 		if (c == DocPConst.EQUALS) {		// parsing attribute value
 		    buffer.add(c);
@@ -603,11 +609,13 @@ public abstract class DocumentParser {
 				eofError();
 				return c;
 			    }
-			    if (c == DocPConst.DQUOTE)
-				break;
+			    if (c == DocPConst.DQUOTE) {
+                                break;
+                            }
 			    // transform &
-			    if (c == DocPConst.AMPERSAND)
-				c = parseEscape();
+			    if (c == DocPConst.AMPERSAND) {
+                                c = parseEscape();
+                            }
 			    buffer.add(c);
 			}
 			attvalue = buffer.extract(voff);
@@ -626,11 +634,13 @@ public abstract class DocumentParser {
 				c == DocPConst.SPACE  ||
 				c == DocPConst.TAB    ||
 				c == DocPConst.NEWLINE ||
-				c == DocPConst.QUESTION)
-				break;
+				c == DocPConst.QUESTION) {
+                                break;
+                            }
 			    // transform &
-			    if (c == DocPConst.AMPERSAND)
-				c = parseEscape();
+			    if (c == DocPConst.AMPERSAND) {
+                                c = parseEscape();
+                            }
 			    buffer.add(c);
 			}
 			attvalue = buffer.extract(voff);
@@ -682,8 +692,9 @@ public abstract class DocumentParser {
 		return c;
 	    }
 
-	    if (c == DocPConst.RANGLE)
-		break;
+	    if (c == DocPConst.RANGLE) {
+                break;
+            }
 
 	    if (c == DocPConst.SLASH) {
 		buffer.add(c);
@@ -727,8 +738,9 @@ public abstract class DocumentParser {
 	    }
 	    String attname = buffer.extract(offset);
 	    c = skipWhite(c);
-	    if (attributes == null)
-		attributes = new TagProperties();
+	    if (attributes == null) {
+                attributes = new TagProperties();
+            }
 	    String	attvalue;
 	    if (c == DocPConst.EQUALS) {		// parsing attribute value
 		buffer.add(c);
@@ -749,11 +761,13 @@ public abstract class DocumentParser {
 			    eofError();
 			    return c;
 			}
-			if (c == DocPConst.DQUOTE)
-			    break;
+			if (c == DocPConst.DQUOTE) {
+                            break;
+                        }
 			// transform &
-			if (c == DocPConst.AMPERSAND)
-			    c = parseEscape();
+			if (c == DocPConst.AMPERSAND) {
+                            c = parseEscape();
+                        }
 			buffer.add(c);
 		    }
 		    attvalue = buffer.extract(voff);
@@ -772,11 +786,13 @@ public abstract class DocumentParser {
 			    c == DocPConst.SPACE  ||
 			    c == DocPConst.TAB    ||
 			    c == DocPConst.NEWLINE ||
-			    c == DocPConst.RANGLE)
-			    break;
+			    c == DocPConst.RANGLE) {
+                            break;
+                        }
 			// transform &
-			if (c == DocPConst.AMPERSAND)
-			    c = parseEscape();
+			if (c == DocPConst.AMPERSAND) {
+                            c = parseEscape();
+                        }
 			buffer.add(c);
 		    }
 		    attvalue = buffer.extract(voff);
@@ -831,8 +847,9 @@ public abstract class DocumentParser {
 	    buffer.add((char)x);
 	} else if (Character.isLowerCase(c) ||
 		   Character.isUpperCase(c)){
-	    if (entities == null)
-		initEntities();
+	    if (entities == null) {
+                initEntities();
+            }
 
 	    escapeBuffer.clear();
 	    escapeBuffer.add(c);
@@ -848,8 +865,9 @@ public abstract class DocumentParser {
 		    escapeBuffer.add(c);
 		    if (entities.get(escapeBuffer.extract(0)) != null) {
 			c = readChar();
-			if (c == DocPConst.SEMICOLON)
-			    c = DocPConst.NULL;
+			if (c == DocPConst.SEMICOLON) {
+                            c = DocPConst.NULL;
+                        }
 			break;
 		    }
 		} else if (c == DocPConst.SEMICOLON) {
@@ -865,18 +883,19 @@ public abstract class DocumentParser {
 
 	    buffer.reset(offset);
 
-	    Character x = (Character)entities.get(s);
+	    Character x = entities.get(s);
 
 	    if (x != null){
-		return x.charValue();
+		return x;
 	    } else {
 		String a = documentAttribute(s);
 
 		if (a != null){
 		    int	i;
 
-		    for (i = 0; i < a.length(); i++)
-			buffer.add(a.charAt(i));
+		    for (i = 0; i < a.length(); i++) {
+                        buffer.add(a.charAt(i));
+                    }
 		}
 	    }
 	} else {
@@ -884,90 +903,91 @@ public abstract class DocumentParser {
 	    generateError(offset);
 	    return c;
 	}
-	if (c != DocPConst.NULL)
-	    return c;
-	else
-	    return readChar();
+	if (c != DocPConst.NULL) {
+            return c;
+        } else {
+            return readChar();
+        }
     }
 
-    Hashtable entities;
+    Hashtable<String, Character> entities;
 
     protected void initEntities() {
-	entities = new Hashtable();
+	entities = new Hashtable<>();
 
-	entities.put("quot",	new Character(DocPConst.DQUOTE));
-	entities.put("amp",	new Character(DocPConst.AMPERSAND));
-	entities.put("gt",	new Character(DocPConst.RANGLE));
-	entities.put("lt",	new Character(DocPConst.LANGLE));
+	entities.put("quot", DocPConst.DQUOTE);
+	entities.put("amp", DocPConst.AMPERSAND);
+	entities.put("gt", DocPConst.RANGLE);
+	entities.put("lt", DocPConst.LANGLE);
 
-	entities.put("nbsp",	new Character((char)160));
+	entities.put("nbsp", (char)160);
 
-	entities.put("copy",	new Character((char)169));
+	entities.put("copy", (char)169);
 
-	entities.put("Agrave",	new Character((char)192));
-	entities.put("Aacute",	new Character((char)193));
-	entities.put("Acirc",	new Character((char)194));
-	entities.put("Atilde",	new Character((char)195));
-	entities.put("Auml",	new Character((char)196));
-	entities.put("Aring",	new Character((char)197));
-	entities.put("AElig",	new Character((char)198));
-	entities.put("Ccedil",	new Character((char)199));
-	entities.put("Egrave",	new Character((char)200));
-	entities.put("Eacute",	new Character((char)201));
-	entities.put("Ecirc",	new Character((char)202));
-	entities.put("Euml",	new Character((char)203));
-	entities.put("Igrave",	new Character((char)204));
-	entities.put("Iacute",	new Character((char)205));
-	entities.put("Icirc",	new Character((char)206));
-	entities.put("Iuml",	new Character((char)207));
+	entities.put("Agrave", (char)192);
+	entities.put("Aacute", (char)193);
+	entities.put("Acirc", (char)194);
+	entities.put("Atilde", (char)195);
+	entities.put("Auml", (char)196);
+	entities.put("Aring", (char)197);
+	entities.put("AElig", (char)198);
+	entities.put("Ccedil", (char)199);
+	entities.put("Egrave", (char)200);
+	entities.put("Eacute", (char)201);
+	entities.put("Ecirc", (char)202);
+	entities.put("Euml", (char)203);
+	entities.put("Igrave", (char)204);
+	entities.put("Iacute", (char)205);
+	entities.put("Icirc", (char)206);
+	entities.put("Iuml", (char)207);
 
-	entities.put("Ntilde",	new Character((char)209));
-	entities.put("Ograve",	new Character((char)210));
-	entities.put("Oacute",	new Character((char)211));
-	entities.put("Ocirc",	new Character((char)212));
-	entities.put("Otilde",	new Character((char)213));
-	entities.put("Ouml",	new Character((char)214));
+	entities.put("Ntilde", (char)209);
+	entities.put("Ograve", (char)210);
+	entities.put("Oacute", (char)211);
+	entities.put("Ocirc", (char)212);
+	entities.put("Otilde", (char)213);
+	entities.put("Ouml", (char)214);
 
-	entities.put("Oslash",	new Character((char)216));
-	entities.put("Ugrave",	new Character((char)217));
-	entities.put("Uacute",	new Character((char)218));
-	entities.put("Ucirc",	new Character((char)219));
-	entities.put("Uuml",	new Character((char)220));
-	entities.put("Yacute",	new Character((char)221));
-	entities.put("THORN",	new Character((char)222));
-	entities.put("szlig",	new Character((char)223));
-	entities.put("agrave",	new Character((char)224));
-	entities.put("aacute",	new Character((char)225));
-	entities.put("acirc",	new Character((char)226));
-	entities.put("atilde",	new Character((char)227));
-	entities.put("auml",	new Character((char)228));
-	entities.put("aring",	new Character((char)229));
-	entities.put("aelig",	new Character((char)230));
-	entities.put("ccedil",	new Character((char)231));
-	entities.put("egrave",	new Character((char)232));
-	entities.put("eacute",	new Character((char)233));
-	entities.put("ecirc",	new Character((char)234));
-	entities.put("euml",	new Character((char)235));
-	entities.put("igrave",	new Character((char)236));
-	entities.put("iacute",	new Character((char)237));
-	entities.put("icirc",	new Character((char)238));
-	entities.put("iuml",	new Character((char)239));
-	entities.put("eth",	new Character((char)240));
-	entities.put("ntilde",	new Character((char)241));
-	entities.put("ograve",	new Character((char)242));
-	entities.put("oacute",	new Character((char)243));
-	entities.put("ocirc",	new Character((char)244));
-	entities.put("otilde",	new Character((char)245));
-	entities.put("ouml",	new Character((char)246));
+	entities.put("Oslash", (char)216);
+	entities.put("Ugrave", (char)217);
+	entities.put("Uacute", (char)218);
+	entities.put("Ucirc", (char)219);
+	entities.put("Uuml", (char)220);
+	entities.put("Yacute", (char)221);
+	entities.put("THORN", (char)222);
+	entities.put("szlig", (char)223);
+	entities.put("agrave", (char)224);
+	entities.put("aacute", (char)225);
+	entities.put("acirc", (char)226);
+	entities.put("atilde", (char)227);
+	entities.put("auml", (char)228);
+	entities.put("aring", (char)229);
+	entities.put("aelig", (char)230);
+	entities.put("ccedil", (char)231);
+	entities.put("egrave", (char)232);
+	entities.put("eacute", (char)233);
+	entities.put("ecirc", (char)234);
+	entities.put("euml", (char)235);
+	entities.put("igrave", (char)236);
+	entities.put("iacute", (char)237);
+	entities.put("icirc", (char)238);
+	entities.put("iuml", (char)239);
+	entities.put("eth", (char)240);
+	entities.put("ntilde", (char)241);
+	entities.put("ograve", (char)242);
+	entities.put("oacute", (char)243);
+	entities.put("ocirc", (char)244);
+	entities.put("otilde", (char)245);
+	entities.put("ouml", (char)246);
 
-	entities.put("oslash",	new Character((char)248));
-	entities.put("ugrave",	new Character((char)249));
-	entities.put("uacute",	new Character((char)250));
-	entities.put("ucirc",	new Character((char)251));
-	entities.put("uuml",	new Character((char)252));
-	entities.put("yacute",	new Character((char)253));
-	entities.put("thorn",	new Character((char)254));
-	entities.put("yuml",	new Character((char)255));
+	entities.put("oslash", (char)248);
+	entities.put("ugrave", (char)249);
+	entities.put("uacute", (char)250);
+	entities.put("ucirc", (char)251);
+	entities.put("uuml", (char)252);
+	entities.put("yacute", (char)253);
+	entities.put("thorn", (char)254);
+	entities.put("yuml", (char)255);
     }
 
     // ....................................................
@@ -1020,8 +1040,9 @@ public abstract class DocumentParser {
 		}
 	    }
 	    //...........REMIND............removed......// readOffset++;
-	    if (shouldCacheSource)
-		documentSource.add(cb[myCount]);
+	    if (shouldCacheSource) {
+                documentSource.add(cb[myCount]);
+            }
 	    c = cb[myCount++];
         }
         return c;
@@ -1100,8 +1121,9 @@ public abstract class DocumentParser {
 		}
 	    }
 	    //...........REMIND............removed......// readOffset++;
-	    if (shouldCacheSource)
-		documentSource.add(cb[myCount]);
+	    if (shouldCacheSource) {
+                documentSource.add(cb[myCount]);
+            }
 	    c = cb[myCount++];
 	}
 	return c;
@@ -1137,8 +1159,9 @@ public abstract class DocumentParser {
 	    }
 	}
 	//...........REMIND............removed......// readOffset++;
-	if (shouldCacheSource)
-	    documentSource.add(cb[myCount]);
+	if (shouldCacheSource) {
+            documentSource.add(cb[myCount]);
+        }
 	return cb[myCount++];
     }  
 
@@ -1287,6 +1310,7 @@ class ScanBuffer {
 	return buflen;
     }
 
+    @Override
     public String toString() {
  	return "ScanBuffer, buf = " + buf + ", buflen = " + buflen;
     } 
@@ -1310,6 +1334,7 @@ class ScanBuffer {
 class MyBufferedReader extends BufferedReader {
     public MyBufferedReader(Reader in, int sz) { super(in, sz); }  
     public MyBufferedReader(Reader in) { super(in); }  
+    @Override
     public int read(char cbuf[], int off, int len) throws IOException {
 	if(lock == null) {
 	    //System.err.println("read(): -------------------lock == null");

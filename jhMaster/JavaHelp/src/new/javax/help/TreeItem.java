@@ -27,11 +27,12 @@
 
 package javax.help;
 
-import javax.help.Map.ID;
-import java.util.Locale;
-import java.net.URL;
-import java.io.Serializable;
 import java.io.IOException;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Locale;
+import javax.help.Map.ID;
 
 /**
  * The base items known to TOC, Index and Favorites Navigators.
@@ -142,7 +143,7 @@ public class TreeItem implements Serializable
     public URL getURL() {
         try {
             return id.getURL();
-        } catch (Exception e) {
+        } catch (MalformedURLException e) {
             return null;
         }
     }
@@ -239,6 +240,7 @@ public class TreeItem implements Serializable
      *
      * @see TOCCellRenderer
      */
+    @Override
     public String toString() {
 	return (id+"("+name+")");
     }

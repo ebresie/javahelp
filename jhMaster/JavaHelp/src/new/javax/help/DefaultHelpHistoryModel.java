@@ -28,13 +28,11 @@
 
 package javax.help;
 
-import java.beans.*;
-import java.util.Vector;
-import javax.help.event.*;
-import javax.help.Map.ID;
-import java.util.Enumeration;
 import java.net.URL;
-import java.util.Stack;
+import java.util.Enumeration;
+import java.util.Vector;
+import javax.help.Map.ID;
+import javax.help.event.*;
 /**
  * DefaultHelpHistoryModel is default implementation of HelpHistoryModel interface
  *
@@ -67,15 +65,19 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @param model The new HelpModel
      */
+    @Override
     public void setHelpModel(HelpModel model){
-        if(model == helpModel)
+        if(model == helpModel) {
             return;
-        else
+        } else {
             discard();
-        if(helpModel != null)
+        }
+        if(helpModel != null) {
             helpModel.removeHelpModelListener(this);
-        if(model != null)
+        }
+        if(model != null) {
             model.addHelpModelListener(this);
+        }
          helpModel = model;        
     }
         
@@ -86,6 +88,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      * @param l The listener to remove.
      * @see javax.help.HelpHistoryModel#addHelpHistoryModelListener
      */
+    @Override
     public void removeHelpHistoryModelListener(HelpHistoryModelListener l) {
         listenerList.remove(HelpHistoryModelListener.class, l);
     }
@@ -97,6 +100,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      * @param l The listener to add.
      * @see javax.help.HelpHistoryModel#removeHelpHistoryModelListener
      */
+    @Override
     public void addHelpHistoryModelListener(HelpHistoryModelListener l) {
         listenerList.add(HelpHistoryModelListener.class, l);
     }
@@ -104,6 +108,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
     /**
      * Discards a history
      */
+    @Override
     public void discard() {
         history.setSize(0);
         historyIndex = -1;
@@ -115,6 +120,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @return The vector of history entries
      */
+    @Override
     public Vector getHistory(){
         return history;
     }
@@ -125,14 +131,16 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      */
     public void removeLastEntry(){
         int size = history.size();
-        if(size > 0)
+        if(size > 0) {
             history.removeElementAt(history.size() -1);
+        }
     }
     /**
      * Returns a current history position
      *
      * @return The history index
      */
+    @Override
     public int getIndex(){
         return historyIndex;
     }
@@ -140,6 +148,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
     /**
      * Sets the next history entry
      */
+    @Override
     public void goForward(){
         setHistoryEntry(historyIndex+1);
     }
@@ -147,6 +156,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
     /**
      * Sets the previous histroy entry
      */
+    @Override
     public void goBack(){
         setHistoryEntry(historyIndex-1);
     }
@@ -156,6 +166,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @return The vector of forward history entries
      */
+    @Override
     public Vector getForwardHistory() {
         Vector historyCopy = (Vector)history.clone();
         Vector forwardHistory = new Vector();
@@ -172,6 +183,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @return The vector of backward history entries
      */
+    @Override
     public Vector getBackwardHistory() {        
         Vector backwardHistory = new Vector();
         Vector historyCopy = (Vector)history.clone();
@@ -191,6 +203,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @param index The index of history entry
      */
+    @Override
     public void setHistoryEntry(int index) {
         debug("setHistoryEntry("+index+")");
         
@@ -216,10 +229,11 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
             try {
                 debug("  setCurrentID"+id);
                 helpModel.setCurrentID(id, e.getHistoryName(),e.getNavigator());
-                if(navigator != null)
+                if(navigator != null) {
                     help.setCurrentNavigator(navigator);
+                }
                 return;
-            } catch (Exception ex) {
+            } catch (InvalidHelpSetContextException ex) {
                 // fall through
             }
         }
@@ -228,8 +242,9 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
             try {
                 debug("  setCurrentURL"+url);
                 helpModel.setCurrentURL(url,e.getHistoryName(),e.getNavigator());
-                if(navigator != null)
-                    help.setCurrentNavigator(navigator);                    
+                if(navigator != null) {
+                    help.setCurrentNavigator(navigator);
+                }                    
                 return;
             } catch (Exception ex) {
                 // fall through
@@ -267,6 +282,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @param e The event
      */
+    @Override
     public void idChanged(HelpModelEvent e) {
         debug("idChanged("+e+")");
         debug("  historyIndex=="+historyIndex);
@@ -324,6 +340,7 @@ public class DefaultHelpHistoryModel implements HelpHistoryModel{
      *
      * @param hs The removed HelpSet
      */
+    @Override
     public void removeHelpSet(HelpSet hs){
         Enumeration e = history.elements();
         debug(" size before " +history.size());

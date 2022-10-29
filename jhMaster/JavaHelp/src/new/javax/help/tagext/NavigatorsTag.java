@@ -27,18 +27,17 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import javax.servlet.ServletRequest;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.Map;
 import javax.help.Map.ID;
 import javax.help.NavigatorView;
+import javax.servlet.ServletRequest;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 
 /**
  * The JSP tag class for a Navigators
@@ -71,6 +70,7 @@ public class NavigatorsTag extends BodyTagSupport {
 	views = hs.getNavigatorViews();
     }
 
+    @Override
     public int doStartTag() {
 	initialize();
 	if(views.length > 0) {
@@ -105,6 +105,7 @@ public class NavigatorsTag extends BodyTagSupport {
     }
 
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {
@@ -129,7 +130,7 @@ public class NavigatorsTag extends BodyTagSupport {
 	pageContext.setAttribute("tip", view.getLabel());
 	String icon = getIconURL(view);
 	pageContext.setAttribute("iconURL", icon);
-	pageContext.setAttribute("isCurrentNav", new Boolean(curNav.compareTo(view.getName()) == 0));
+	pageContext.setAttribute("isCurrentNav", (curNav.compareTo(view.getName()) == 0));
     }
 
     /**

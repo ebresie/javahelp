@@ -43,6 +43,7 @@ public class Constants_ja extends ListResourceBundle {
     /**
      * ListResourceBundle \u3092\u4e0a\u66f8\u304d\u3057\u307e\u3059\u3002
      */
+    @Override
     public Object[][] getContents() {
         return new Object[][] {
 

@@ -33,9 +33,9 @@ package javax.help.search;
 
 import java.io.*;
 import java.text.*;
-import java.util.Vector;
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
 
 /**
  * Describes and parses the configuration file for
@@ -78,11 +78,11 @@ public class ConfigFile {
 	this.files = files;
 	LineNumberReader in;
 	String line;
-	String removeText = new String ("IndexRemove ");
-	String prependText = new String ("IndexPrepend ");
-	String fileText = new String ("File ");
-	String stopWordsText = new String ("StopWords ");
-	String stopWordsFileText = new String ("StopWordsFile ");
+	String removeText = "IndexRemove ";
+	String prependText = "IndexPrepend ";
+	String fileText = "File ";
+	String stopWordsText = "StopWords ";
+	String stopWordsFileText = "StopWordsFile ";
 	BreakIterator boundary;
 	int start;
 	String url;
@@ -126,7 +126,7 @@ public class ConfigFile {
 			 end != BreakIterator.DONE;
 			 start = end, end = boundary.next()) {
 			String word = words.substring(start,end).trim().toLowerCase();
-			if (word.equals(",") || word.equals("")) {
+			if (word.equals(",") || word.isEmpty()) {
 			    continue;
 			}
 			stopWords.put(word, word);
@@ -174,9 +174,9 @@ public class ConfigFile {
     public Vector getFiles () { return files; }
 
     private void useDefaultStopWords() {
-	for (int i=0; i < defStopWords.length; i++) {
-	    stopWords.put(defStopWords[i], defStopWords[i]);
-	}
+        for (String defStopWord : defStopWords) {
+            stopWords.put(defStopWord, defStopWord);
+        }
     }
 
     // Add stopwords from a file

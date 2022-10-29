@@ -31,15 +31,14 @@
 
 package com.sun.java.help.search;
 
+import com.sun.java.help.impl.HeaderParser;
 import java.io.*;
-import java.text.*;
 import java.net.*;
-import java.util.Vector;
 import java.util.Hashtable;
 import java.util.Locale;
-import javax.help.search.IndexerKit;
+import java.util.Vector;
 import javax.help.search.ConfigFile;
-import com.sun.java.help.impl.HeaderParser;
+import javax.help.search.IndexerKit;
 
 /**
  * This class provides ...
@@ -92,7 +91,7 @@ public class Indexer {
 
     public Indexer() {
 	// Make sure the last character is a file separator
-	if (dbName.lastIndexOf("/")
+	if (dbName.lastIndexOf('/')
 	    != dbName.length() - 1) {
 	    dbName = dbName.concat("/");
 	}
@@ -120,7 +119,7 @@ public class Indexer {
 		if ((i + 1) < args.length) {
 		    dbName = args[++i];
 		    // Make sure the last character is a file separator
-		    if (dbName.lastIndexOf("/")
+		    if (dbName.lastIndexOf('/')
 			!= dbName.length() - 1) {
 			dbName = dbName.concat("/");
 		    }
@@ -158,9 +157,11 @@ public class Indexer {
 		    System.out.println (args[i] + "-logfile requires argument");
 		}
 	    }	   
-	    else if(args[i].equals("-verbose")) verbose = System.out;
-	    else if(args[i].equals("-nostopwords")) nostopwords = true;
-	    else if(args[i].equals("-c")) {
+	    else if(args[i].equals("-verbose")) {
+                verbose = System.out;
+            } else if(args[i].equals("-nostopwords")) {
+                nostopwords = true;
+            } else if(args[i].equals("-c")) {
 		if ((i + 1) < args.length) {
 		    configFile = args[++i];
 		} else {
@@ -219,7 +220,9 @@ public class Indexer {
 		    in.close();
 		    continue;
 		} catch (IOException e) {
-		    if (debugFlag) e.printStackTrace();
+		    if (debugFlag) {
+                        e.printStackTrace();
+                    }
 		    System.out.println("I/O exception occurred in file '" + sourcepath+file + "'");
 		    in.close();
 		    continue;
@@ -272,11 +275,10 @@ public class Indexer {
 	File tstfile = new File (file);
 	if (tstfile.isDirectory()) {
 	    String list[] = tstfile.list();
-	    for (int i=0; i < list.length; i++) {
-		files = loadFiles (tstfile.getPath() + 
-				   File.separator +
-				   list[i], files);
-	    }
+            for (String list1 : list) {
+                files = loadFiles(tstfile.getPath() + 
+                        File.separator + list1, files);
+            }
 	} else {
 	    files.addElement(file);
 	}
@@ -368,7 +370,7 @@ public class Indexer {
 	// The type could have optional info is part of it,
 	// for example some charset info.  We need to strip that
 	// of and save it.
-	int parm = type.indexOf(";");
+	int parm = type.indexOf(';');
 	if (parm > -1) {
 	    // Save the paramList.
 	    String paramList = type.substring(parm);
@@ -409,12 +411,11 @@ public class Indexer {
 		}
 	    }
 	}
-	catch (IndexOutOfBoundsException e) {
+	catch (IndexOutOfBoundsException | NullPointerException e) {
 	    // malformed parameter list, use charset we have
 	}
-	catch (NullPointerException e) {
-	    // malformed parameter list, use charset we have
-	}
+        // malformed parameter list, use charset we have
+
 	catch (Exception e) {
 	    // malformed parameter list, use charset we have; but complain
 	    System.err.println("Indexer.getCharsetFromContentTypeParameters failed on: " + paramlist);
@@ -498,8 +499,10 @@ public class Indexer {
 		}
                 k = (IndexerKit) c.newInstance();
                 kitRegistry.put(type, k);
-            } catch (Throwable e) {
-                if (debugFlag) e.printStackTrace();
+            } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+                if (debugFlag) {
+                    e.printStackTrace();
+                }
                 k = null;
             }
         }

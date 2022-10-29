@@ -27,11 +27,11 @@
 
 package javax.help;
 
-import java.util.Locale;
-import java.util.Hashtable;
 import java.awt.Component;
-import java.lang.reflect.*;
 import java.io.Serializable;
+import java.lang.reflect.*;
+import java.util.Hashtable;
+import java.util.Locale;
 
 /**
  * Navigational View information
@@ -74,8 +74,9 @@ public abstract class NavigatorView implements Serializable{
         this.imageID = null;
         if (params != null) {
             String imageID = (String)params.get("imageID");
-            if (imageID != null)
+            if (imageID != null) {
                 this.imageID = Map.ID.create(imageID, hs);
+            }
             this.mergeType = (String)params.get("mergetype");
         }
         this.hs = hs;
@@ -130,7 +131,7 @@ public abstract class NavigatorView implements Serializable{
 	    konstructor = klass.getConstructor(types);
 	    back = (NavigatorView) konstructor.newInstance(args);
 	    return back;
-	} catch (Exception ex) {
+	} catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    throw new InvalidNavigatorViewException("Could not create",
 						    hs,
 						    name, label, locale,

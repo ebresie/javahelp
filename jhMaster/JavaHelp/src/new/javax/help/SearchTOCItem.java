@@ -30,12 +30,12 @@
 
 package javax.help;
 
-import java.net.URL;
 import java.net.MalformedURLException;
-import java.util.Vector;
+import java.net.URL;
 import java.util.Enumeration;
-import java.util.NoSuchElementException;
 import java.util.Locale;
+import java.util.NoSuchElementException;
+import java.util.Vector;
 import javax.help.Map.ID;
 import javax.help.search.SearchItem;
 
@@ -107,6 +107,7 @@ public class SearchTOCItem extends TOCItem {
 	}
     }
 
+    @Override
     public URL getURL() {
 	return url;
     }
@@ -122,14 +123,16 @@ public class SearchTOCItem extends TOCItem {
 	return new Enumeration() {
 	    int count = 0;
 		
+            @Override
 	    public boolean hasMoreElements() {
 		return count < sivec.size();
 	    }
 		
+            @Override
 	    public Object nextElement() {
 		synchronized (sivec) {
 		    if (count < sivec.size()) {
-			return new Double(((SearchHit)sivec.elementAt(count++)).getConfidence());
+			return ((SearchHit)sivec.elementAt(count++)).getConfidence();
 		    }
 		}
 		throw new NoSuchElementException("Vector Enumeration");

@@ -75,28 +75,27 @@ class DocumentCompressor
 	try {
 	  URL offURL = new URL(url, "OFFSETS");
 	  URLConnection connect = offURL.openConnection();
-	  BufferedInputStream in =
-	    new BufferedInputStream(connect.getInputStream());
-	
-	  int k1 = in.read();
-	  StreamDecompressor sddocs = new StreamDecompressor(in);
-	  sddocs.ascDecode(k1, _documents);
-	  int k2 = in.read();
-	  StreamDecompressor sdoffsets = new StreamDecompressor(in);
-	  sdoffsets.ascDecode(k2, _offsets);
-	  // decompress titles' ids table
-	  int k3 = in.read();
-	  StreamDecompressor sdtitles = new StreamDecompressor(in);
-	  sdtitles.decode(k3, _titles);
-	  in.close();
+            try (BufferedInputStream in = new BufferedInputStream(connect.getInputStream())) {
+                int k1 = in.read();
+                StreamDecompressor sddocs = new StreamDecompressor(in);
+                sddocs.ascDecode(k1, _documents);
+                int k2 = in.read();
+                StreamDecompressor sdoffsets = new StreamDecompressor(in);
+                sdoffsets.ascDecode(k2, _offsets);
+                // decompress titles' ids table
+                int k3 = in.read();
+                StreamDecompressor sdtitles = new StreamDecompressor(in);
+                sdtitles.decode(k3, _titles);
+            }
 	}
 	catch (java.io.FileNotFoundException e) {;}
 	_posFile = 
 	    new RandomAccessFile(new File(posURL.toURI()),
 				 "rw");
       }
-    else
-      throw new IOException();
+    else {
+        throw new IOException();
+    }
   }
     
   private boolean isFileURL(URL url) {
@@ -116,8 +115,9 @@ class DocumentCompressor
   {
     long start = System.currentTimeMillis();
     encode(locations, count, NConceptsInGroup);
-    if (extCount > 0)
-      encodeExtents(extents, extCount);
+    if (extCount > 0) {
+        encodeExtents(extents, extCount);
+    }
     finalizeEncoding();
     debug((System.currentTimeMillis() - start) + " msec proc");
   
@@ -143,15 +143,15 @@ class DocumentCompressor
     Compressor titles = new Compressor();
     int k3 = titles.minimize(_titles, 8); // the starting k
     int nBytes = documents.byteCount();
-    RandomAccessFile out = new RandomAccessFile(indexFile, "rw");
-    out.seek(0);	// position at beginning
-    out.write(k1);
-    documents.write(out);
-    out.write(k2);
-    offsets.write(out);
-    out.write(k3);
-    titles.write(out);
-    out.close();
+      try (RandomAccessFile out = new RandomAccessFile(indexFile, "rw")) {
+          out.seek(0);	// position at beginning
+          out.write(k1);
+          documents.write(out);
+          out.write(k2);
+          offsets.write(out);
+          out.write(k3);
+          titles.write(out);
+      }
   }
   
   private void encode(ConceptLocation[] locations, int count, int nConcepts)
@@ -171,8 +171,9 @@ class DocumentCompressor
     _concepts.add(last);
     for (int i = 0;;)
       {
-	for (; i < count && locations[i].getConcept() == last; i++)
-	  locations[i].setConcept(conceptCounter);
+	for (; i < count && locations[i].getConcept() == last; i++) {
+            locations[i].setConcept(conceptCounter);
+        }
 	if (i == count)
 	  {
 	    if (_concepts.cardinality() > 0)
@@ -219,14 +220,15 @@ class DocumentCompressor
     _positions.add(lastPos = locations[from].getBegin());
     _labels.add(locations[from].getConcept()); // now: a label
     // skip duplicates
-    for (int i = from, j = from + 1; j < to; j++)
-      if (locations[i].equals(locations[j]) == false)
-	{
-	  i = j;
-	  _positions.add(locations[i].getBegin() - lastPos);
-	  lastPos = locations[i].getBegin();
-	  _labels.add(locations[i].getConcept()); // now: a label
-	}
+    for (int i = from, j = from + 1; j < to; j++) {
+        if (locations[i].equals(locations[j]) == false)
+        {
+            i = j;
+            _positions.add(locations[i].getBegin() - lastPos);
+            lastPos = locations[i].getBegin();
+            _labels.add(locations[i].getConcept()); // now: a label
+        }
+    }
     // first find k by minimizing just positions w/o labels
     _kTable.add(k = _posCompressor.minimize(_positions, initK));
     _posCompressor.clear();
@@ -248,23 +250,23 @@ class DocumentCompressor
     // reserve a compressor for concatenated tables
     nextCompressor();
     Compressor extentsHeader = _currentCompressor;
-    for (int i = 0; i < extCount; i++)
-      if (extents[i].getConcept() != c)
-	{
-	  if (c != 0)
-	    {
-	      _nExtents++;
-	      nextCompressor();
-	      kTable.add(_currentCompressor.minimize(lengths, initK));
-	      lTable.add(_currentCompressor.byteCount());
-	    }
-	  concepts.add(extents[i].getConcept() - c);
-	  c = extents[i].getConcept();
-	  lengths.clear();
-	  lengths.add(extents[i].getLength());
-	}
-      else
-	lengths.add(extents[i].getLength());
+    for (int i = 0; i < extCount; i++) {
+        if (extents[i].getConcept() != c) {
+            if (c != 0)
+            {
+                _nExtents++;
+                nextCompressor();
+                kTable.add(_currentCompressor.minimize(lengths, initK));
+                lTable.add(_currentCompressor.byteCount());
+            }
+            concepts.add(extents[i].getConcept() - c);
+            c = extents[i].getConcept();
+            lengths.clear();
+            lengths.add(extents[i].getLength());
+        } else {
+            lengths.add(extents[i].getLength());
+        }
+    }
     // last table of lengths
     nextCompressor();
     kTable.add(_currentCompressor.minimize(lengths, initK));
@@ -284,8 +286,10 @@ class DocumentCompressor
       {
 	// if extents follow C/P groups we need the length of the last group
 	int limit = _nExtents > 0 ? _freeComp : _freeComp - 1;
-	for (int j = 0; j < limit; j++) // length of last not saved
-	  _lTable.add(_compressors[j].byteCount());
+	for (int j = 0; j < limit; j++) {
+            // length of last not saved
+            _lTable.add(_compressors[j].byteCount());
+        }
 	
 	_kTable.add(_mCompr.minimize(_maxConcepts, 3));
 	_kTable.add(_lCompr.minimize(_lTable, 3));
@@ -304,26 +308,25 @@ class DocumentCompressor
 
   private void writeOut(DataOutput out) throws java.io.IOException
   {
-    if (_nExtents == 0)
-      if (_nGroups > 1)
-	{
-	  out.write(0x80 | _kk);
-	  _kCompr.write(out); // concatenated k,l,m
-	  for (int j = 0; j < _freeComp; j++)
-	    _compressors[j].write(out);
-	}
-      else			// single group, no extents; code: 00
-	{
-	  out.write(_kTable.at(0)); // k1
-	  out.write(_kTable.at(1)); // k2
-	  _compressors[0].write(out);	// C/P
-	}
-    else				// extents
+    if (_nExtents == 0) {
+        if (_nGroups > 1) {
+            out.write(0x80 | _kk);
+            _kCompr.write(out); // concatenated k,l,m
+            for (int j = 0; j < _freeComp; j++) {
+                _compressors[j].write(out);
+            }
+        } else { // single group, no extents; code: 00
+            out.write(_kTable.at(0)); // k1
+            out.write(_kTable.at(1)); // k2
+            _compressors[0].write(out);	// C/P
+        }
+    } else				// extents
       {
 	out.write((_nGroups > 1 ? 0xC0 : 0x40) | _kk);
 	_kCompr.write(out);
-	for (int j = 0; j < _freeComp; j++)
-	  _compressors[j].write(out);
+	for (int j = 0; j < _freeComp; j++) {
+            _compressors[j].write(out);
+        }
       }
   }
   
@@ -335,21 +338,23 @@ class DocumentCompressor
 	System.arraycopy(_compressors, 0, newArray, 0, _freeComp);
 	_compressors = newArray;
       }
-    if (_compressors[_freeComp] == null)
-      _compressors[_freeComp] = new Compressor();
+    if (_compressors[_freeComp] == null) {
+        _compressors[_freeComp] = new Compressor();
+    }
     return _currentCompressor = _compressors[_freeComp++];
   }
 
   private int byteCount()
   {
-    if (_nGroups == 1 && _nExtents == 0)
-      return 2 + _compressors[0].byteCount();
-    else
+    if (_nGroups == 1 && _nExtents == 0) {
+        return 2 + _compressors[0].byteCount();
+    } else
       {
 	int result = 1;		// initial kk
 	result += _kCompr.byteCount();
-	for (int j = 0; j < _freeComp; j++)
-	  result += _compressors[j].byteCount();
+	for (int j = 0; j < _freeComp; j++) {
+            result += _compressors[j].byteCount();
+        }
 	return result;
       }
   }
@@ -365,9 +370,11 @@ class DocumentCompressor
     _kCompr.clear();
     _lCompr.clear();
     _mCompr.clear();
-    for (int i = 0; i < _sizeComp; i++)
-      if (_compressors[i] != null)
-	_compressors[i].clear();
+    for (int i = 0; i < _sizeComp; i++) {
+        if (_compressors[i] != null) {
+            _compressors[i].clear();
+        }
+    }
     _freeComp = 0;
     _currentCompressor = null;
   }

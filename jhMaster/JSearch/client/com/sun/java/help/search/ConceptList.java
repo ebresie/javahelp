@@ -46,15 +46,18 @@ class ConceptList implements NonnegativeIntegerGenerator, CompressorIterator
   }
   
   // callback
+  @Override
   public void value(int val) {
     _value += val;
   }
   
+  @Override
   public int first() throws Exception {
     _value = 0;
     return _list.readNext(_k, this) ? _value : END;
   }
 
+  @Override
   public int next() throws Exception {
     return _list.readNext(_k, this) ? _value : END;
   }

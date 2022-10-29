@@ -27,11 +27,11 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.swing.tree.*;
-import javax.swing.JTree;
 import java.awt.Component;
 import java.util.Locale;
+import javax.help.*;
+import javax.swing.JTree;
+import javax.swing.tree.*;
 
 /**
  * Cell Renderer for the index UI.
@@ -51,6 +51,7 @@ public class BasicIndexCellRenderer extends DefaultTreeCellRenderer {
       * The foreground color is set based on the selection and the icon
       * is set based on on leaf and expanded.
       */
+    @Override
     public Component getTreeCellRendererComponent(JTree tree,
                                                   Object value,
 						  boolean sel,
@@ -74,10 +75,11 @@ public class BasicIndexCellRenderer extends DefaultTreeCellRenderer {
 	}
 
         setText(stringValue);
-        if (sel)
+        if (sel) {
             setForeground(getTextSelectionColor());
-        else
+        } else {
             setForeground(getTextNonSelectionColor());
+        }
 
         setIcon(null);
         

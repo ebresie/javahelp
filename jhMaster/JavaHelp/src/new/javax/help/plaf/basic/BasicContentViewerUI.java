@@ -30,33 +30,26 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.plaf.HelpContentViewerUI;
-import javax.help.event.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Hashtable;
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.TextUI;
-import javax.swing.border.*;
-import javax.swing.event.*;
-import javax.swing.text.html.*;
-import javax.swing.text.html.parser.*;
-import javax.swing.text.Element;
 import java.awt.*;
-import java.awt.event.*;
-import java.net.URL;
-import java.net.MalformedURLException;
-import java.net.URLConnection;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Hashtable;
+import java.util.Locale;
+import javax.help.*;
 import javax.help.Map.ID;
+import javax.help.event.*;
+import javax.help.plaf.HelpContentViewerUI;
+import javax.swing.*;
+import javax.swing.border.*;
+import javax.swing.event.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.text.*;
+import javax.swing.text.html.*;
+import javax.swing.text.html.parser.*;
 
 /**
  * The default UI for JHelpContentViewer.
@@ -103,8 +96,9 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             debug("  type: "+type);
             debug("  kit: "+kit);
             html.setEditorKitForContentType(type, kit);
-            if (debug)
+            if (debug) {
                 debug("  kit got: "+html.getEditorKitForContentType(type));
+            }
         }
     }
     
@@ -115,6 +109,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
     class JHEditorPane extends JEditorPane {
         private Hashtable typeHandlers;
         
+        @Override
         public EditorKit getEditorKitForContentType(String type) {
             if (typeHandlers == null) {
                 typeHandlers = new Hashtable(3);
@@ -139,6 +134,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
     }
     
        
+    @Override
     public void installUI(JComponent c) {
         debug("installUI");
         theViewer = (JHelpContentViewer)c;
@@ -185,6 +181,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         pendingHighlightsEvent = null;
     }
     
+    @Override
     public void uninstallUI(JComponent c) {
         debug("uninstallUI");
         JHelpContentViewer viewer = (JHelpContentViewer) c;
@@ -199,19 +196,23 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         viewer.removeAll();
     }
     
+    @Override
     public Dimension getPreferredSize(JComponent c) {
         return PREF_SIZE;
     }
     
+    @Override
     public Dimension getMinimumSize(JComponent c) {
         return MIN_SIZE;
     }
     
+    @Override
     public Dimension getMaximumSize(JComponent c) {
         // This doesn't seem right. But I'm not sure what to do for now
         return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
     
+    @Override
     public void idChanged(HelpModelEvent e) {
         ID id = e.getID();
         URL url = e.getURL();
@@ -231,7 +232,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             try {
                 loadingURL = true;
                 html.setPage(url);
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 loadingURL = false;
                 // IGNORE FOR EA2 --- !! - epll
             }
@@ -266,73 +267,79 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                 String name = HelpUtilities.getString(locale, "history.homePage");
                 model.setCurrentID(homeID, name, (JHelpNavigator)null);
                 html.setPage(model.getCurrentURL());
-            } catch (Exception e) {
+            } catch (IOException | InvalidHelpSetContextException e) {
                 // ignore
             }
+            // ignore
+            
         }
         debug("rebuild-end");
     }
     
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
         debug("propertyChange: " + event.getPropertyName() + "\n\toldValue:" + event.getOldValue() + "\n\tnewValue:" + event.getNewValue());
         
         if (event.getSource() == theViewer) {
             String changeName = event.getPropertyName();
-            if (changeName.equals("helpModel")) {
-                TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
-                TextHelpModel newModel = (TextHelpModel) event.getNewValue();
-                if (oldModel != null) {
-                    oldModel.removeHelpModelListener(this);
-                    oldModel.removeTextHelpModelListener(this);
-                }
-                if (newModel != null) {
-                    newModel.addHelpModelListener(this);
-                    newModel.addTextHelpModelListener(this);
-                }
-                rebuild();
-            } else if (changeName.equals("font")) {
-                debug("font changed");
-                Font newFont = (Font)event.getNewValue();
-                EditorKit ek = html.getEditorKit();
-                if (ek instanceof HTMLEditorKit) {
-                    
-                    StringBuffer buf = new StringBuffer(60);
-                    buf.append("body { font: ");
-                    buf.append(newFont.getSize()).append("pt ");
-                    if (newFont.isBold()) {
-                        buf.append("bold ");
-                    }
-                    if (newFont.isItalic()) {
-                        buf.append("italic ");
-                    }
-                    buf.append('"').append(newFont.getFamily()).append('"');
-                    buf.append(" }");
-                    String cssData = buf.toString();
+            switch (changeName) {
+                case "helpModel":
+                    TextHelpModel oldModel = (TextHelpModel) event.getOldValue();
+                    TextHelpModel newModel = (TextHelpModel) event.getNewValue();
+                    if (oldModel != null) {
+                        oldModel.removeHelpModelListener(this);
+                        oldModel.removeTextHelpModelListener(this);
+                    }   if (newModel != null) {
+                        newModel.addHelpModelListener(this);
+                        newModel.addTextHelpModelListener(this);
+                    }   rebuild();
+                    break;
+                case "font":
+                    debug("font changed");
+                    Font newFont = (Font)event.getNewValue();
+                    EditorKit ek = html.getEditorKit();
+                    if (ek instanceof HTMLEditorKit) {
                         
-                    StyleSheet styleSheet;
-                    
-                    /* Update the default style sheet: */
-                    styleSheet = ((HTMLEditorKit) ek).getStyleSheet();
-                    styleSheet.addRule(cssData);
-                    
-                    /*
-                     * Update the current document's style sheet, thus forcing
-                     * the view to be refreshed:
-                     */
-                    styleSheet = ((HTMLDocument) html.getDocument()).getStyleSheet();
-                    styleSheet.addRule(cssData);
-                }
-            }else if (changeName.equals("clear")) {
-                html.setText("");
-            }else if (changeName.equals("reload")) {
-		URL url = html.getPage();
-		if (url != null) {
-		    try {
-			html.setPage(url);
-		    } catch (IOException ex) {
-			// just igonore it
-		    }
-		}
+                        StringBuilder buf = new StringBuilder(60);
+                        buf.append("body { font: ");
+                        buf.append(newFont.getSize()).append("pt ");
+                        if (newFont.isBold()) {
+                            buf.append("bold ");
+                        }
+                        if (newFont.isItalic()) {
+                            buf.append("italic ");
+                        }
+                        buf.append('"').append(newFont.getFamily()).append('"');
+                        buf.append(" }");
+                        String cssData = buf.toString();
+                        
+                        StyleSheet styleSheet;
+                        
+                        /* Update the default style sheet: */
+                        styleSheet = ((HTMLEditorKit) ek).getStyleSheet();
+                        styleSheet.addRule(cssData);
+                        
+                        /*
+                        * Update the current document's style sheet, thus forcing
+                        * the view to be refreshed:
+                        */
+                        styleSheet = ((HTMLDocument) html.getDocument()).getStyleSheet();
+                        styleSheet.addRule(cssData);
+                    }   break;
+                case "clear":
+                    html.setText("");
+                    break;
+                case "reload":
+                    URL url = html.getPage();
+                    if (url != null) {
+                        try {
+                            html.setPage(url);
+                        } catch (IOException ex) {
+                            // just igonore it
+                        }
+                    }   break;
+                default:
+                    break;
             }
         } else if (event.getSource() == html) {
             String changeName = event.getPropertyName();
@@ -362,6 +369,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
      * Notification of a change relative to a
      * hyperlink.
      */
+    @Override
     public void hyperlinkUpdate(HyperlinkEvent e) {
         if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
             // If in a frame do something different
@@ -426,6 +434,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             cursor = c;
         }
         
+        @Override
         public void run() {
             if (url == null) {
                 // restore the original cursor
@@ -442,11 +451,13 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                     title = (String)doc.getProperty(Document.TitleProperty);                    
                     String anchor = url.getRef();
                     //if the title is not known (Hyperlink without anchor activated) parse title
-                    if(title == null)
+                    if(title == null) {
                         title = findTitle(url);
+                    }
                     //in case there is an anchor append it to the title
-                    if(anchor != null)
+                    if(anchor != null) {
                         title = title + "-" + anchor;
+                    }
                     TextHelpModel model = theViewer.getModel();
                     model.setDocumentTitle(title);
                     ID id = model.getHelpSet().getCombinedMap().getIDFromURL(url);
@@ -489,7 +500,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
                 ParserDelegator parser = new ParserDelegator();
                 callback = new Callback();
                 parser.parse(rd,callback,true);
-            }catch (Exception exp){
+            }catch (IOException exp){
                 System.err.println(exp);
             }
             return title;
@@ -502,11 +513,13 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
         class Callback extends HTMLEditorKit.ParserCallback{
             boolean wasTitle = false;
             
+            @Override
             public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos){
                 if(t.equals(HTML.Tag.TITLE)){
                     wasTitle = true;
                 }
             }
+            @Override
             public void handleText(char[] data, int pos){
                 if(wasTitle){
                     title = new String(data);
@@ -525,6 +538,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
      *
      * @param e The TextHelpModelEvent.
      */
+    @Override
     public void highlightsChanged(TextHelpModelEvent e) {
         debug("highlightsChanged "+e);
         
@@ -578,6 +592,7 @@ implements HelpModelListener, TextHelpModelListener, HyperlinkListener, Property
             this.pos = pos;
         }
         
+        @Override
         public void run() {
             try {
                 Rectangle rec = html.modelToView(pos);

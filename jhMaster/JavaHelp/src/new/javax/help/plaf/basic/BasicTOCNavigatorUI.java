@@ -30,38 +30,36 @@
 
 package javax.help.plaf.basic;
 
-import javax.help.*;
-import javax.help.plaf.HelpNavigatorUI;
-import javax.help.plaf.HelpUI;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
-import com.sun.java.help.impl.SwingWorker;
-import java.util.EventObject;
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.help.*;
+import javax.help.Map.ID;
+import javax.help.event.HelpModelEvent;
+import javax.help.event.HelpModelListener;
+import javax.help.plaf.HelpNavigatorUI;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.RepaintManager;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
-import javax.swing.SwingUtilities;
+import javax.swing.event.*;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.tree.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.io.Reader;
-import java.io.Serializable;
-import java.net.URL;
-import java.net.URLConnection;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import javax.help.Map.ID;
-import java.util.Locale;
-import java.lang.reflect.Method;
 
 /**
  * The default UI for JHelpNavigator of type TOC.
@@ -82,7 +80,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
     protected DefaultMutableTreeNode topNode;
     protected JTree tree;
     private boolean inInstallUI = false;
-    private SwingWorker worker = null;
+    private SwingWorker<Object, Void> worker = null;
 
     public static ComponentUI createUI(JComponent x) {
         return new BasicTOCNavigatorUI((JHelpTOCNavigator) x);
@@ -98,6 +96,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public void installUI(JComponent c) {
 	debug (this + " " + "installUI");
 
@@ -142,6 +141,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	tree.setCellRenderer(new BasicTOCCellRenderer(map, (TOCView)view));
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
 	debug (this + " " + "unistallUI");
 	HelpModel model = toc.getModel();
@@ -160,6 +160,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	toc = null;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
 	/*
 	if (sp != null) {
@@ -171,10 +172,12 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	return new Dimension (200,100);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
 	return new Dimension(100,100);
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
 	return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -190,10 +193,10 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 
 	if (worker != null) {
 	    // Something is still going on. Stop it and start over
-	    worker.interrupt();
+	    worker.cancel(true);
 	}
 	worker = new NavSwingWorker(view);
-	worker.start(Thread.MIN_PRIORITY);
+	worker.execute();
     }
 
     /**
@@ -250,7 +253,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	}
     }
 
-    private class NavSwingWorker extends SwingWorker {
+    private class NavSwingWorker extends SwingWorker<Object, Void> {
 	TOCView view;
 
 	public NavSwingWorker (TOCView view) {
@@ -258,15 +261,21 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	    this.view = view;
 	}
 
-	public Object construct() {
-	    return loadData(view);
+        @Override
+	public void done() {
+            try {
+                if (Objects.equals((Boolean)get(), Boolean.TRUE)) {
+                    presentData();
+                }
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(BasicTOCNavigatorUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 
-	public void finished() {
-	    if ((Boolean)get() == Boolean.TRUE) {
-		presentData();
-	    }
-	}
+        @Override
+        protected Object doInBackground() throws Exception {
+	    return loadData(view);
+        }
     }
 
 
@@ -283,9 +292,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         TOCView oldView = (TOCView) toc.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof TOCView){
                     view = (TOCView) tempView;
                     break;
@@ -295,10 +304,10 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         
 	if (worker != null) {
 	    // Something is still going on. Stop it and start over
-	    worker.interrupt();
+	    worker.cancel(true);
 	}
 	worker = new NavSwingWorker(view);
-	worker.start(Thread.MIN_PRIORITY);
+	worker.execute();
     }
 
     /** Adds subhelpsets
@@ -311,9 +320,10 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 	    HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if(toc.canMerge(views[i]))
-                    doMerge(views[i]);
+            for (NavigatorView view : views) {
+                if (toc.canMerge(view)) {
+                    doMerge(view);
+                }
             }
             addSubHelpSets( ehs );
 	}
@@ -364,9 +374,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
                 debug(" node :"+ node.toString());
                 if(node != null){
                     TOCItem tocItem = (TOCItem)node.getUserObject();
-                    if(tocItem == null)
+                    if(tocItem == null) {
                         debug("tocItem is null");
-                    else{
+                    } else{
                         Map.ID id = tocItem.getID();
                         if(id != null){
                             debug("id name :"+id.id);
@@ -379,8 +389,9 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
                                 System.err.println("Not valid ID :"+target );
                                 break;
                             }
-                            if(id.equals(itemID))
+                            if(id.equals(itemID)) {
                                 nodeFound.addElement(node);
+                            }
                         }
                     }
                 }
@@ -438,6 +449,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
      * so it replaces the correct NavigatorUI method.
      */
 
+    @Override
     public void merge(NavigatorView view) {
 	debug("merging "+view);
         doMerge(view);
@@ -454,6 +466,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
      * so it replaces the correct NavigatorUI method.
      */
 
+    @Override
     public void remove(NavigatorView view) {
 	debug("removing "+view);
 
@@ -565,6 +578,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
      * Processes an idChanged event.
      */
 
+    @Override
     public synchronized void idChanged(HelpModelEvent e) {
  	ID id = e.getID();
 	HelpModel helpModel = toc.getModel();
@@ -648,6 +662,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         return toc;
     }
 
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -713,7 +728,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
 			}
 			Method m = klass.getMethod("getPresentation", types);
 			pres = (Presentation)m.invoke(null, args);
-		    } catch (Exception ex) {
+		    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 			throw new RuntimeException("error invoking presentation" );
 		    }
 
@@ -745,27 +760,35 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	debug(this + " " + "propertyChange: " + event.getSource() + " "  +
 	      event.getPropertyName());
 
 	if (event.getSource() == toc) {
 	    String changeName = event.getPropertyName();
-	    if (changeName.equals("helpModel")) {
-                reloadData((HelpModel)event.getNewValue());             
-      	    } else  if (changeName.equals("font")) {
-		debug ("Font change");
-		Font newFont = (Font)event.getNewValue();
-		tree.setFont(newFont);
-		RepaintManager.currentManager(tree).markCompletelyDirty(tree);
-            } else if(changeName.equals("expand")){
-                debug("Expand change");
-                expand((String)event.getNewValue());
-            } else if(changeName.equals("collapse")){
-                debug("Collapse change");
-                collapse((String)event.getNewValue());
+            switch (changeName) {
+                case "helpModel":
+                    reloadData((HelpModel)event.getNewValue());
+                    break;
+            // changes to UI property?
+                case "font":
+                    debug ("Font change");
+                    Font newFont = (Font)event.getNewValue();
+                    tree.setFont(newFont);
+                    RepaintManager.currentManager(tree).markCompletelyDirty(tree);
+                    break;
+                case "expand":
+                    debug("Expand change");
+                    expand((String)event.getNewValue());
+                    break;
+                case "collapse":
+                    debug("Collapse change");
+                    collapse((String)event.getNewValue());
+                    break;
+                default:
+                    break;
             }
-	    // changes to UI property?
 	}
         
     }
@@ -773,18 +796,21 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component's size changes.
      */
+    @Override
     public void componentResized(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component's position changes.
      */
+    @Override
     public void componentMoved(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component has been made visible.
      */
+    @Override
     public void componentShown(ComponentEvent e) {
         tree.requestFocus();
     }
@@ -792,6 +818,7 @@ public class BasicTOCNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component has been made invisible.
      */
+    @Override
     public void componentHidden(ComponentEvent e) {
     }
     

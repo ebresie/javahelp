@@ -32,10 +32,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -49,21 +49,21 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRootPane;
 import javax.swing.JWindow;
-import javax.swing.JFrame;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputAdapter;
-import java.lang.reflect.Method;
-import java.util.Vector;
-import com.sun.java.help.impl.JHSecondaryViewer;
 
 /**
  * Popup is a Presentation class that will create a popup help window for an
@@ -216,6 +216,7 @@ public class Popup extends Presentation implements ActionListener{
     /**
      * Displays the presentation to the user
      */
+    @Override
     public void setDisplayed(boolean b) {
 	Container top = getTopMostContainer();
 
@@ -253,9 +254,11 @@ public class Popup extends Presentation implements ActionListener{
 		Method m = window.getClass().getMethod("addWindowFocusListener", types);
 		m.invoke(window, args);
 		// window.addWindowFocusListener(pwa);
-	    } catch (java.lang.Exception ex) {
+	    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 		//ignore it
 	    }
+            //ignore it
+
 	}
 
 	JRootPane root = getRootPane();
@@ -277,6 +280,7 @@ public class Popup extends Presentation implements ActionListener{
 	}
     }
 
+    @Override
     public boolean isDisplayed() {
 	if (window != null) {
 	    return true;
@@ -284,6 +288,7 @@ public class Popup extends Presentation implements ActionListener{
 	return false;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
 	String command = e.getActionCommand();
         if (command == "cancel") {
@@ -529,10 +534,11 @@ public class Popup extends Presentation implements ActionListener{
 	      parent = parent.getParent() );
 
 	// return the dialog if we got one
-        if ( parent instanceof Dialog )
+        if ( parent instanceof Dialog ) {
             return (Dialog) parent;
-        else
+        } else {
             return null;
+        }
     }
 
     private boolean inModalDialog() {
@@ -541,18 +547,22 @@ public class Popup extends Presentation implements ActionListener{
 
     private class PopupWindowAdapter extends WindowAdapter {
 
+        @Override
 	public void windowClosing(WindowEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void windowClosed(WindowEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void windowIconified(WindowEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void windowGainedFocus(WindowEvent e) {
 	    window.toFront();
 	}
@@ -561,12 +571,14 @@ public class Popup extends Presentation implements ActionListener{
 
     private class PopupMouseAdapter extends MouseInputAdapter {
 
+        @Override
 	public void mousePressed(MouseEvent e) {
 	    cancelPopup();
 	}
     }
 
     private class PopupMouseWheelListener implements MouseWheelListener {
+        @Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 	    cancelPopup();
 	}
@@ -574,18 +586,22 @@ public class Popup extends Presentation implements ActionListener{
     
     private class PopupComponentAdapter extends ComponentAdapter {
 
+        @Override
 	public void componentResized(ComponentEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void componentMoved(ComponentEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void componentShown(ComponentEvent e) {
 	    cancelPopup();
 	}
 
+        @Override
 	public void componentHidden(ComponentEvent e) {
 	    cancelPopup();
 	}
@@ -597,6 +613,7 @@ public class Popup extends Presentation implements ActionListener{
      */
     private class PopupKeyAdapter extends KeyAdapter {
 
+        @Override
 	public void keyReleased(KeyEvent e) {
 	    int code = e.getKeyCode();
 	    if (code == KeyEvent.VK_ESCAPE) {
@@ -616,8 +633,9 @@ public class Popup extends Presentation implements ActionListener{
 	    Component[] component = c.getComponents();
 	    for (int i = 0 ; i < ncomponents ; i++) {
 		Component comp = component[i];
-		if(!comp.isVisible())
-		    continue;
+		if(!comp.isVisible()) {
+                    continue;
+                }
 		comp.addMouseListener(pma);
 		comp.addMouseMotionListener(pma);
 		if (on1dot4) {
@@ -627,7 +645,7 @@ public class Popup extends Presentation implements ActionListener{
 			Method m = window.getClass().getMethod("addMouseWheelListener", types);
 			m.invoke(comp, args);
 			// comp.addMouseWheelListener(pmwl);
-		    } catch (java.lang.Exception ex) {
+		    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 			//ignore it
 		    }
 		}
@@ -658,7 +676,7 @@ public class Popup extends Presentation implements ActionListener{
 			Method m = window.getClass().getMethod("removeMouseWheelListener", types);
 			m.invoke(cpn, args);
 			// cpn.removeMouseWheelListener(pmwl);
-		    } catch (java.lang.Exception ex) {
+		    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 			//ignore it
 		    }
 		}
@@ -685,7 +703,7 @@ public class Popup extends Presentation implements ActionListener{
 		Method m = window.getClass().getMethod("removeWindowFocusListener", types);
 		m.invoke(window, args);
 		// window.removeWindowFocusListener(pwa);
-	    } catch (java.lang.Exception ex) {
+	    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 		//ignore it
 	    }
 	}

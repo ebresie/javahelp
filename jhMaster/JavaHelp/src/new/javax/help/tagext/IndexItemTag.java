@@ -27,22 +27,21 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
+import javax.help.IndexItem;
+import javax.help.IndexView;
 import javax.help.Map;
 import javax.help.Map.ID;
 import javax.help.Merge;
 import javax.help.MergeHelpUtilities;
 import javax.help.NavigatorView;
-import javax.help.IndexItem;
-import javax.help.IndexView;
-import javax.help.SortMerge;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 
@@ -104,19 +103,19 @@ public class IndexItemTag extends BodyTagSupport {
 	    }
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-		if (views[i] instanceof IndexView) {
-		    Merge mergeObject = 
-			Merge.DefaultMergeFactory.getMerge(view, views[i]);
-		    if (mergeObject != null) {
-			mergeObject.processMerge(topNode);
-		    }
-		}
+            for (NavigatorView view1 : views) {
+                if (view1 instanceof IndexView) {
+                    Merge mergeObject = Merge.DefaultMergeFactory.getMerge(view, view1);
+                    if (mergeObject != null) {
+                        mergeObject.processMerge(topNode);
+                    }
+                }
             }
             addSubHelpSets( ehs );
 	}
     }    
 
+    @Override
     public int doStartTag() {
 	initialize();
 	if(treeEnum.hasMoreElements()) {
@@ -138,6 +137,7 @@ public class IndexItemTag extends BodyTagSupport {
 	}
     }
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {

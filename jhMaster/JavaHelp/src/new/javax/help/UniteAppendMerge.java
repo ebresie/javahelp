@@ -29,7 +29,6 @@ package javax.help;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import java.util.Locale;
 /**
  * Unite-append merge type
  *
@@ -55,6 +54,7 @@ public class UniteAppendMerge extends Merge{
      * @param node The master node
      * @return Merged master node
      */
+    @Override
     public TreeNode processMerge(TreeNode node) {
         
 	DefaultMutableTreeNode masterNode = (DefaultMutableTreeNode) node;

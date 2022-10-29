@@ -65,10 +65,12 @@ class BlockManagerParameters extends DBPartParameters
 	root = integerParameter("rt");
 	return true;
       }
-    else
-      return false;
+    else {
+        return false;
+    }
   }
 
+  @Override
   public void updateSchema(String params) {
     super.updateSchema("bs="+blockSize+" rt="+root+" fl=-1 " + params);
   }
@@ -80,6 +82,7 @@ class BlockManagerParameters extends DBPartParameters
     this.root = root;
   }
 
+  @Override
   public URL getURL() {
     return url;
   }

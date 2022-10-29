@@ -27,13 +27,10 @@
 
 package javax.help.search;
 
-import javax.help.event.EventListenerList;
-import javax.help.search.SearchEvent;
-import javax.help.search.SearchListener;
-import java.net.URL;
-import java.util.Vector;
-import java.util.Locale;
 import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Vector;
+import javax.help.event.EventListenerList;
 
 /**
  * The instance of a query on a search database. It is 

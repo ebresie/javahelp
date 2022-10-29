@@ -110,21 +110,25 @@ class BlockManager
 
   public void close() throws IOException
   {
-    if (update)
-      for (int i = 0; i < blockTableSize; i++)
-	if (blockTab[i] != null && blockTab[i].modf)
-	  writeBlock(blockTab[i].block);
+    if (update) {
+        for (int i = 0; i < blockTableSize; i++) {
+            if (blockTab[i] != null && blockTab[i].modf) {
+                writeBlock(blockTab[i].block);
+            }
+        }
+    }
     file.close();
   }
 
   public Block accessBlock(int blockNumber) throws Exception
   {
-    if (blockTab[blockNumber] != null)
-      moveToFront(blockNumber);
-    else if (nBlocks < nBlocksLimit)
-      mapBlock(blockNumber, new BlockDescriptor(), bfactory.makeBlock());
-    else
-      remapSomeBlock(blockNumber);
+    if (blockTab[blockNumber] != null) {
+        moveToFront(blockNumber);
+    } else if (nBlocks < nBlocksLimit) {
+        mapBlock(blockNumber, new BlockDescriptor(), bfactory.makeBlock());
+    } else {
+        remapSomeBlock(blockNumber);
+    }
     return blockTab[blockNumber].block;
   }
   
@@ -176,21 +180,24 @@ class BlockManager
   private void remapSomeBlock(int blockNumber) throws Exception
   {
     int index = oldest;
-    while (blockTab[index].lock && index != newest)
-      index = blockTab[index].next;
-    if (blockTab[index].lock)
-      throw new Exception("everything locked");
-    if (blockTab[index].modf)
-      writeBlock(blockTab[index].block);
+    while (blockTab[index].lock && index != newest) {
+        index = blockTab[index].next;
+    }
+    if (blockTab[index].lock) {
+        throw new Exception("everything locked");
+    }
+    if (blockTab[index].modf) {
+        writeBlock(blockTab[index].block);
+    }
     
     nBlocks--;
     Block reused = blockTab[index].block;
     // delete from double-linked list
-    if (index == oldest)
-      oldest = blockTab[index].next;
-    else if (index == newest)
-      newest = blockTab[index].prev;
-    else
+    if (index == oldest) {
+        oldest = blockTab[index].next;
+    } else if (index == newest) {
+        newest = blockTab[index].prev;
+    } else
       {
 	blockTab[blockTab[index].next].prev = blockTab[index].prev;
 	blockTab[blockTab[index].prev].next = blockTab[index].next;
@@ -231,8 +238,9 @@ class BlockManager
     long nBlocks = file.length()/blockSize;
     Block block = bfactory.makeBlock();
     file.seek(0);
-    for (int i = 0; i < nBlocks; i++)
-      processor.process(Block.readIn(file, block));
+    for (int i = 0; i < nBlocks; i++) {
+        processor.process(Block.readIn(file, block));
+    }
   }
 
   /**

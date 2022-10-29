@@ -27,10 +27,9 @@
 
 package javax.help;
 
-import java.lang.reflect.*;
-import javax.help.Map.ID;
-import java.awt.ActiveEvent;
+import java.applet.Applet;
 import java.awt.AWTEvent;
+import java.awt.ActiveEvent;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -47,10 +46,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.*;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.WeakHashMap;
+import javax.help.Map.ID;
 import javax.swing.CellRendererPane;
 import javax.swing.JComponent;
-import javax.swing.JList;
 import javax.swing.JLayeredPane;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -59,19 +66,11 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.tree.TreePath;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import java.applet.Applet;
-import java.net.URL;
-import java.util.Stack;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.WeakHashMap;
-import java.lang.ref.WeakReference;
+import javax.swing.tree.TreePath;
 
 /**
  * A convenience class that provides simple
@@ -162,7 +161,7 @@ public class CSH {
      * @since 2.0
      */
     public static Manager[] getManagers() {
-        return (Manager[])managers.toArray(new Manager[0]);
+        return (Manager[])managers.toArray(new Manager[managers.size()]);
     }
     
     /**
@@ -258,8 +257,8 @@ public class CSH {
         String helpID = null;
         if (comp != null) {
             Manager managers[] = getManagers();
-            for (int i = 0; i < managers.length; i++) {
-                helpID = managers[i].getHelpIDString(comp, evt);
+            for (Manager manager : managers) {
+                helpID = manager.getHelpIDString(comp, evt);
                 if (helpID != null) {
                     return helpID;
                 }
@@ -500,8 +499,8 @@ public class CSH {
         HelpSet hs = null;
         if (comp != null) {
             Manager[] managers = getManagers();
-            for (int i = 0; i < managers.length; i++) {
-                hs = managers[i].getHelpSet(comp, evt);
+            for (Manager manager : managers) {
+                hs = manager.getHelpSet(comp, evt);
                 if (hs != null) {
                     return hs;
                 }
@@ -718,7 +717,7 @@ public class CSH {
 		}
 		Method m = klass.getMethod("getPresentation", types);
 		pres = (Presentation)m.invoke(null, args);
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 		throw new RuntimeException("error invoking presentation" );
 	    }
 
@@ -759,7 +758,7 @@ public class CSH {
 		pres.setCurrentID(id);
 		pres.setDisplayed(true);
 	    }
-	} catch (Exception e2) {
+	} catch (BadIDException | InvalidHelpSetContextException | UnsupportedOperationException e2) {
 	    e2.printStackTrace();
 	}
     }
@@ -1035,9 +1034,11 @@ public class CSH {
             if (parents == null) {
                 // WeakHashMap of WeakReferences
                 parents = new WeakHashMap(4) {
+                    @Override
                     public Object put(Object key, Object value) {
                         return super.put(key, new WeakReference(value));
                     }
+                    @Override
                     public Object get(Object key) {
                         WeakReference wr = (WeakReference)super.get(key);
                         if (wr != null) {
@@ -1270,7 +1271,7 @@ public class CSH {
 		} else {
 		    klass = loader.loadClass(presentation);
 		}
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new IllegalArgumentException(presentation + "presentation  invalid");
 	    }
 
@@ -1280,6 +1281,7 @@ public class CSH {
 	}
 
         
+        @Override
         public void actionPerformed(ActionEvent e) {
             
             Component src = (Component) e.getSource();
@@ -1435,7 +1437,7 @@ public class CSH {
 		} else {
 		    klass = loader.loadClass(presentation);
 		}
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new IllegalArgumentException(presentation + "presentation  invalid");
 	    }
 
@@ -1444,6 +1446,7 @@ public class CSH {
 	    this.hs = hs;
 	}
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             Cursor onItemCursor, oldCursor;
             
@@ -1526,13 +1529,11 @@ public class CSH {
                 }
             }
             Frame frames[] = Frame.getFrames();
-            for (int i = 0; i < frames.length; i++) {
-                Window[] windows = frames[i].getOwnedWindows();
-                for (int j = 0; j < windows.length; j++) {
-                    containers.add(windows[j]);
-                }
-                if (!containers.contains(frames[i])) {
-                    containers.add(frames[i]);
+            for (Frame frame : frames) {
+                Window[] windows = frame.getOwnedWindows();
+                containers.addAll(Arrays.asList(windows));
+                if (!containers.contains(frame)) {
+                    containers.add(frame);
                 }
             }
             return containers;
@@ -1580,8 +1581,8 @@ public class CSH {
             }
             if (comp instanceof Container) {
                 Component component[] = ((Container)comp).getComponents();
-                for (int i = 0 ; i < component.length; i++) {
-                    setAndStoreCursors(component[i], cursor);
+                for (Component component1 : component) {
+                    setAndStoreCursors(component1, cursor);
                 }
             }
         }
@@ -1600,8 +1601,8 @@ public class CSH {
             }
             if (comp instanceof Container) {
                 Component component[] = ((Container)comp).getComponents();
-                for (int i = 0 ; i < component.length; i++) {
-                    resetAndRestoreCursors(component[i]);
+                for (Component component1 : component) {
+                    resetAndRestoreCursors(component1);
                 }
             }
         }
@@ -1661,7 +1662,7 @@ public class CSH {
 		} else {
 		    klass = loader.loadClass(presentation);
 		}
-	    } catch (Exception ex) {
+	    } catch (ClassNotFoundException ex) {
 		throw new IllegalArgumentException(presentation + "presentation  invalid");
 	    }
 
@@ -1671,6 +1672,7 @@ public class CSH {
 	}
 
         
+        @Override
         public void actionPerformed(ActionEvent e) {
 	    Object source = e.getSource();
 	    displayHelp(hb, hs, presentation, presentationName, 

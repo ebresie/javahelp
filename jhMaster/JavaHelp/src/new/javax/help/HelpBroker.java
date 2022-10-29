@@ -27,16 +27,14 @@
 
 package javax.help;
 
-import java.util.Enumeration;
-import java.net.URL;
 import java.awt.Component;
-import java.awt.MenuItem;
-import java.awt.event.ActionListener;
-import java.awt.Point;
-import java.awt.Font;
 import java.awt.Dimension;
-import javax.help.Map.ID;
+import java.awt.Font;
+import java.awt.MenuItem;
+import java.awt.Point;
+import java.net.URL;
 import java.util.Locale;
+import javax.help.Map.ID;
 
 /**
  * The HelpBroker is the default presentation of a HelpSet.

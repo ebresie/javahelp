@@ -28,8 +28,6 @@
 package javax.help;
 
 import javax.swing.tree.*;
-import java.util.*;
-import java.text.*;
 
 /**
  * Append merge type
@@ -56,6 +54,7 @@ public class AppendMerge extends Merge{
      * @param node The master node
      * @return Merged master node
      */
+    @Override
     public TreeNode processMerge(TreeNode node){
        debug("start merge");
 

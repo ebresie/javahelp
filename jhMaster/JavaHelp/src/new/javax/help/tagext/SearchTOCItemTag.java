@@ -27,27 +27,25 @@
 
 package javax.help.tagext;
 
-import javax.servlet.jsp.*;
-import javax.servlet.jsp.tagext.*;
-import java.util.*;
 import java.io.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.Map;
 import javax.help.Map.ID;
 import javax.help.NavigatorView;
+import javax.help.SearchHit;
 import javax.help.SearchTOCItem;
 import javax.help.SearchView;
-import javax.help.SearchHit;
 import javax.help.search.MergingSearchEngine;
-import javax.help.search.SearchQuery;
-import javax.help.search.SearchListener;
 import javax.help.search.SearchEvent;
 import javax.help.search.SearchItem;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
+import javax.help.search.SearchListener;
+import javax.help.search.SearchQuery;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
 
 /**
  * The JSP tag extra info class for an SearchTOCItem
@@ -80,6 +78,7 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
     }
 
 
+    @Override
     public synchronized int doStartTag() {
 	if (helpsearch == null) {
 	    helpsearch = new MergingSearchEngine(view);
@@ -126,15 +125,16 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
 	    }
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-		if (views[i] instanceof SearchView) {
-		    helpsearch.merge(views[i]);
-		}
+            for (NavigatorView view1 : views) {
+                if (view1 instanceof SearchView) {
+                    helpsearch.merge(view1);
+                }
             }
             addSubHelpSets( ehs );
 	}
     }    
 
+    @Override
     public int doAfterBody() throws JspException {
 	BodyContent body = getBodyContent();
 	try {
@@ -201,6 +201,7 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
     }
 	
 
+    @Override
     public synchronized void itemsFound(SearchEvent e) {
 	SearchTOCItem tocitem;
 	Enumeration itemEnum = e.getSearchItems();
@@ -241,11 +242,13 @@ public class SearchTOCItemTag extends BodyTagSupport implements SearchListener{
 	}
     }
 
+    @Override
     public synchronized void searchStarted(SearchEvent e) {
 	nodes = new Vector();
 	searchFinished = false;
     }
 
+    @Override
     public synchronized void searchFinished(SearchEvent e) {
 	searchFinished = true;
 	treeEnum = nodes.elements();

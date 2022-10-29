@@ -27,10 +27,10 @@
 
 package javax.help;
 
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
-import java.util.Enumeration;
-import java.net.URL;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 /**

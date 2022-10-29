@@ -34,10 +34,6 @@ package com.sun.java.help.impl;
  * @version	1.12	10/30/06
  */
 
-import java.net.URL;
-import java.util.Vector;
-import java.util.Enumeration;
-
 public class ParserEvent extends java.util.EventObject {
     private Tag tag;
     private String text;

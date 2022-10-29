@@ -28,8 +28,6 @@
 package javax.help.plaf;
 
 import javax.swing.plaf.ComponentUI;
-import javax.swing.text.EditorKit;
-import javax.help.event.HelpModelEvent;
 /**
  * UI factory interface for JHelpContentViewer.
  *

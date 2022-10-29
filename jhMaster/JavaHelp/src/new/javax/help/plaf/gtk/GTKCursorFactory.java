@@ -27,17 +27,17 @@
 
 package javax.help.plaf.gtk;
 
-import java.io.*;
-import javax.swing.ImageIcon;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
-import java.util.ResourceBundle;
+import java.io.*;
 import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
+import java.util.ResourceBundle;
+import javax.swing.ImageIcon;
 
 /**
  * Factory object that can vend cursors appropriate for the GTK L & F.
@@ -98,11 +98,7 @@ public class GTKCursorFactory {
 	    ResourceBundle resource = new PropertyResourceBundle(is);
 	    gifFile = resource.getString("Cursor.File");
 	    hotspot = resource.getString("Cursor.HotSpot");
-	} catch (MissingResourceException e) {
-	    debug(getClass().getName() + "/" + 
-			       "images/" + name + ".properties" + " invalid.");
-	    return null;
-	} catch (IOException e2) {
+	} catch (MissingResourceException | IOException e) {
 	    debug(getClass().getName() + "/" + 
 			       "images/" + name + ".properties" + " invalid.");
 	    return null;
@@ -125,16 +121,14 @@ public class GTKCursorFactory {
 				   gifFile + " not found.");
 		return null; 
 	    }
-	    BufferedInputStream in = 
-		new BufferedInputStream(resource);
-	    ByteArrayOutputStream out = 
-		new ByteArrayOutputStream(1024);
-	    buffer = new byte[1024];
-	    int n;
-	    while ((n = in.read(buffer)) > 0) {
-		out.write(buffer, 0, n);
-	    }
-	    in.close();
+            ByteArrayOutputStream out;
+             try (BufferedInputStream in = new BufferedInputStream(resource)) {
+                 out = new ByteArrayOutputStream(1024);
+                 buffer = new byte[1024];
+                 int n;
+                 while ((n = in.read(buffer)) > 0) {
+                     out.write(buffer, 0, n);
+                 }}
 	    out.flush();
 	    
 	    buffer = out.toByteArray();

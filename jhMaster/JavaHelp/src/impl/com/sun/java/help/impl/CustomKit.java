@@ -27,18 +27,16 @@
 
 package com.sun.java.help.impl;
 
-import java.util.Enumeration;
-import java.util.Vector;
 import java.awt.*;
-import java.net.*;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.beans.*;
 import java.lang.reflect.*;
+import java.net.*;
+import java.util.Vector;
+import javax.swing.*;
+import javax.swing.text.*;
 import javax.swing.text.html.*;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseEvent;
 
 /**
  * Subclass of HTMLEditorKit from Swing to adds better functionality
@@ -59,6 +57,7 @@ public class CustomKit extends HTMLEditorKit {
     /**
      * Clone the editorkit
      */
+    @Override
     public Object clone() {
 	return new CustomKit();
     }
@@ -69,6 +68,7 @@ public class CustomKit extends HTMLEditorKit {
      *
      * @param c the JEditorPane
      */
+    @Override
       public void install(JEditorPane c) {
 	c.addMouseMotionListener(mouseHandler);
 	super.install(c);
@@ -81,11 +81,13 @@ public class CustomKit extends HTMLEditorKit {
      *
      * @param c the JEditorPane
      */
+    @Override
     public void deinstall(JEditorPane c) {
 	c.removeMouseMotionListener(mouseHandler);
 	super.deinstall(c);
     }
 
+    @Override
     public Document createDefaultDocument() {
 	// normally we would do exactly what HTMLEditor.createDefaultDocument
 	// does:
@@ -114,6 +116,7 @@ public class CustomKit extends HTMLEditorKit {
      *
      * @return the factory
      */
+    @Override
     public ViewFactory getViewFactory() {
 	debug("fetched custom factory");
 	return new CustomFactory();
@@ -133,16 +136,18 @@ public class CustomKit extends HTMLEditorKit {
 	private Cursor handCursor=null;
 
 	// ignore the drags
+        @Override
 	public void mouseDragged(MouseEvent e) {
 	}
 
 	// track the moving of the mouse.
+        @Override
 	public void mouseMoved(MouseEvent e) {
 	    JEditorPane editor = (JEditorPane) e.getSource();
 
 	    if (!editor.isEditable()) {
 		Point pt = new Point(e.getX(), e.getY());
-		int pos = editor.viewToModel(pt);
+		int pos = editor.viewToModel2D(pt);
 		if (pos >= 0) {
 		    Document doc = editor.getDocument();
 		    if (doc instanceof HTMLDocument) {
@@ -179,6 +184,7 @@ public class CustomKit extends HTMLEditorKit {
 
     static class CustomFactory extends HTMLFactory {
 
+        @Override
         public View create(Element elem) {
 	    Object o = elem.getAttributes().getAttribute(StyleConstants.NameAttribute);
 	    if (o instanceof HTML.Tag) {
@@ -199,6 +205,7 @@ public class CustomKit extends HTMLEditorKit {
 	    super(s);
 	}
 
+        @Override
         public HTMLEditorKit.ParserCallback getReader(int pos) {
 	    Object desc = getProperty(Document.StreamDescriptionProperty);
 	    if (desc instanceof URL) { 
@@ -221,6 +228,7 @@ public class CustomKit extends HTMLEditorKit {
 
 	    class ObjectAction1 extends SpecialAction {
 		
+                @Override
                 public void start(HTML.Tag t, MutableAttributeSet a) {
 		    if (t == HTML.Tag.PARAM) {
 			addParameter(a);
@@ -229,6 +237,7 @@ public class CustomKit extends HTMLEditorKit {
 		    }
 		}
 		
+                @Override
   	        public void end(HTML.Tag t) {
 		    if (t != HTML.Tag.PARAM) {
 			super.end(t);
@@ -265,6 +274,7 @@ public class CustomKit extends HTMLEditorKit {
 	 * as a specification of the classname, which
 	 * we try to load.
 	 */
+        @Override
 	protected Component createComponent() {
 	    AttributeSet attr = getElement().getAttributes();
 	    debug("attr: " + attr.copyAttributes());
@@ -287,10 +297,12 @@ public class CustomKit extends HTMLEditorKit {
 			}
 		    }
 		}
-	    } catch (Throwable e) {
+	    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 		// couldn't create a component... fall through to the 
 		// couldn't load representation.
 	    }
+            // couldn't create a component... fall through to the
+            // couldn't load representation.
 	    
 	    return getUnloadableRepresentation();
 	}
@@ -346,32 +358,32 @@ public class CustomKit extends HTMLEditorKit {
 		return;		// quit for now
 	    }
 	    PropertyDescriptor props[] = bi.getPropertyDescriptors();
-	    for (int i=0; i < props.length; i++) {
-		debug("checking on props[i]: "+props[i].getName());
-		Object v = attr.getAttribute(props[i].getName());
-		if (v instanceof String) {
-		    // found a property parameter
-		    String value = (String) v;
-		    Method writer = props[i].getWriteMethod();
-		    if (writer == null) {
-			// read-only property. ignore
-			return;	// for now
-		    }
-		    Class[] params = writer.getParameterTypes();
-		    if (params.length != 1) {
-			// zero or more than one argument, ignore
-			return;	// for now
-		    }
-		    String [] args = { value };
-		    try {
-			writer.invoke(comp, (java.lang.Object[]) args);
-			debug("Invocation succeeded");
-		    } catch (Exception ex) {
-			debug("Invocation failed");
-			// invocation code
-		    }
-		}
-	    }
+            for (PropertyDescriptor prop : props) {
+                debug("checking on props[i]: " + prop.getName());
+                Object v = attr.getAttribute(prop.getName());
+                if (v instanceof String) {
+                    // found a property parameter
+                    String value = (String) v;
+                    Method writer = prop.getWriteMethod();
+                    if (writer == null) {
+                        // read-only property. ignore
+                        return;	// for now
+                    }
+                    Class[] params = writer.getParameterTypes();
+                    if (params.length != 1) {
+                        // zero or more than one argument, ignore
+                        return;	// for now
+                    }
+                    String [] args = { value };
+                    try {
+                        writer.invoke(comp, (java.lang.Object[]) args);
+                        debug("Invocation succeeded");
+                    } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        debug("Invocation failed");
+                        // invocation code
+                    }
+                }
+            }
 	}
     }
 

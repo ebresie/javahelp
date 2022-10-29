@@ -27,16 +27,16 @@
 
 package javax.help.tagext;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletException;
-import javax.servlet.jsp.tagext.TagSupport;
-import javax.servlet.jsp.tagext.Tag;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.help.HelpSetException;
 import javax.help.InvalidHelpSetContextException;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * Validates a HelpSet file and an Map.ID thourgh either a Request Parameter
@@ -77,6 +77,7 @@ public class ValidateTag extends TagSupport {
 	this.merge = merge;
     }
 
+    @Override
     public int doStartTag() {
 	checkRequestParams();
 	validateHelpSet();
@@ -110,10 +111,12 @@ public class ValidateTag extends TagSupport {
 	if (tesths == null && hsName == null) {
 	    try {
 		pageContext.forward(invalidURLPath);
-	    } catch (Exception e) {
+	    } catch (IOException | ServletException e) {
 		// ignore it
 		return;
 	    }
+            // ignore it
+
 	} 
 
 

@@ -30,18 +30,17 @@
 
 package javax.help.plaf.basic;
 
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Locale;
+import javax.help.Map;
+import javax.help.Map.ID;
 import javax.help.TOCItem;
 import javax.help.TOCView;
-import javax.help.Map;
-import javax.help.HelpUtilities;
-import javax.help.Map.ID;
+import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 
 /**
  * Basic cell renderer for TOC UI.
@@ -72,6 +71,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
       * The foreground color is set based on the selection and the icon
       * is set based on on leaf and expanded.
       */
+    @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value,
 						  boolean sel,
 						  boolean expanded,
@@ -108,7 +108,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		try {
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}
@@ -137,6 +137,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 	return this;
     }
 
+    @Override
     public Icon getLeafIcon() {
 	Icon icon = null;
 	if (view != null) {
@@ -146,13 +147,14 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
 		    return icon;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}
 	return super.getLeafIcon();
     }
 
+    @Override
     public Icon getOpenIcon() {
 	Icon icon = null;
 	if (view != null) {
@@ -162,13 +164,14 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
 		    return icon;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}
 	return super.getOpenIcon();
     }
 
+    @Override
     public Icon getClosedIcon() {
 	Icon icon = null;
 	if (view != null) {
@@ -178,7 +181,7 @@ public class BasicTOCCellRenderer extends DefaultTreeCellRenderer
 		    URL url = map.getURLFromID(id);
 		    icon = new ImageIcon(url);
 		    return icon;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
 		}
 	    }
 	}

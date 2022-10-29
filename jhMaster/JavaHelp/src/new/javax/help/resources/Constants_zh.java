@@ -43,6 +43,7 @@ public class Constants_zh extends ListResourceBundle {
     /**
      * Overrides ListResourceBundle.
      */
+    @Override
     public Object[][] getContents() {
         return new Object[][] {
 

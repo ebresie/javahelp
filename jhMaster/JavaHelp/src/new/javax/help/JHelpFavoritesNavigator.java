@@ -28,8 +28,6 @@
 package javax.help;
 
 import java.net.URL;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.Action;
 
 /**
@@ -82,6 +80,7 @@ public class JHelpFavoritesNavigator extends JHelpNavigator {
     /**
      * Gets the UID for this JComponent.
      */
+    @Override
     public String getUIClassID() {
         return "HelpFavoritesNavigatorUI";
     }
@@ -95,6 +94,7 @@ public class JHelpFavoritesNavigator extends JHelpNavigator {
      * @see merge(NavigatorView)
      * @see remove(NavigatorView)
      */
+    @Override
     public boolean canMerge(NavigatorView view) {
         return false;
     }

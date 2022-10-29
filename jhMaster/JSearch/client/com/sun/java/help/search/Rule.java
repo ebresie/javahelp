@@ -31,8 +31,8 @@
 
 package com.sun.java.help.search;
 
-import java.util.Vector;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * A Rule matches a pattern at the right ends of a word, removes an indicated
@@ -126,7 +126,9 @@ public class Rule {
 	    pattern = new String[patternBuffer.size()];
 	    patternBuffer.copyInto(pattern);
 	}
-	else pattern =  new String[0];
+	else {
+            pattern =  new String[0];
+        }
 
 	//set up expansions array:
 	if (expansionString.length() > 0) {
@@ -170,7 +172,9 @@ public class Rule {
 		    matched = false;
 		    break;
 		}
-		else i--;
+		else {
+                    i--;
+                }
 	    }
 
 	    //"." pattern can match anywhere
@@ -221,10 +225,11 @@ public class Rule {
 	    // redo MorphWord on the resulting form
 	    debug(" starting redo: with "+stem+" + "+expansion+
 		  " from depth "+depth);
-	    if (expansion.charAt(1) == '_')
-		morph.morphWord(stem, depth + 1);
-	    else
-		morph.morphWord(stem + expansion.substring(1), depth + 1);
+	    if (expansion.charAt(1) == '_') {
+                morph.morphWord(stem, depth + 1);
+        } else {
+                morph.morphWord(stem + expansion.substring(1), depth + 1);
+        }
 	    break;
 
 	default:

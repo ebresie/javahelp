@@ -27,8 +27,8 @@
 
 package javax.help.search;
 
-import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * Encapsulates information that describes changes to a SearchQuery.  It is used

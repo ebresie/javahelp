@@ -33,7 +33,6 @@
 
 package com.sun.java.help.search;
 
-import java.io.*;
 import javax.help.search.SearchQuery;
 
 class Search
@@ -107,33 +106,41 @@ class Search
     // order search terms
     quicksort(0, _free2 - 1);
     // remove duplicates
-    for (i = 0; i < _free2 - 1; i = j)
-      for (j = i + 1; j < _free2; j++)
-	if (_conceptData[i].crqEquals(_conceptData[j]))
-	  _conceptData[j] = null;
-	else
-	  i = j;
+    for (i = 0; i < _free2 - 1; i = j) {
+        for (j = i + 1; j < _free2; j++) {
+            if (_conceptData[i].crqEquals(_conceptData[j])) {
+                _conceptData[j] = null;
+            } else {
+                i = j;
+            }
+        }
+    }
     // create lists
-    for (i = 0; i < _free2 - 1; i = j)
-      for (j = i + 1; j < _free2; j++)
-	if (_conceptData[j] != null)
-	  if (_conceptData[i].cEquals(_conceptData[j]))
-	    {
-	      _conceptData[i].addLast(_conceptData[j]);
-	      _conceptData[j] = null;
-	    }
-	  else
-	    i = j;
+    for (i = 0; i < _free2 - 1; i = j) {
+        for (j = i + 1; j < _free2; j++) {
+            if (_conceptData[j] != null) {
+                if (_conceptData[i].cEquals(_conceptData[j])) {
+                    _conceptData[i].addLast(_conceptData[j]);
+                    _conceptData[j] = null;
+                } else {
+                    i = j;
+                }
+            }
+        }
+    }
     // densify
-    for (i = 0; i < _free2 - 1; i++)
-      if (_conceptData[i] == null)
-	for (j = i + 1; j < _free2; j++)
-	  if (_conceptData[j] != null)
-	    {
-	      _conceptData[i] = _conceptData[j];
-	      _conceptData[j] = null;
-	      break;
-	    }
+    for (i = 0; i < _free2 - 1; i++) {
+        if (_conceptData[i] == null) {
+            for (j = i + 1; j < _free2; j++) {
+                if (_conceptData[j] != null)
+                {
+                    _conceptData[i] = _conceptData[j];
+                    _conceptData[j] = null;
+                    break;
+                }
+            }
+        }
+    }
     // set up new document generators
     _nextDocGenHeap.reset();
     for (i = 0; i < _free2 && _conceptData[i] != null; i++)
@@ -179,8 +186,9 @@ class Search
 	    if (_firstGenerator.next())
 	      {
 		_firstGenerator.generateFillers(start);
-		while (_firstGenerator.next())
-		  _firstGenerator.generateFillers(start);
+		while (_firstGenerator.next()) {
+                    _firstGenerator.generateFillers(start);
+                }
 	      }
 	    break;
 	    
@@ -196,8 +204,9 @@ class Search
       for (int i = 0; i < _nQueries; i++)
 	{
 	  RoleFiller next;
-	  if ((next = start[i]) != null && next != RoleFiller.STOP)
-	    next.scoreList(_query[i], _document);
+	  if ((next = start[i]) != null && next != RoleFiller.STOP) {
+              next.scoreList(_query[i], _document);
+          }
 	  
 	}
       _genHeap.reset();
@@ -211,16 +220,16 @@ class Search
   private int indexOf(int concept) throws Exception
   {
     int i = _startingIndex, j = _nConcepts, k;
-    while (i <= j)
-      if (_concepts[k = (i + j)/2] < concept)
-	i = k + 1;
-      else if (concept < _concepts[k])
-	j = k - 1;
-      else
-	{
-	  _startingIndex = k + 1;
-	  return k;
-	}
+    while (i <= j) {
+        if (_concepts[k = (i + j)/2] < concept) {
+            i = k + 1;
+        } else if (concept < _concepts[k]) {
+            j = k - 1;
+        } else {
+            _startingIndex = k + 1;
+            return k;
+        }
+    }
     throw new Exception("indexOf " + concept + " not found");
   }
 
@@ -229,8 +238,9 @@ class Search
     for (int q = 0; q < _nQueries; q++)
       {
 	System.out.println("query " + q);
-	if (_query[q] != null)
-	  _query[q].printHits(nHits);
+	if (_query[q] != null) {
+            _query[q].printHits(nHits);
+        }
       }
   }
 
@@ -254,10 +264,11 @@ class Search
       new ConceptGroupGenerator(_data, index, _kTable.at(2*group + 1));
     // decode concept table
     _nConcepts = gen.decodeConcepts(_kTable.at(2*group), shift, _concepts);
-    if (group < _limit)
-      _max = _concepts[_nConcepts] = _maxConcepts.at(group);
-    else
-      _max = _concepts[_nConcepts - 1];
+    if (group < _limit) {
+        _max = _concepts[_nConcepts] = _maxConcepts.at(group);
+    } else {
+        _max = _concepts[_nConcepts - 1];
+    }
     _genHeap.addGenerator(gen);
     _startingIndex = 0;		// in _concepts; lower search index
     return gen;
@@ -305,9 +316,11 @@ class Search
   {
     while (_nextDocGenHeap.isNonEmpty())		// still something to do
       {
-	for (int i = 0; i < _nQueries; i++)
-	  if (_query[i] != null)
-	    _query[i].resetForNextDocument();
+	for (int i = 0; i < _nQueries; i++) {
+            if (_query[i] != null) {
+                _query[i].resetForNextDocument();
+            }
+        }
       
 	// gather all concepts this document has and store associated conceptData
 	int index = 0;
@@ -329,15 +342,16 @@ class Search
 	// and, with more care, creation of some GroupGenerators can be avoided
 	// saturating queries with lots of good hits will lead to best results
 	int voteMask = 0;
-	for (int i = 0; i < _nQueries; i++)
-	  if (_query[i] != null)
-	    if (_query[i].vote())
-	      {
-		start[i] = null;	// normal reset
-		voteMask |= 1 << i;
-	      }
-	    else
-	      start[i] = RoleFiller.STOP;	// prohibit setting
+	for (int i = 0; i < _nQueries; i++) {
+            if (_query[i] != null) {
+                if (_query[i].vote()) {
+                    start[i] = null;	// normal reset
+                    voteMask |= 1 << i;
+                } else {
+                    start[i] = RoleFiller.STOP;	// prohibit setting
+                }
+            }
+        }
       
 	// we may eliminate some ConceptGroupGenerators
 	// those which would be used only by Queries which voted NO
@@ -349,8 +363,9 @@ class Search
 	      {
 		// set up all needed generators
 		int i = 0;
-		while ((_queryMasks.at(i) & voteMask) == 0)
-		  ++i;
+		while ((_queryMasks.at(i) & voteMask) == 0) {
+                    ++i;
+                }
 		//		assert(i < index);
 		int c = _docConcepts.at(i);
 		int group = 0;
@@ -360,27 +375,30 @@ class Search
 		gen = makeGenerator(group);
 		gen.addTerms(indexOf(c), _conceptData[i]);
 	      
-		for (++i; i < index; i++)
-		  if ((_queryMasks.at(i) & voteMask) > 0)
-		    {
-		      c = _docConcepts.at(i);
-		      if (c > _max)	// need to find another group
-			{
-			  //			  assert(group < _limit);
-			  while (c > _maxConcepts.at(group) && ++group < _limit)
-			    ;
-			  gen = makeGenerator(group);
-			}
-		      gen.addTerms(indexOf(c), _conceptData[i]);
-		    }
+		for (++i; i < index; i++) {
+                    if ((_queryMasks.at(i) & voteMask) > 0)
+                    {
+                        c = _docConcepts.at(i);
+                        if (c > _max)	// need to find another group
+                        {
+                            //			  assert(group < _limit);
+                            while (c > _maxConcepts.at(group) && ++group < _limit)
+                                ;
+                            gen = makeGenerator(group);
+                        }
+                        gen.addTerms(indexOf(c), _conceptData[i]);
+                    }
+                }
 		return 0;
 	      }
 	    else			// single group
 	      {
-		for (int i = 0; i < index; i++)
-		  if ((_queryMasks.at(i) & voteMask) != 0)
-		    _firstGenerator.addTerms(indexOf(_docConcepts.at(i)),
-					     _conceptData[i]);
+		for (int i = 0; i < index; i++) {
+                    if ((_queryMasks.at(i) & voteMask) != 0) {
+                        _firstGenerator.addTerms(indexOf(_docConcepts.at(i)),
+                                _conceptData[i]);
+                    }
+                }
 		return 1;
 	      }
 	  }
@@ -405,8 +423,9 @@ class Search
 	    _conceptData[i] = _conceptData[j];
 	    _conceptData[j] = t;
 	  }
-	else
-	  return j;
+	else {
+            return j;
+        }
       }
   }
 

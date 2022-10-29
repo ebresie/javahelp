@@ -31,17 +31,13 @@
 
 package com.sun.java.help.search;
 
-import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.*;
+import javax.help.search.ConfigFile;
+import javax.help.search.IndexBuilder;
+import javax.help.search.IndexerKit;
 import javax.swing.text.*;
 import javax.swing.text.html.*;
-import java.util.*;
-import javax.help.search.IndexerKit;
-import javax.help.search.IndexBuilder;
-import javax.help.search.ConfigFile;
 
 /**
  * This is the default implementation of html parsing.
@@ -67,6 +63,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
      *
      * @return the copy
      */
+    @Override
     public Object clone() {
 	return new HTMLIndexerKit();
     }
@@ -78,6 +75,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
      *
      * @return the type
      */
+    @Override
     public String getContentType() {
 	return "text/html";
     }
@@ -95,6 +93,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
      * @param config The indexer configuration information
      * @exception IOException on any I/O error
      */
+    @Override
     public void parse(Reader in, String file, boolean ignoreCharset,
 		      IndexBuilder builder,
 		      ConfigFile config) throws IOException{
@@ -150,7 +149,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    try {
                 Class c = Class.forName("javax.swing.text.html.parser.ParserDelegator");
                 defaultParser = (HTMLEditorKit.Parser) c.newInstance();
-	    } catch (Throwable e) {
+	    } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
 		e.printStackTrace();
 	    }
 	}
@@ -373,6 +372,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 * Since this is currently loading synchronously, the entire
 	 * set of changes are pushed in at this point.
 	 */
+        @Override
         public void flush() throws BadLocationException {
 	    // Nothing needs to be done here
 	}
@@ -381,6 +381,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 * Called by the parser to indicate a block of text was
 	 * encountered.
 	 */
+        @Override
         public void handleText(char[] data, int pos) {
 	    if (receivedEndHTML) {
 		return;
@@ -421,6 +422,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 * document and we don't really need to be concerned with
 	 * the construction of the style sheet.
 	 */
+        @Override
 	public void handleStartTag(HTML.Tag t, MutableAttributeSet a, int pos) {
             if (receivedEndHTML) {
                 return;
@@ -434,6 +436,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    }
 	}
 
+        @Override
         public void handleComment(char[] data, int pos) {
             if (receivedEndHTML) {
 		// don't do anything here
@@ -462,6 +465,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 * 
 	 * Ignore the midInsert statements in HTMLDocument
 	 */
+        @Override
 	public void handleEndTag(HTML.Tag t, int pos) {
 	    if (receivedEndHTML) {
 		return;
@@ -484,6 +488,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 *
 	 * Ignore the midInsert and style statements in HTMLDocument
 	 */
+        @Override
 	public void handleSimpleTag(HTML.Tag t, MutableAttributeSet a, int pos) {
 	    if (receivedEndHTML) {
 		return;
@@ -554,6 +559,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	public class BlockAction extends TagAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet attr) {
 		blockOpen(t, attr);
 		String lang = (String) attr.getAttribute(HTML.Attribute.LANG);
@@ -563,6 +569,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		addTag(t, lang);
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		blockClose(t);
 		removeTag(t);
@@ -577,11 +584,13 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 * a ButtonGroup
          */
         private class FormTagAction extends BlockAction {
+            @Override
             public void start(HTML.Tag t, MutableAttributeSet attr) {
                 super.start(t, attr);
 		// do nothing else
             }
 
+            @Override
 	    public void end(HTML.Tag t) {
                 super.end(t);
 		// do nothing else
@@ -591,6 +600,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	public class ParagraphAction extends BlockAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		// trap the first header as a substitute title if needed
 		if (firstHeader && 
@@ -604,6 +614,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		inParagraph = true;
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		// trapped the first header as a substitute title if needed
 		if (firstHeader && 
@@ -621,6 +632,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	public class SpecialAction extends TagAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		String lang = (String) a.getAttribute(HTML.Attribute.LANG);
 		if (lang == null) {
@@ -634,6 +646,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	public class IsindexAction extends TagAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		blockOpen(HTML.Tag.IMPLIED, new SimpleAttributeSet());
 		addSpecialElement(t, a);
@@ -644,6 +657,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	public class HiddenAction extends TagAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		String lang = (String) a.getAttribute(HTML.Attribute.LANG);
 		if (lang == null) {
@@ -653,6 +667,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		addSpecialElement(t, a);
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		if (!isEmpty(t)) {
 		    MutableAttributeSet a = new SimpleAttributeSet();
@@ -682,6 +697,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	class MetaAction extends HiddenAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		// ignore all the style sheet setting code
 		super.start(t, a);
@@ -704,11 +720,13 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	class HeadAction extends BlockAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		inHead = true;
 		super.start(t, a);
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		inHead = inStyle = false;
 		// ignore the StyleSheet statements
@@ -725,6 +743,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	class LinkAction extends HiddenAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		// ignore the style sheet statements
 		super.start(t, a);
@@ -755,6 +774,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	class StyleAction extends TagAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		if (inHead) {
 		    inStyle = true;
@@ -762,6 +782,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		super.start(t, a);
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		inStyle = false;
 		super.end(t);
@@ -771,6 +792,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	public class PreAction extends BlockAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet attr) {
 		inPre = true;
 		blockOpen(t, attr);
@@ -783,6 +805,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		addTag(t, lang);
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		blockClose(HTML.Tag.IMPLIED);
 		// set inPre to false after closing, so that if a newline
@@ -801,6 +824,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	     * really isn't much to do here
 	     *
 	     */
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		String lang = (String) a.getAttribute(HTML.Attribute.LANG);
 		if (lang == null) {
@@ -809,6 +833,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		addTag(t, lang);
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		removeTag(t);
 	    }
@@ -832,6 +857,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    // we need to ensure we use the same character value.
 	    private boolean post4207472 = isPost4207472();
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet attr) {
 		// set flag to catch empty anchors
 		emptyAnchor = true;
@@ -839,16 +865,18 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		super.start(t, attr);
 	    }
 	
+            @Override
 	    public void end(HTML.Tag t) {
 		if (emptyAnchor) {
 		    // if the anchor was empty it was probably a
 		    // named anchor point and we don't want to throw
 		    // it away.
 		    char[] one = new char[1];
-		    if (post4207472)
-			one[0] = '\n';
-		    else
-		        one[0] = ' ';
+		    if (post4207472) {
+                        one[0] = '\n';
+                    } else {
+                        one[0] = ' ';
+                    }
 		    debug ("emptyAnchor currentPos=" + currentPos);
 		    addContent(one, 0, 1);
                 }
@@ -861,14 +889,15 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		    int major = Integer.parseInt(ver.substring(2,3));
 		    int minor = 0;
 		    // allow for FCS case - we leave minor as 0 if dealing with FCS
-		    if (ver.length() > 6)
-		    	minor = Integer.parseInt(ver.substring(6,8)); 
+		    if (ver.length() > 6) {
+                        minor = Integer.parseInt(ver.substring(6,8));
+                       } 
 		    if ((major > 5 ) || (major==5 && minor >= 4)) {
 		    	return true;
 		    } else {
 		    	return false;
 		    }
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 		    debug ("Exception in isPost4207472 : " + e);
 		    return true;  // assume true if we encounter problem
 	        }	
@@ -877,11 +906,13 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	class TitleAction extends HiddenAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet attr) {
 		inTitle = true;
 		super.start(t, attr);
 	    }
 	
+            @Override
 	    public void end(HTML.Tag t) {
 		inTitle = false;
 		super.end(t);
@@ -896,6 +927,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 
 	class ObjectAction extends SpecialAction {
 
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet a) {
 		if (t == HTML.Tag.PARAM) {
 		    // don't do anything if a parameter
@@ -904,6 +936,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		}
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		if (t != HTML.Tag.PARAM) {
 		    super.end(t);
@@ -918,6 +951,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	     * Ignore INPUT and Select. Only be concerned with
 	     * TEXTAREA and OPTION
 	     */
+            @Override
 	    public void start(HTML.Tag t, MutableAttributeSet attr) {
 		if (t == HTML.Tag.TEXTAREA) {
 		    inTextArea = true;
@@ -931,6 +965,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 		}
 	    }
 
+            @Override
 	    public void end(HTML.Tag t) {
 		if (t == HTML.Tag.TEXTAREA) {
 		    inTextArea = false;
@@ -952,7 +987,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	protected void titleContent(String s) {
 	    if (title == null) {
-		title = new String(s);
+		title = s;
 	    } else {
 		title.concat(s);
 	    }
@@ -963,7 +998,7 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	 */
 	protected void headerContent(String s) {
 	    if (header == null) {
-		header = new String(s);
+		header = s;
 	    } else {
 		header.concat(s);
 	    }
@@ -1177,8 +1212,9 @@ public class HTMLIndexerKit extends DefaultIndexerKit{
 	    String newLang=defaultLang;
 
 	    for (;;) {
-		if (tagStack.empty()) 
-		    break;
+		if (tagStack.empty()) {
+                    break;
+                }
 		el = (LangElement) tagStack.pop();
 		if (el.getTag().toString().compareTo(name) == 0) {
 		    if (tagStack.empty()) {

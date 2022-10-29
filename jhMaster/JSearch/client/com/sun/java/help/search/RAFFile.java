@@ -46,9 +46,9 @@ package com.sun.java.help.search;
  * @version	1.14	10/30/06
  */
 
-import java.io.RandomAccessFile;
 import java.io.File;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 
 public class RAFFile {
     private RandomAccessFile raf;

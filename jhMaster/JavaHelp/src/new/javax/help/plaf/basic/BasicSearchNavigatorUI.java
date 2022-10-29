@@ -39,30 +39,26 @@ package javax.help.plaf.basic;
  * @author Richard Gregor
  * @version   1.86     10/30/06
  */
-import javax.help.*;
-import javax.help.search.*;
-import javax.help.plaf.HelpNavigatorUI;
-import javax.help.event.HelpModelListener;
-import javax.help.event.HelpModelEvent;
-import javax.help.search.SearchListener;
-import javax.help.search.SearchEvent;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.net.URL;
-import javax.swing.*;
-import javax.swing.tree.*;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Vector;
+import javax.help.*;
 import javax.help.DefaultHelpModel.DefaultHighlight;
 import javax.help.Map.ID;
+import javax.help.event.HelpModelEvent;
+import javax.help.event.HelpModelListener;
+import javax.help.plaf.HelpNavigatorUI;
+import javax.help.search.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.tree.*;
 
 public class BasicSearchNavigatorUI extends HelpNavigatorUI 
              implements HelpModelListener, SearchListener, 
@@ -99,6 +95,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     private Cursor waitCursor=null;
 
     class SearchActionListener implements ActionListener {
+        @Override
 	public synchronized void actionPerformed(ActionEvent e) {
 	    HelpModel helpmodel = searchnav.getModel();
 	    try {
@@ -125,7 +122,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 		    searchquery.stop();
 		}
 		searchquery.start(searchparams.getText(),searchnav.getLocale());
-	    } catch (Exception e2) {
+	    } catch (IllegalArgumentException | IllegalStateException e2) {
 		searchparams.setCursor(paramCursor);
 		tree.setCursor(treeCursor);
 		// more work needed here
@@ -134,9 +131,13 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 		searchnav.getToolkit().beep();
 		searchnav.getToolkit().beep();
 	    }
+            // more work needed here
+            // 2 beeps
+
 	}
     }
 
+    @Override
     public void installUI(JComponent c) {
 	searchnav = (JHelpSearchNavigator)c;
 	HelpModel helpmodel = searchnav.getModel();
@@ -174,6 +175,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	reloadData();
     }
 
+    @Override
     public void uninstallUI(JComponent c) {
 	HelpModel helpmodel = searchnav.getModel();
 
@@ -190,6 +192,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	searchnav = null;
     }
 
+    @Override
     public Dimension getPreferredSize(JComponent c) {
 	/*
 	if (sp != null) {
@@ -201,6 +204,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	return new Dimension(200,100);
     }
 
+    @Override
     public Dimension getMinimumSize(JComponent c) {
 	if (sp != null) {
 	    return ((ScrollPaneLayout)sp.getLayout()).minimumLayoutSize(sp);
@@ -209,6 +213,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public Dimension getMaximumSize(JComponent c) {
 	return new Dimension(Short.MAX_VALUE, Short.MAX_VALUE);
     }
@@ -239,9 +244,9 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
         SearchView oldView = (SearchView) searchnav.getNavigatorView();
         String oldName = oldView.getName();
         NavigatorView[] navViews = newHelpSet.getNavigatorViews();
-        for(int i = 0 ; i < navViews.length; i++){
-            if((navViews[i].getName()).equals(oldName)){
-                NavigatorView tempView = navViews[i];
+        for (NavigatorView navView : navViews) {
+            if ((navView.getName()).equals(oldName)) {
+                NavigatorView tempView = navView;
                 if(tempView instanceof SearchView){
                     view = (SearchView) tempView;
                     break;
@@ -249,8 +254,9 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
             }
         }
         
-        if(view == null)
+        if(view == null) {
             return;
+        }
                          
         topNode.removeAllChildren();
         searchnav.setSearchEngine(new MergingSearchEngine(view));
@@ -270,22 +276,18 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	    HelpSet ehs = (HelpSet) e.nextElement();
             // merge views
             NavigatorView[] views = ehs.getNavigatorViews();
-            for(int i = 0; i < views.length; i++){
-                if (searchnav.canMerge(views[i])) {
+            for (NavigatorView view : views) {
+                if (searchnav.canMerge(view)) {
                     try {
-                        searchnav.merge(views[i]);
+                        searchnav.merge(view);
                     } catch (IllegalArgumentException ex) {
-                        Hashtable params = views[i].getParameters();
+                        Hashtable params = view.getParameters();
                         Object data = null;
                         if (params != null) {
                             data = params.get("data");
                         }
                         throw new IllegalArgumentException("View is invalid:\n"
-                                + "   View Name: " + views[i].getName()
-                                + "   View Class: " + views[i].getClass().getName()
-                                + "   View Params: " + params
-                                + "   View Data: " + data
-                                + "   HelpSet URL: " + views[i].getHelpSet().getHelpSetURL());
+                                + "   View Name: " + view.getName() + "   View Class: " + view.getClass().getName() + "   View Params: " + params + "   View Data: " + data + "   HelpSet URL: " + view.getHelpSet().getHelpSetURL());
                     }
                 }
             }
@@ -297,6 +299,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
      * Merges in the navigational data from another NavigatorView. 
      */
 
+    @Override
     public void merge(NavigatorView view) {
 	debug("merging "+view);
 
@@ -313,6 +316,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
      * Removes the navigational data from another NavigatorView. 
      */
 
+    @Override
     public void remove(NavigatorView view) {
 	debug("removing "+view);
 
@@ -343,6 +347,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
      * navigator.
      */
 
+    @Override
     public void idChanged(HelpModelEvent e) {
  	ID id = e.getID();
 	URL url = e.getURL();
@@ -391,6 +396,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     /**
      * A value has changed.  This is used as a TreeSelectionListener.
      */
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
 
         JHelpNavigator navigator = getHelpNavigator();
@@ -449,6 +455,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
         }
     }
 
+    @Override
     public void propertyChange(PropertyChangeEvent event) {
 	debug(this + " " + "propertyChange: " + event.getSource() + " "  +
 	      event.getPropertyName());
@@ -474,18 +481,21 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component's size changes.
      */
+    @Override
     public void componentResized(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component's position changes.
      */
+    @Override
     public void componentMoved(ComponentEvent e) {
     }
     
     /**
      * Invoked when the component has been made visible.
      */
+    @Override
     public void componentShown(ComponentEvent e) {
         searchparams.selectAll();
         searchparams.requestFocus();
@@ -494,6 +504,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
     /**
      * Invoked when the component has been made invisible.
      */
+    @Override
     public void componentHidden(ComponentEvent e) {
     }
     
@@ -541,10 +552,10 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	// Sort the array (Quick Sort)
 	quickSort(array, 0, array.length - 1);
 
-	// Reload the topNode. Everthing is in order now.
-	for (int i=0; i < array.length ; i++) {
-	    topNode.add((DefaultMutableTreeNode)array[i]);
-	}
+        // Reload the topNode. Everthing is in order now.
+        for (DefaultMutableTreeNode array1 : array) {
+            topNode.add((DefaultMutableTreeNode) array1);
+        }
 
 	// Tell the tree to repaint itself
 	((DefaultTreeModel)tree.getModel()).reload(); 
@@ -586,14 +597,16 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 			 * the partition element starting from the left Index.
 			 */
 	     
-			while( ( lo < hi0 ) && ( compare(a[lo],a[mid]) > 0 ))
-			    ++lo;
+			while( ( lo < hi0 ) && ( compare(a[lo],a[mid]) > 0 )) {
+                            ++lo;
+                        }
 
 			/* find an element that is smaller than or equal to
 			 * the partition element starting from the right Index.
 			 */
-			while( ( hi > lo0 ) && ( compare(a[hi],a[mid]) < 0 ))
-			    --hi;
+			while( ( hi > lo0 ) && ( compare(a[hi],a[mid]) < 0 )) {
+                            --hi;
+                        }
 
 			// if the indexes have not crossed, swap
 			if( lo <= hi )
@@ -607,14 +620,16 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 		/* If the right index has not reached the left side of array
 		 * must now sort the left partition.
 		 */
-		if( lo0 < hi )
-		    quickSort( a, lo0, hi );
+		if( lo0 < hi ) {
+                    quickSort( a, lo0, hi );
+                }
 
 		/* If the left index has not reached the right side of array
 		 * must now sort the right partition.
 		 */
-		if( lo < hi0 )
-		    quickSort( a, lo, hi0 );
+		if( lo < hi0 ) {
+                    quickSort( a, lo, hi0 );
+                }
 
 	    }
     }
@@ -664,6 +679,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 
     }
 
+    @Override
     public synchronized void itemsFound(SearchEvent e) {
 	SwingUtilities.invokeLater(new SearchItemsFound(e));
     }
@@ -676,6 +692,7 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	    this.e = e;
 	}
 
+        @Override
 	public void run() {
 	    SearchTOCItem tocitem;
 	    Vector nodes = new Vector();
@@ -731,9 +748,11 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	}
     }
 
+    @Override
     public synchronized void searchStarted(SearchEvent e) {
 	debug ("search Started");
 	SwingUtilities.invokeLater(new Runnable() {
+            @Override
 	    public void run() {
 		TreeSelectionModel tsm = tree.getSelectionModel();
 		tsm.clearSelection();
@@ -745,8 +764,10 @@ public class BasicSearchNavigatorUI extends HelpNavigatorUI
 	});
     }
 
+    @Override
     public synchronized void searchFinished(SearchEvent e) {
 	SwingUtilities.invokeLater(new Runnable() {
+            @Override
 	    public void run() {
 		TreeSelectionModel tsm = tree.getSelectionModel();
 		if (lastTOCnode == null && topNode.getChildCount() > 0) {

@@ -30,9 +30,6 @@ package javax.help;
 import java.awt.Component;
 import java.util.Hashtable;
 import java.util.Locale;
-import javax.help.HelpSet;
-import javax.help.HelpModel;
-import javax.help.IndexView;
 
 /**
  * View information for a Glossary Navigator
@@ -78,6 +75,7 @@ public class GlossaryView extends IndexView {
     /**
      * create a navigator for a given model
      */
+    @Override
     public Component createNavigator(HelpModel model) {
 	return new JHelpGlossaryNavigator(this, model);
     }

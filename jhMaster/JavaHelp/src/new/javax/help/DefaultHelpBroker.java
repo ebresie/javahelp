@@ -27,18 +27,13 @@
 
 package javax.help;
 
-import javax.swing.*;
-import javax.help.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.net.URL;
 import java.awt.*;
 import java.awt.event.*;
-import javax.help.Map.ID;
-import java.util.Locale;
-import java.awt.Font;
-import java.awt.Dimension;
 import java.lang.reflect.*;
+import java.net.URL;
+import java.util.Locale;
+import javax.help.Map.ID;
+import javax.swing.*;
 
 /**
  * An implmentation of the HelpBroker interface
@@ -84,6 +79,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Returns the default HelpSet
      */
+    @Override
     public HelpSet getHelpSet() {
 	return mw.getHelpSet();
     }
@@ -93,6 +89,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @param hs The HelpSet to set for this broker. 
      * A null hs is valid parameter.
      */
+    @Override
     public void setHelpSet(HelpSet hs) {
 	debug ("setHelpSet");
 	mw.setHelpSet(hs);
@@ -105,6 +102,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @param hsPres The HelpSet.Presentation
      * @since 2.0
      */
+    @Override
     public void setHelpSetPresentation(HelpSet.Presentation hsPres) {
 	debug ("setHelpSetPresentation");
 	mw.setHelpSetPresentation(hsPres);
@@ -116,6 +114,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * have a locale, the defaultLocale is returned.
      * @see #setLocale
      */
+    @Override
     public Locale getLocale() {
 	return mw.getLocale();
     }
@@ -127,6 +126,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * is the same as the defaultLocale.
      * @see #getLocale
      */
+    @Override
     public void setLocale(Locale l) { 
 	mw.setLocale(l);
     }
@@ -134,6 +134,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Gets the font for this HelpBroker.
      */
+    @Override
     public Font getFont () {
 	return mw.getFont();
     }
@@ -142,6 +143,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * Sets the font for this this HelpBroker.
      * @param f The font.
      */
+    @Override
     public void setFont (Font f) {
 	mw.setFont(f);
     }
@@ -156,6 +158,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * IllegalArgumentException is thrown.
      * @throws IllegalArgumentException if nav is null or not a valid Navigator.
      */
+    @Override
     public void setCurrentView(String name) {
 	mw.setCurrentView(name);
     }
@@ -163,6 +166,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Determines the current navigator.
      */
+    @Override
     public String getCurrentView() {
 	return mw.getCurrentView();
     }
@@ -174,6 +178,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * Typically this would be done in a separate thread to reduce the
      * intialization time.
      */
+    @Override
     public void initPresentation() {
 	mw.createHelpWindow();
     }
@@ -181,6 +186,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Displays the presentation to the user.
      */
+    @Override
     public void setDisplayed(boolean b) {
 	debug("setDisplayed");
 	mw.setDisplayed(b);
@@ -189,6 +195,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Determines if the presentation is displayed.
      */
+    @Override
     public boolean isDisplayed() {
 	return mw.isDisplayed();
     }
@@ -196,6 +203,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Requests the presentation be located at a given position.
      */
+    @Override
     public void setLocation(Point p) {
 	mw.setLocation(p);
     }
@@ -204,6 +212,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * Requests the location of the presentation.
      * @returns Point the location of the presentation.
      */
+    @Override
     public Point getLocation() {
 	return mw.getLocation();
     }
@@ -211,6 +220,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Requests the presentation be set to a given size.
      */
+    @Override
     public void setSize(Dimension d) {
 	mw.setSize(d);
     }
@@ -219,6 +229,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * Requests the size of the presentation.
      * @returns Point the location of the presentation.
      */
+    @Override
     public Dimension getSize() throws UnsupportedOperationException {
 	return mw.getSize();
     }
@@ -226,6 +237,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Requests the presentation be set to a given screen.
      */
+    @Override
     public void setScreen(int screen) {
 	mw.setScreen(screen);
     }
@@ -234,6 +246,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * Requests the screen of the presentation.
      * @returns int the screen of the presentation.
      */
+    @Override
     public int getScreen() throws UnsupportedOperationException {
 	return mw.getScreen();
     }
@@ -241,6 +254,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Hides/Shows view.
      */
+    @Override
     public void setViewDisplayed(boolean displayed) {
 	mw.setViewDisplayed(displayed);
     }
@@ -248,6 +262,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Determines if the current view is visible.
      */
+    @Override
     public boolean isViewDisplayed() {
 	return mw.isViewDisplayed();
     }
@@ -264,6 +279,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @exception IllegalArgumentException if presentation is not valid
      * @see Presentation
      */
+    @Override
     public void showID(String id, String presentation, 
 		       String presentationName) throws BadIDException {
 	debug("showID - string");
@@ -286,6 +302,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * id.helpset
      * @see Presentation
      */
+    @Override
     public void showID(ID id, String presentation, String presentationName) 
 	throws InvalidHelpSetContextException {
 	debug("showID - ID");
@@ -322,7 +339,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
 	    pres = (Presentation)m.invoke(null, args);
 	} catch (ClassNotFoundException cnfex) {
 	    throw new IllegalArgumentException(presentation + "presentation  invalid");
-	} catch (Exception ex) {
+	} catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException | SecurityException | InvocationTargetException ex) {
 	    throw new RuntimeException("error invoking presentation" );
 	}
 
@@ -345,6 +362,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @param id A string that identifies the topic to show for the loaded (top) HelpSet
      * @exception BadIDException The ID is not valid for the HelpSet
      */
+    @Override
     public void setCurrentID(String id) throws BadIDException {
 	debug("setCurrentID - string");
 	mw.setCurrentID(id);
@@ -357,6 +375,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @exception InvalidHelpSetContextException if the current helpset does not contain
      * id.helpset
      */
+    @Override
     public void setCurrentID(ID id) throws InvalidHelpSetContextException {
 	debug("setCurrentID - ID");
 	mw.setCurrentID(id);
@@ -365,6 +384,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Determines which ID is displayed (if any).
      */
+    @Override
     public ID getCurrentID() {
 	return mw.getCurrentID();
     }
@@ -375,6 +395,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * The currentID changes if there is a mathing ID for this URL
      * @param url The url to display. A null URL is a valid url.
      */
+    @Override
     public void setCurrentURL(URL url) {
 	debug ("setCurrentURL");
 	mw.setCurrentURL(url);
@@ -383,6 +404,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Determines which URL is displayed.
      */
+    @Override
     public URL getCurrentURL() {
 	return mw.getCurrentURL();
     }
@@ -408,6 +430,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see getHelpKeyActionListener
      * @see enableHelpKey(Component, String, HelpSet, String, String);
      */
+    @Override
     public void enableHelpKey(Component comp, String id, HelpSet hs) {
 	enableHelpKey(comp, id, hs, null, null);
     }
@@ -439,6 +462,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see enableHelpKey(Component, String, HelpSet);
      * @throws IllegalArgumentException if presentation != null and hs == null
      */
+    @Override
     public void enableHelpKey(Component comp, String id, HelpSet hs,
 			      String presentation, String presentationName) {
 	if (id == null) {
@@ -478,6 +502,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * Invoked when a key is typed. This event occurs when a
      * key press is followed by a key release.  Not intended to be overridden or extended.
      */
+    @Override
     public void keyTyped(KeyEvent e) {
 	//ignore
     }
@@ -485,6 +510,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Invoked when a key is pressed. Not intended to be overridden or extended.
      */
+    @Override
     public void keyPressed(KeyEvent e) {
 	//ingore
     }
@@ -494,6 +520,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
     /**
      * Invoked when a key is released.  Not intended to be overridden or extended.
      */
+    @Override
     public void keyReleased(KeyEvent e) {
 	// simulate what is done in JComponents registerKeyboardActions.
 	int code = e.getKeyCode();
@@ -524,6 +551,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see CSH.setHelpID
      * @see CSH.setHelpSet
      */
+    @Override
     public void enableHelp(Component comp, String id, HelpSet hs) 
     {
 	if (id == null) {
@@ -546,6 +574,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see CSH.setHelpID
      * @see CSH.setHelpSet
      */
+    @Override
     public void enableHelp(MenuItem comp, String id, HelpSet hs) 
     {
 	if (id == null) {
@@ -576,6 +605,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see java.awt.Button
      * @throws IllegalArgumentException if comp is null.
      */
+    @Override
     public void enableHelpOnButton(Component comp, String id, HelpSet hs) 
     {
 	if (!(comp instanceof AbstractButton) && !(comp instanceof Button)) {
@@ -613,6 +643,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see java.awt.MenuItem
      * @throws IllegalArgumentException if comp is null.
      */
+    @Override
     public void enableHelpOnButton(MenuItem comp, String id, HelpSet hs) 
     {
 	if (comp == null) {
@@ -647,6 +678,7 @@ public class DefaultHelpBroker implements HelpBroker, KeyListener {
      * @see java.awt.Button
      * @throws IllegalArgumentException if comp is null.
      */
+    @Override
     public void enableHelpOnButton(Object obj, String id, HelpSet hs,
 				   String presentation, 
 				   String presentationName) 

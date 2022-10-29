@@ -27,18 +27,13 @@
 
 package javax.help;
 
-import javax.swing.*;
-import javax.swing.plaf.ComponentUI;
-import javax.accessibility.*;
 import java.net.*;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.Locale;
 import java.util.Hashtable;
-import java.beans.*;
+import java.util.Locale;
+import javax.accessibility.*;
 import javax.help.event.*;
 import javax.help.plaf.HelpNavigatorUI;
-import javax.help.Map.ID;
+import javax.swing.*;
 
 /**
  * A JHelpNavigator is a control that presents navigational help data.
@@ -129,6 +124,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
     /**
      * @return "HelpNavigatorUI"
      */
+    @Override
     public String getUIClassID()
     {
         return "HelpNavigatorUI";
@@ -261,6 +257,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
     /**
      * Returns the HelpUI that provides the current look and feel.
      */
+    @Override
     public HelpNavigatorUI getUI() {
 	return (HelpNavigatorUI)ui;
     }
@@ -271,6 +268,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
      *
      * @overrides updateUI in class JComponent
      */
+    @Override
     public void updateUI() {
         SwingHelpUtilities.installUIDefaults();
 	setUI((HelpNavigatorUI)UIManager.getUI(this));
@@ -340,6 +338,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
      *
      * @return The AccessibleContext of this JComponent
      */
+    @Override
     public AccessibleContext getAccessibleContext() {
         if (accessibleContext == null) {
             accessibleContext = new AccessibleJHelpNavigator();
@@ -365,6 +364,7 @@ public class JHelpNavigator extends JComponent implements Accessible{
          * @return An instance of AccessibleRole describing the role of the
          * object
          */
+        @Override
         public AccessibleRole getAccessibleRole() {
             return AccessibleRole.PANEL;
         }

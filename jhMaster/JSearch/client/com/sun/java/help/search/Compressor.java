@@ -69,25 +69,30 @@ class Compressor
 	  {
 	    int min = n1, a = n1;
 	    int lev = 0, power2 = 1;
-	    if (n2 > n1)
-	      for (int max = n1; max < n2; a >>>= 1, power2 <<= 1, lev++)
-		if ((a & 1) != 0)
-		  min -= power2;
-		else
-		  max += power2;
-	    else
-	      for ( ; min > n2; a >>>= 1, power2 <<= 1, lev++)
-		if ((a & 1) != 0)
-		  min -= power2;
+	    if (n2 > n1) {
+                for (int max = n1; max < n2; a >>>= 1, power2 <<= 1, lev++) {
+                    if ((a & 1) != 0) {
+                        min -= power2;
+                    } else {
+                        max += power2;
+                    }
+                }
+            } else {
+                for (; min > n2; a >>>= 1, power2 <<= 1, lev++) {
+                    if ((a & 1) != 0) {
+                        min -= power2;
+                    }
+                }
+            }
 	    // lev 0s, 1, lev bits of (n2 - min) plus following value
 	    // no 'V' symbol needed here
-	    if (lev*2 + 1 + k <= NBits)
-	      _buffer.append((1<<lev | (n2 - min)) << k | rem, lev*2+1+k);
-	    else
+	    if (lev*2 + 1 + k <= NBits) {
+                _buffer.append((1<<lev | (n2 - min)) << k | rem, lev*2+1+k);
+            } else
 	      {
-		if (lev*2 + 1 <= NBits)
-		  _buffer.append(1 << lev | (n2 - min), lev*2 + 1);
-		else
+		if (lev*2 + 1 <= NBits) {
+                    _buffer.append(1 << lev | (n2 - min), lev*2 + 1);
+                } else
 		  {
 		    _buffer.append(0, lev);
 		    _buffer.append(1 << lev | (n2 - min), lev + 1);
@@ -96,8 +101,9 @@ class Compressor
 	      }
 	    n1 = n2;
 	  }
-	else
-	  _buffer.append(rem | power, k + 1); // 'V' + value
+	else {
+            _buffer.append(rem | power, k + 1); // 'V' + value
+        }
       }
     _buffer.append(2 | n1 & 1, 3); // marking end
     _buffer.close();
@@ -114,24 +120,29 @@ class Compressor
 	  {
 	    int min = n1, a = n1;
 	    int lev = 0, power2 = 1;
-	    if (n2 > n1)
-	      for (int max = n1; max < n2; a >>>= 1, power2 <<= 1, lev++)
-		if ((a & 1) != 0)
-		  min -= power2;
-		else
-		  max += power2;
-	    else
-	      for ( ; min > n2; a >>>= 1, power2 <<= 1, lev++)
-		if ((a & 1) != 0)
-		  min -= power2;
+	    if (n2 > n1) {
+                for (int max = n1; max < n2; a >>>= 1, power2 <<= 1, lev++) {
+                    if ((a & 1) != 0) {
+                        min -= power2;
+                    } else {
+                        max += power2;
+                    }
+                }
+            } else {
+                for (; min > n2; a >>>= 1, power2 <<= 1, lev++) {
+                    if ((a & 1) != 0) {
+                        min -= power2;
+                    }
+                }
+            }
 	    // lev 0s, 1, lev bits of (n2 - min) plus following value
-	    if (lev*2 + 1 + k <= NBits)
-	      _buffer.append((1<<lev | (n2 - min)) << k | rem, lev*2+1+k);
-	    else
+	    if (lev*2 + 1 + k <= NBits) {
+                _buffer.append((1<<lev | (n2 - min)) << k | rem, lev*2+1+k);
+            } else
 	      {
-		if (lev*2 + 1 <= NBits)
-		  _buffer.append(1 << lev | (n2 - min), lev*2 + 1);
-		else
+		if (lev*2 + 1 <= NBits) {
+                    _buffer.append(1 << lev | (n2 - min), lev*2 + 1);
+                } else
 		  {
 		    _buffer.append(0, lev);
 		    _buffer.append(1 << lev | (n2 - min), lev + 1);
@@ -141,8 +152,9 @@ class Compressor
 	    _buffer.append(len.at(i), k2);
 	    n1 = n2;
 	  }
-	else
-	  _buffer.append((rem|power)<<k2 | len.at(i), k+k2+1); // 'V' + v1,v2
+	else {
+            _buffer.append((rem|power)<<k2 | len.at(i), k+k2+1); // 'V' + v1,v2
+        }
       }
     _buffer.append(2 | n1 & 1, 3); // marking end
     _buffer.close();
@@ -173,20 +185,19 @@ class Compressor
 	}
 	while (_buffer.bitCount() < min);
       }
-    else				// try smaller values through 1
-      for (int k = startK - 1; k > 0; k--)
-	{
-	  _buffer.clear();
-	  encode(array, k);
-	  if (_buffer.bitCount() < min)
-	    {
-	      saved.setFrom(_buffer);
-	      min = _buffer.bitCount();
-	      minK = k;
-	    }
-	  else
-	    break;
-	}
+    else {
+        for (int k = startK - 1; k > 0; k--) {
+            _buffer.clear();
+            encode(array, k);
+            if (_buffer.bitCount() < min) {
+                saved.setFrom(_buffer);
+                min = _buffer.bitCount();
+                minK = k;
+            } else {
+                break;
+            }
+        }
+    }
   
     _buffer.setFrom(saved);
     return minK;

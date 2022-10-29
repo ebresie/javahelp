@@ -59,8 +59,9 @@ class ConceptLocation
 	      array[i] = array[j];
 	      array[j] = t;
 	    }
-	  else
-	    return j;
+	  else {
+              return j;
+          }
 	}
     }
 
@@ -77,6 +78,7 @@ class ConceptLocation
 
   private class ConceptSorter extends ConceptLocationSorter
   {
+    @Override
     public boolean smallerThan(ConceptLocation a, ConceptLocation b) {
       return a._concept < b._concept;
     }
@@ -84,6 +86,7 @@ class ConceptLocation
   
   private class PositionSorter extends ConceptLocationSorter
   {
+    @Override
     public boolean smallerThan(ConceptLocation a, ConceptLocation b) {
       return a._begin < b._begin || a._begin == b._begin && a._end < b._end;
     }
@@ -148,20 +151,24 @@ class ConceptLocation
   {
     int limit = 30, b;
     ConceptLocation[] array = new ConceptLocation[limit];
-    for (int i = 0; i < limit; i++)
-      array[i] = new ConceptLocation((int)(Math.random()*1000),
-				     b = (int)(Math.random()*1000),
-				     b + (int)(Math.random()*10));
-    for (int i = 0; i < limit; i++)
-      array[i].print();
+    for (int i = 0; i < limit; i++) {
+        array[i] = new ConceptLocation((int)(Math.random()*1000),
+                b = (int)(Math.random()*1000),
+                b + (int)(Math.random()*10));
+    }
+    for (int i = 0; i < limit; i++) {
+        array[i].print();
+    }
     ConceptLocation.sortByConcept(array, 0, limit);
     System.out.println("----------------------------------");
-    for (int i = 0; i < limit; i++)
-      array[i].print();
+    for (int i = 0; i < limit; i++) {
+        array[i].print();
+    }
     ConceptLocation.sortByPosition(array, 0, limit);
     System.out.println("----------------------------------");
-    for (int i = 0; i < limit; i++)
-      array[i].print();
+    for (int i = 0; i < limit; i++) {
+        array[i].print();
+    }
   }
 }
 

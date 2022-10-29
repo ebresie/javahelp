@@ -63,8 +63,9 @@ class GeneratorHeap
 
   private void buildHeap()
   {
-    for (int i = _heapSize/2; i >= 0; i--)
-      heapify(i);
+    for (int i = _heapSize/2; i >= 0; i--) {
+        heapify(i);
+    }
   }
 
   private void heapify(int i)
@@ -72,8 +73,9 @@ class GeneratorHeap
     int r = (i + 1) << 1, l = r - 1;
     int smallest = l<_heapSize&&_heap[l].position()<_heap[i].position()?l:i;
   
-    if (r < _heapSize && _heap[r].position() < _heap[smallest].position())
-      smallest = r;
+    if (r < _heapSize && _heap[r].position() < _heap[smallest].position()) {
+        smallest = r;
+    }
     if (smallest != i)
       {
 	ConceptGroupGenerator temp = _heap[smallest];
@@ -87,33 +89,36 @@ class GeneratorHeap
   {
     if ((_heapSize = _free) > 0)
       {
-	for (int i = 0; i < _free; i++)
-	  _heap[i].next();
+	for (int i = 0; i < _free; i++) {
+            _heap[i].next();
+        }
 	buildHeap();
 	_heap[0].generateFillers(array);
 	return true;
       }
-    else
-      return false;
+    else {
+        return false;
+    }
   }
 
   public boolean next(RoleFiller[] array) throws Exception
   {
     if (_heapSize > 0)
       {
-	if (!_heap[0].next()) // no more
-	  if (_heapSize > 1)
-	    _heap[0] = _heap[--_heapSize];
-	  else
-	    {
-	      _heapSize = 0;
-	      return false;
-	    }
+	if (!_heap[0].next()) { // no more
+            if (_heapSize > 1) {
+                _heap[0] = _heap[--_heapSize];
+            } else {
+                _heapSize = 0;
+                return false;
+            }
+        }
 	heapify(0);
 	_heap[0].generateFillers(array);
 	return true;
       }
-    else
-      return false;
+    else {
+        return false;
+    }
   }
 }

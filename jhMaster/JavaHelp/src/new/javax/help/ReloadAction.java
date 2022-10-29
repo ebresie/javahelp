@@ -27,13 +27,8 @@
 
 package javax.help;
 
-import java.awt.*;
 import java.awt.event.*;
-import javax.help.*;
-import javax.help.event.*;
-import java.util.Enumeration;
 import java.util.Locale;
-import java.util.Stack;
 import javax.swing.*;
 
 /**
@@ -65,6 +60,7 @@ public class ReloadAction extends AbstractHelpAction implements ActionListener {
         }
     }
     
+    @Override
     public void actionPerformed(java.awt.event.ActionEvent event) {
 	JHelp help = (JHelp)getControl();
 	JHelpContentViewer viewer = help.getContentViewer();

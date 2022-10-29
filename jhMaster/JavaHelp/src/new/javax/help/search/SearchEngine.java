@@ -27,14 +27,9 @@
 
 package javax.help.search;
 
-import javax.help.event.EventListenerList;
-import javax.help.search.SearchEvent;
-import javax.help.search.SearchListener;
 import java.net.URL;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Locale;
 import java.security.InvalidParameterException;
+import java.util.Hashtable;
 
 /**
  * Defines the methods used to access a search engine.

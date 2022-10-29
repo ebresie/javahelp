@@ -27,10 +27,10 @@
 
 package javax.help;
 
+import java.text.*;
+import java.util.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import java.util.*;
-import java.text.*;
 
 /**
  * Sort merge type
@@ -56,6 +56,7 @@ public class SortMerge extends Merge{
      * @param node The master node (This node must be sorted)
      * @return Merged master node
      */
+    @Override
     public TreeNode processMerge(TreeNode node) {
 	debug("processMerge started");
         DefaultMutableTreeNode masterNode = (DefaultMutableTreeNode) node;

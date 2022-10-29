@@ -28,8 +28,6 @@
 package com.sun.java.help.impl;
 
 import javax.help.JHelp;
-import javax.help.HelpModel;
-import java.awt.Component;
 
 /**
  * Print handler for JavaHelp. Handles all printer requests for printing

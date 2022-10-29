@@ -27,27 +27,24 @@
 
 package javax.help;
 
-import java.net.URL;
-
+import java.awt.Component;
+import java.awt.IllegalComponentStateException;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.io.IOException;
 import java.io.InputStream;
-
+import java.net.URL;
+import java.text.CollationElementIterator;
+import java.text.Collator;
+import java.text.MessageFormat;
+import java.text.RuleBasedCollator;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Vector;
-
-import java.beans.BeanInfo;
-import java.beans.Introspector;
-
-import java.text.CollationElementIterator;
-import java.text.Collator;
-import java.text.MessageFormat;
-import java.text.RuleBasedCollator;
-
-import java.awt.Component;
-import java.awt.IllegalComponentStateException;
 
 
 /**
@@ -91,12 +88,12 @@ public class HelpUtilities {
 	    BeanInfo bi = Introspector.getBeanInfo(beanClass);
 	    helpSetName =
 		(String) bi.getBeanDescriptor().getValue("helpSetName");
-	} catch (Exception ex) {
+	} catch (IntrospectionException ex) {
 	    helpSetName = null;
 	}
 	if (helpSetName == null) {
 	    String className = beanClass.getName();
-	    int index = className.lastIndexOf(".");
+	    int index = className.lastIndexOf('.');
 	    if (index == -1) {
 		// unnamed package
 		helpSetName = className + "Help.hs";
@@ -122,7 +119,7 @@ public class HelpUtilities {
 	try {
 	    BeanInfo bi = Introspector.getBeanInfo(beanClass);
 	    helpID = (String) bi.getBeanDescriptor().getValue("helpID");
-	} catch (Exception ex) {
+	} catch (IntrospectionException ex) {
 	    helpID = null;
 	}
 	if (helpID == null) {
@@ -215,7 +212,7 @@ public class HelpUtilities {
 				return url;
 			    }
 			}
-		    } catch (Throwable t) {
+		    } catch (IOException t) {
 		        // ignore and continue looking
 		    }
 		} else {
@@ -308,10 +305,12 @@ public class HelpUtilities {
 	    this.locale2 = locale2;
 	}
 	
+        @Override
 	public int hashCode() {
 	    return locale1.hashCode() + locale2.hashCode();
 	}
 	
+        @Override
 	public boolean equals(Object obj) {
 	    if (obj == null || ! (obj instanceof LocalePair)) {
 		return false;
@@ -514,8 +513,8 @@ public class HelpUtilities {
 	if (lang == null) {
 	    return newlocale;
 	}
-	int lpt = lang.indexOf("_");
-	int lpt2 = lang.indexOf("-");
+	int lpt = lang.indexOf('_');
+	int lpt2 = lang.indexOf('-');
 	if (lpt == -1 && lpt2 == -1) {
 	    language = lang;
 	    country = "";
@@ -525,8 +524,8 @@ public class HelpUtilities {
 		lpt = lpt2;
 	    }
 	    language = lang.substring(0, lpt);
-	    int cpt = lang.indexOf("_", lpt+1);
-	    int cpt2 = lang.indexOf("-", lpt+1);
+	    int cpt = lang.indexOf('_', lpt+1);
+	    int cpt2 = lang.indexOf('-', lpt+1);
 	    if (cpt == -1 && cpt2 == -1) {
 		country = lang.substring(lpt+1);
 		newlocale = new Locale(language, country);
