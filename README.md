@@ -5,6 +5,7 @@ This is a repository with sources for the **JavaHelp** library and
 [Ant](http://ant.apache.org) builds scripts to create a release `JAR` from
 them.
 
+
 To do a complete build of all JavaHelp JARs with Ant, use the `release` 
 target of the [Ant](http://ant.apache.org) script found in the root
 directory (which delegates to `javahelp_nbproject/build.xml`). The resulting
@@ -22,10 +23,20 @@ jsearch-misc.jar
 ```
 the `jhall.jar` is the uber JAR that contains all the released bits.
 
+Then in jhMaster, `make` to build.
+
+The official build scripts are the Makefiles, not the Ant scripts.
+Before using Ant scripts make sure all products of the Makefiles are cleaned.
+
 ## What's here:
 
   - `jhMaster/` - the main JavaHelp sources and Makefiles
   - `javahelp_nbproject/` - Ant build script and NetBeans project metadata for building JavaHelp
   - `JSearchClient_nbproject/` - Ant build script and NetBeans project metadata for building the JSearch client sources
   - `JSearchIndexer_nbproject/` - Ant build script and NetBeans project metadata for building the JSearch indexer sources
+
+Updates
+  - From sorghumkingsorghumking fork resolves "java.lang.IllegalArgumentException: URI is not hierarchical" errors thrown when using jhindexer.
+  - - Moved "README.ant" content into README.md file
+
 
