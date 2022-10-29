@@ -102,32 +102,36 @@ public class DefaultIndexBuilder extends IndexBuilder {
         return tmpstopWords.get(word) != null;
     }
 
-    @Override
-    public void close() throws Exception {
-        dict.close(freeID);
-        _tmapParams.setFreeID(freeID);
-        _tmapParams.updateSchema();
-
-        debug("compacting...");
-        BtreeDictCompactor source = new BtreeDictCompactor(_tmapParams, false);
-        URL url = new URL("file", "", indexDir + "compacted");
-        BtreeDictParameters params
-                = new BtreeDictParameters(url, _tmapParams.getBlockSize(), 0, freeID);
-        source.compact(params);
-        URL tmapURL = new URL("file", "", indexDir + "TMAP");
-        File tmap = new File(tmapURL.toURI());
-        tmap.delete();
-        File compacted = new File(url.toURI());
-        compacted.renameTo(tmap);
-        _tmapParams.setRoot(params.getRootPosition());
-        _tmapParams.updateSchema();
-
-        debug("freeID is " + freeID);
-        compr.close(indexDir + "OFFSETS");
-        debug("inverting index");
-        DocumentLists.invert(indexDir);
-        _schema.save();
-    }
+  public void close() throws Exception
+  {
+    dict.close(freeID);
+    _tmapParams.setFreeID(freeID);
+    _tmapParams.updateSchema();
+    
+    debug("compacting...");
+    BtreeDictCompactor source = new BtreeDictCompactor(_tmapParams, false);
+    File compactedFile = new File(indexDir + "compacted");
+    URL compactedUrl = compactedFile.toURI().toURL();
+    BtreeDictParameters params =
+      new BtreeDictParameters(compactedUrl, _tmapParams.getBlockSize(), 0, freeID);
+    source.compact(params);
+    
+    File tmapFile = new File(indexDir + "TMAP");
+    URL tmapURL = tmapFile.toURI().toURL();
+    File tmap = new File(tmapURL.toURI());
+    tmap.delete();
+    
+    File compacted = new File(compactedUrl.toURI());
+    compacted.renameTo(tmap);
+    _tmapParams.setRoot(params.getRootPosition());
+    _tmapParams.updateSchema();
+    
+    debug("freeID is " + freeID);
+    compr.close(indexDir + "OFFSETS");
+    debug("inverting index");
+    DocumentLists.invert(indexDir);
+    _schema.save();
+  }
 
     @Override
     public void openDocument(String name) throws Exception {
